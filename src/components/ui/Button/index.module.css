@@ -1,6 +1,8 @@
 .buttonStyle {
   &:hover{
-    scale: 1.2;
+    &:not([disabled]) {
+      scale: 1.2;
+    }
   }
 
   &[data-variant="contained"] {
