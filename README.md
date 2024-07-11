@@ -5,7 +5,7 @@
 以下コマンドを実行してローカルにリポジトリをクローンしてください
 
 ```
-git clone git@github.com:Semi-koron/hackuFrontend.git
+git clone git@github.com:Semi-koron/ba-tyarubokkusuFrontend.git
 ```
 
 ## ライブラリインストール
