@@ -1,3 +1,11 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #08000;
+  background-color: #e4e4e4;
+}
+
 :root {
   --black: #080000;
   --black-lighter: #e4e4e4;
@@ -33,3 +41,4 @@ h4 {
 caption{
   font-size: 12px;
 }
+
