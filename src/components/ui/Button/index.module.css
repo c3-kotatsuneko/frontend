@@ -1,0 +1,43 @@
+.buttonStyle {
+  &:hover{
+    scale: 1.2;
+  }
+
+  &[data-variant="contained"] {
+    background-color: var(--blue);
+    color: var(--white);
+
+    &:disabled {
+      background-color: var(--black-lighter);
+    }
+  }
+
+  &[data-variant="outlined"] {
+    background-color: var(--white);
+    color: var(--black);
+    border: 2px solid var(--blue);
+
+    &:disabled {
+      background-color: transparent;
+      border-color: var(--black-lighter);
+      color: var(--black-lighter);
+    }
+  }
+
+  &[data-size="sm"] {
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+
+    &[data-variant="outlined"] {
+      border-width: 2px;
+    }
+  }
+
+  &[data-size="md"] {
+    padding: 4px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+  }
+}
