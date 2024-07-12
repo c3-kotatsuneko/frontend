@@ -1,0 +1,97 @@
+.buttonStyle {
+  border-width: 0px;
+
+  &:hover{
+    &:not([disabled]) {
+      scale: 1.2;
+    }
+  }
+
+  &:disabled {
+    cursor: not-allowed;
+  }
+
+  /* --- size --- */
+
+  &[data-size="sm"] {
+    padding: 4px 8px;
+    font-size: 12px;
+    border-radius: 4px;
+  }
+
+  &[data-size="md"] {
+    padding: 4px 32px;
+    font-size: 16px;
+    font-weight: 700;
+    border-radius: 8px;
+  }
+
+  &[data-variant="contained"] {
+    color: var(--white);
+
+    /* --- color --- */
+
+    &[data-color="redorange"]{
+      background-color: var(--redorange);
+    }
+
+    &[data-color="yellow"]{
+      background-color: var(--yellow);
+    }
+
+    &[data-color="blue"]{
+      background-color: var(--blue);
+    }
+
+    &[data-color="green"]{
+      background-color: var(--green);
+    }
+
+    &[data-color="brown"]{
+      background-color: var(--brown);
+    }
+
+    /* --- disabled --- */
+
+    &:disabled {
+      background-color: var(--black-lighter);
+    }
+  }
+
+  &[data-variant="outlined"] {
+    background-color: var(--white);
+    color: var(--black);
+    border-width: 2px;
+    border-style: solid;
+
+    /* --- color --- */
+
+    &[data-color="redorange"]{
+      border-color: var(--redorange);
+    }
+
+    &[data-color="yellow"]{
+      border-color: var(--yellow);
+    }
+
+    &[data-color="blue"]{
+      border-color: var(--blue);
+    }
+
+    &[data-color="green"]{
+      border-color: var(--green);
+    }
+
+    &[data-color="brown"]{
+      border-color: var(--brown);
+    }
+
+    /* --- disabled --- */
+
+    &:disabled {
+      background-color: transparent;
+      border-color: var(--black-lighter);
+      color: var(--black-lighter);
+    }
+  }
+}
