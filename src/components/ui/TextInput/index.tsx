@@ -13,5 +13,5 @@ export const TextInput = ({label, ...props}: TextInputProps) => {
       {label}
       <Input type="text" {...props} />
     </label>
-  )
-}
+  );
+};
