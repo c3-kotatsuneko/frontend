@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ReactNode } from "react";
-import { DefaultButton } from ".."
+import { DefaultButton } from "../Button"
 import styles from "./index.module.css";
 
 type WelcomeButtonProps = {
