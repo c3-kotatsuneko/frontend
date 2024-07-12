@@ -16,22 +16,29 @@ const Login: React.FC<LoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Email</label>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <label>Password</label>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">あそびにいく</button>
-      <a href="#">ゲストとしてあそびにいく</a>
-    </form>
+    <div>
+      <input id="login" type="radio" name="tab-style" defaultChecked />
+      <label className="tab-style" htmlFor="login">
+        ろぐいん
+      </label>
+
+      <form onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">あそびにいく</button>
+        <a href="#">ゲストとしてあそびにいく</a>
+      </form>
+    </div>
   );
 };
 
@@ -45,21 +52,27 @@ const Signup: React.FC<LoginProps> = ({ onSubmit }) => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>Email</label>
-      <input
-        type="email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <label>Password</label>
-      <input
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">とうろくする</button>
-    </form>
+    <div>
+      <input id="signup" type="radio" name="tab-style" />
+      <label className="tab-style" htmlFor="signup">
+        とうろく
+      </label>
+      <form onSubmit={handleSubmit}>
+        <label>Email</label>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        />
+        <label>Password</label>
+        <input
+          type="password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+        <button type="submit">とうろくする</button>
+      </form>
+    </div>
   );
 };
 
@@ -72,28 +85,8 @@ const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit }) => {
   return (
     <div className="welcome_body">
       <h2>ばーちゃるぼっくす</h2>
-      <div className="kirikae-tab">
-        <div className="tab-wrapper">
-          <input id="login" type="radio" name="tab-style" defaultChecked />
-          <label className="tab-style" htmlFor="login">
-            ろぐいん
-          </label>
-          <input id="signup" type="radio" name="tab-style" />
-          <label className="tab-style" htmlFor="signup">
-            とうろく
-          </label>
-        </div>
-
-        <div className="tab-content-wrapper">
-          <div className="tab-content" id="login-content">
-            <Login onSubmit={onLoginSubmit} />
-          </div>
-
-          <div className="tab-content" id="signup-content">
-            <Signup onSubmit={onSignupSubmit} />
-          </div>
-        </div>
-      </div>
+      <Login onSubmit={onLoginSubmit} />
+      <Signup onSubmit={onSignupSubmit} />
     </div>
   );
 };
