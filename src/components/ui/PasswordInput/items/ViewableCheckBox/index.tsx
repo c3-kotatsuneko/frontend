@@ -11,5 +11,5 @@ export const ViewableCheckBox = ({onCheck}: ViewableCheckBoxProps) => {
       <input className={styles.checkBox} type="checkbox" onClick={() => onCheck((prevState) => !prevState)} />
       表示する
     </label>
-  );
+  )
 };
