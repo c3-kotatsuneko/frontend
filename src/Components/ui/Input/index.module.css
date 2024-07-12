@@ -1,9 +1,0 @@
-.inputStyle {
-  display: block;
-  max-width: 216px;
-  max-height: 32px;
-  padding: 8px 16px;
-  font-size: 16px;
-  border: 1px solid var(--redorange);
-  border-radius: 4px;
-}
