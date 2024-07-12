@@ -10,5 +10,5 @@ type WelcomeButtonProps = {
 export const WelcomeButton = ({children, color = "brown", ...props}: WelcomeButtonProps) => {
   return (
     <DefaultButton className={styles.welcomeStyle} variant="contained" color={color} {...props}>{children}</DefaultButton>
-  )
-}
+  );
+};
