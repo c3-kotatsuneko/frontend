@@ -16,5 +16,5 @@ export const PasswordInput = ({label, ...props}: PasswordInputProps) => {
       <Input className={styles.passwordInput} type={viewable ? "text" : "password"} {...props} />
       <ViewableCheckBox onCheck={setViewable} />
     </label>
-  )
-}
+  );
+};
