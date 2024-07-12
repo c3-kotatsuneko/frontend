@@ -1,4 +1,5 @@
 .welcomeStyle {
+  /* welcome */
   composes: buttonStyle from '../Button/index.module.css';
   border: 1px solid var(--white) !important;
   color: var(--black) !important;
