@@ -1,0 +1,23 @@
+.welcome_body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 16px;
+  border-radius: 10px;
+  margin-top: 96px;
+  gap: 30px;
+}
+
+.welcome_box {
+  width: 80%;
+  height: auto;
+  padding: 24px 32px;
+  background-color: var(--redorange);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
