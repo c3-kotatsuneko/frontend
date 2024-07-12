@@ -8,5 +8,5 @@ type InputProps = {
 export const Input = ({forwardRef, ...props}: InputProps) => {
     return (
         <input className={styles.inputStyle} ref={forwardRef} {...props} />
-    )
-}
+    );
+};
