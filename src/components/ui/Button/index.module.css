@@ -51,8 +51,6 @@
       background-color: var(--brown);
     }
 
-    /* --- disabled --- */
-
     &:disabled {
       background-color: var(--black-lighter);
     }
@@ -85,8 +83,6 @@
     &[data-color="brown"]{
       border-color: var(--brown);
     }
-
-    /* --- disabled --- */
 
     &:disabled {
       background-color: transparent;

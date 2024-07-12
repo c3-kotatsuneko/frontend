@@ -1,5 +1,5 @@
 import { ComponentPropsWithoutRef, ReactNode } from "react";
-import { DefaultButton } from ".."
+import { DefaultButton } from "../Button"
 import styles from "./index.module.css";
 
 type WelcomeButtonProps = {
@@ -10,5 +10,5 @@ type WelcomeButtonProps = {
 export const WelcomeButton = ({children, color = "brown", ...props}: WelcomeButtonProps) => {
   return (
     <DefaultButton className={styles.welcomeStyle} variant="contained" color={color} {...props}>{children}</DefaultButton>
-  )
-}
+  );
+};

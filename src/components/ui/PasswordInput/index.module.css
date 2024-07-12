@@ -1,0 +1,4 @@
+.passwordInput {
+  composes: inputStyle from '../Input/index.module.css';
+  border-color: var(--green);
+}
