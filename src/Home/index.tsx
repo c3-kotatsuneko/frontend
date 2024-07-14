@@ -1,9 +1,10 @@
 function Home() {
-	return (
-		<>
-			<h1>hello world</h1>
-		</>
-	);
+  return (
+    <div>
+      <h1>hello world</h1>
+      <p>this is a react application</p>
+    </div>
+  );
 }
 
 export default Home;
