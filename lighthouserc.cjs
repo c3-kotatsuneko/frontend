@@ -3,7 +3,7 @@ module.exports = {
 		collect: {
 			numberOfRuns: 1,
 			startServerCommand: "npm run start",
-			url: ["http://localhost:3000/"],
+			url: ["http://localhost:4173/"],
 		},
 		upload: {
 			target: "lhci",
