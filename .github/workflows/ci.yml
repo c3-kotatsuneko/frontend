@@ -114,6 +114,8 @@ jobs:
   deploy:
     needs: build
     runs-on: ubuntu-latest
+    outputs:
+      urls: ${{ steps.hosting_deploy.outputs.urls }}
     steps:
       - uses: actions/checkout@v4
       - name: Cache build files
@@ -134,6 +136,8 @@ jobs:
     if: github.event_name == 'pull_request'
     needs: deploy
     runs-on: ubuntu-latest
+    env:
+      URLS: ${{ needs.deploy.outputs.urls }}
     steps:
       - uses: actions/checkout@v2
       - name: Use Cached Dependencies
@@ -148,9 +152,8 @@ jobs:
         with:
           uploadArtifacts: true
           temporaryPublicStorage: true
-          configPath: ./lighthouserc.cjs
           urls: |
-            ${{job.deploy.outputs.urls}}
+            ${{ env.URLS }}
       - name: Create Lighthouse Comment
         id: light-house-comment
         uses: actions/github-script@v5
