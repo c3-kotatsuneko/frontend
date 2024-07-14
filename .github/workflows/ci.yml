@@ -131,6 +131,8 @@ jobs:
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
           channelId: live
           projectId: kotatsu-neko-429207
+      - name: Set output
+        run: echo "urls=${{steps.hosting_deploy.outputs.urls}}" >> $GITHUB_OUTPUT
 
   lighthouse:
     if: github.event_name == 'pull_request'
