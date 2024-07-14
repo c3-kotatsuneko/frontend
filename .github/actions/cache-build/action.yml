@@ -1,0 +1,16 @@
+name: cache build
+description: "install node_modules and cache them for later use"
+runs:
+  using: composite
+  steps:
+    - uses: actions/checkout@v2
+
+    - name: Use Cached Dependencies
+      uses: actions/cache@v4
+      with:
+        path: "**/node_modules"
+        key: ${{ runner.os }}-bun-${{ hashFiles('**/package-lock.json') }}
+
+    - name: Build
+      run: npm run build
+      shell: bash
