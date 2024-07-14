@@ -127,7 +127,7 @@ jobs:
           path: "**/node_modules"
           key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
       - name: Lint
-        run: npm run lint
+        run: npm run ci:lint
 
   report-useless-modules:
     needs: install-dependencies
