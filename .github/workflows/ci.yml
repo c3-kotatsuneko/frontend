@@ -36,7 +36,7 @@ jobs:
         with:
           uploadArtifacts: true
           temporaryPublicStorage: true
-          configPath: ./lighthouserc.json
+          configPath: ./lighthouserc.js
       - name: Create Lighthouse Comment
         id: light-house-comment
         uses: actions/github-script@v5
