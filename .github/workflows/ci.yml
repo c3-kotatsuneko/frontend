@@ -124,7 +124,7 @@ jobs:
         with:
           path: "**/dist"
           key: ${{ runner.os }}-npm-build-${{ hashFiles('**/package-lock.json') }}
-      - uses: FirebaseExtended/action-hosting-deploy@v0.9
+      - uses: FirebaseExtended/action-hosting-deploy@v0.9.0
         id: hosting_deploy
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
