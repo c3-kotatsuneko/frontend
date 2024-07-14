@@ -18,56 +18,6 @@ permissions:
   actions: read
 
 jobs:
-  lighthouse:
-    if: github.event_name == 'pull_request'
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-      - name: Use Cached Dependencies
-        uses: actions/cache@v4
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-
-      - name: Run Lighthouse
-        id: lighthouse
-        uses: treosh/lighthouse-ci-action@v10
-        with:
-          uploadArtifacts: true
-          temporaryPublicStorage: true
-          configPath: ./lighthouserc.cjs
-      - name: Create Lighthouse Comment
-        id: light-house-comment
-        uses: actions/github-script@v5
-        with:
-          github-token: ${{secrets.GITHUB_TOKEN}}
-          script: |
-            const results = ${{steps.lighthouse.outputs.manifest}}
-            const links = ${{steps.lighthouse.outputs.links}}
-            const mark = (value) => {
-            if (value >= 0.9) {
-                return '🟢';
-            } else if (value >= 0.5) {
-                return '🟡';
-            } else {
-                return '🔴';
-            }
-            };
-            const body = `
-            # Lighthouse Report
-            | URL | Performance | Accessibility | Best Practices | SEO | PWA | Details |
-            | --- | ----------- | ------------- | -------------- | --- | --- | ------- |
-            ${results.map((result) => `| ${result.url} | ${mark(result.summary.performance)}${Math.trunc(result.summary.performance * 100)} | ${mark(result.summary.accessibility)}${Math.trunc(result.summary.accessibility * 100)} | ${mark(result.summary['best-practices'])}${Math.trunc(result.summary['best-practices'] * 100)} | ${mark(result.summary.seo)}${Math.trunc(result.summary.seo * 100)} | ${mark(result.summary.pwa)}${Math.trunc(result.summary.pwa * 100)} | :pencil: [result](${links[result.url]}) |`).join('\n')}
-            `;
-
-            core.setOutput("body", body)
-      - name: Comment to Pull Request
-        uses: ./.github/actions/pull-request-comment
-        with:
-          includes-comment: "<!-- __LIGHTHOUSE -->"
-          comment-body: ${{steps.light-house-comment.outputs.body}}
-
   build:
     needs: install-dependencies
     runs-on: ubuntu-latest
@@ -160,3 +110,73 @@ jobs:
         with:
           includes-comment: "<!-- __USELESS_MODULES -->"
           comment-body: ${{steps.useless-modules-comment.outputs.body}}
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Cache build files
+        id: cache-build
+        uses: actions/cache@v4
+        with:
+          path: "**/dist"
+          key: ${{ runner.os }}-npm-build-${{ hashFiles('**/package-lock.json') }}
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        id: hosting_deploy
+        with:
+          repoToken: ${{ secrets.GITHUB_TOKEN }}
+          firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          channelId: live
+          projectId: kotatsu-neko-429207
+
+  lighthouse:
+    if: github.event_name == 'pull_request'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Use Cached Dependencies
+        uses: actions/cache@v4
+        with:
+          path: "**/node_modules"
+          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
+
+      - name: Run Lighthouse
+        id: lighthouse
+        uses: treosh/lighthouse-ci-action@v10
+        with:
+          uploadArtifacts: true
+          temporaryPublicStorage: true
+          configPath: ./lighthouserc.cjs
+          urls: |
+            ${{job.deploy.outputs.urls}}
+      - name: Create Lighthouse Comment
+        id: light-house-comment
+        uses: actions/github-script@v5
+        with:
+          github-token: ${{secrets.GITHUB_TOKEN}}
+          script: |
+            const results = ${{steps.lighthouse.outputs.manifest}}
+            const links = ${{steps.lighthouse.outputs.links}}
+            const mark = (value) => {
+            if (value >= 0.9) {
+                return '🟢';
+            } else if (value >= 0.5) {
+                return '🟡';
+            } else {
+                return '🔴';
+            }
+            };
+            const body = `
+            # Lighthouse Report
+            | URL | Performance | Accessibility | Best Practices | SEO | PWA | Details |
+            | --- | ----------- | ------------- | -------------- | --- | --- | ------- |
+            ${results.map((result) => `| ${result.url} | ${mark(result.summary.performance)}${Math.trunc(result.summary.performance * 100)} | ${mark(result.summary.accessibility)}${Math.trunc(result.summary.accessibility * 100)} | ${mark(result.summary['best-practices'])}${Math.trunc(result.summary['best-practices'] * 100)} | ${mark(result.summary.seo)}${Math.trunc(result.summary.seo * 100)} | ${mark(result.summary.pwa)}${Math.trunc(result.summary.pwa * 100)} | :pencil: [result](${links[result.url]}) |`).join('\n')}
+            `;
+
+            core.setOutput("body", body)
+      - name: Comment to Pull Request
+        uses: ./.github/actions/pull-request-comment
+        with:
+          includes-comment: "<!-- __LIGHTHOUSE -->"
+          comment-body: ${{steps.light-house-comment.outputs.body}}
