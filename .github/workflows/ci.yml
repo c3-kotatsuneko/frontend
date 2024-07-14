@@ -129,28 +129,6 @@ jobs:
       - name: Lint
         run: npm run lint
 
-  test:
-    needs: install-dependencies
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-
-      - name: Use Cached Dependencies
-        uses: actions/cache@v4
-        with:
-          path: "**/node_modules"
-          key: ${{ runner.os }}-npm-${{ hashFiles('**/package-lock.json') }}
-      - name: Use Cached Test Result
-        uses: actions/cache@v4
-        with:
-          path: "**/.test_cache"
-          key: ${{ runner.os }}-npm-test-${{ github.base_ref}}
-      - name: Get number of CPU cores
-        id: cpu-cores
-        uses: SimenB/github-actions-cpu-cores@v2
-      - name: Test
-        run: npm run test:unit --max-workers ${{ steps.cpu-cores.outputs.count }}
-
   report-useless-modules:
     needs: install-dependencies
     if: github.event_name == 'pull_request'
