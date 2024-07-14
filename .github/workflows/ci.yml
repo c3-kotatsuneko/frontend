@@ -155,7 +155,7 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           urls: |
-            ${{ env.URLS }}
+            ${{ fromJson(env.URLS)[0] }}
       - name: Create Lighthouse Comment
         id: light-house-comment
         uses: actions/github-script@v5
