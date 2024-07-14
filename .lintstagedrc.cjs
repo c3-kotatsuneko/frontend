@@ -1,8 +1,5 @@
-
-
 export default {
-  '**/*.{ts,tsx}': async (files) => {
-
+  "**/*.{ts,tsx}": async (files) => {
     return [`npm run lint ${files}`];
   },
 };
