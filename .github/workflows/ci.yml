@@ -132,7 +132,7 @@ jobs:
           channelId: live
           projectId: kotatsu-neko-429207
       - name: Set output
-        run: echo "urls=${{steps.hosting_deploy.outputs.urls}}" >> $GITHUB_OUTPUT
+        run: echo "urls=${{steps.hosting_deploy.outputs.details_url}}" >> $GITHUB_OUTPUT
 
   lighthouse:
     if: github.event_name == 'pull_request'
