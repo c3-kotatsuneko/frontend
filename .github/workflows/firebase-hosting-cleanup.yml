@@ -1,0 +1,14 @@
+on:
+  pull_request:
+    types: [closed]
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: npm install -g firebase-tools
+      - name: delete preview
+        run: firebase hosting:channel:delete ${{ github.event.number }} --project=${{ env.PROJECT_ID }} -f
+        env:
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          PROJECT_ID: kotatsu-neko-429207
