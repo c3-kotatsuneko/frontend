@@ -1,14 +1,14 @@
-.buttonStyle {
+.button-style {
   border-width: 0;
+  
+  &:disabled {
+    cursor: not-allowed;
+  }
 
   &:hover{
     &:not([disabled]) {
       scale: 1.2;
     }
-  }
-
-  &:disabled {
-    cursor: not-allowed;
   }
 
   /* --- size --- */

@@ -3,7 +3,7 @@
   color: var(--black);
 }
 
-.checkBox {
+.check-box {
   accent-color: var(--brown);
   vertical-align: bottom;
   appearance: none;
