@@ -17,7 +17,8 @@
 		"format:biome": "biome format --write --no-errors-on-unmatched .",
 		"lint": "run-p lint:*",
 		"format": "run-p format:*",
-		"lint:eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0"
+		"lint:eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"prepare": "husky"
 	},
 	"dependencies": {
 		"react": "^18.3.1",

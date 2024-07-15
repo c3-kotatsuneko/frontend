@@ -1,10 +1,8 @@
 name: CI
 
 on:
-  push:
-    branches:
-      - main
   pull_request:
+    types: [opened, synchronize, reopened]
   workflow_dispatch:
 
 concurrency:
@@ -129,7 +127,7 @@ jobs:
         with:
           repoToken: ${{ secrets.GITHUB_TOKEN }}
           firebaseServiceAccount: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
-          channelId: live
+          channelId: "${{ github.event.number }}"
           projectId: kotatsu-neko-429207
       - name: Set output
         run: echo "urls=${{steps.hosting_deploy.outputs.details_url}}" >> $GITHUB_OUTPUT
@@ -155,7 +153,7 @@ jobs:
           uploadArtifacts: true
           temporaryPublicStorage: true
           urls: |
-            ${{ env.URLS }}
+            ${{ fromJson(env.URLS)[0] }}
       - name: Create Lighthouse Comment
         id: light-house-comment
         uses: actions/github-script@v5
