@@ -1,11 +1,13 @@
-import type React from "react";
+import { PasswordInput } from "../components/ui/PasswordInput";
+import { TextInput } from "../components/ui/TextInput";
+import { WelcomeButton } from "../components/ui/WelcomeButton";
 import { useState } from "react";
 
-interface SignupProps {
+interface LoginProps {
 	onSubmit: (name: string, password: string) => void;
 }
 
-const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
+const Login: React.FC<LoginProps> = ({ onSubmit }) => {
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -16,21 +18,21 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
 
 	return (
 		<form onSubmit={handleSubmit}>
-			<label htmlFor={name}>おなまえ</label>
-			<input
+			<TextInput
+				label={"おなまえ"}
 				type="text"
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 			/>
-			<label htmlFor={password}>おまじない</label>
-			<input
-				type="password"
+			<PasswordInput
+				label={"おまじない"}
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
 			/>
-			<button type="submit">とうろくする</button>
+			<WelcomeButton color="redorange">あそびにいく</WelcomeButton>
+			<a href="/">ゲストとしてあそびにいく</a>
 		</form>
 	);
 };
 
-export default Signup;
+export default Login;

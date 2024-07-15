@@ -25,7 +25,7 @@ const Tab: React.FC<TabProps> = ({ labels, contents, id }) => {
 				))}
 			</ul>
 			<div
-				className={`tab__content tab__content--${activeTab === 0 ? "one" : "two"}`}
+				className={`tab-content tab-content-${activeTab === 0 ? "one" : "two"}`}
 			>
 				{contents[activeTab]}
 			</div>
