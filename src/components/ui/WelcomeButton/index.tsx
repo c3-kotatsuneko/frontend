@@ -14,7 +14,7 @@ export const WelcomeButton = ({
 }: WelcomeButtonProps) => {
 	return (
 		<DefaultButton
-			className={styles.welcomeStyle}
+			className={styles['welcome-style']}
 			variant="contained"
 			color={color}
 			{...props}

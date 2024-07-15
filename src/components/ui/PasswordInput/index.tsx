@@ -14,7 +14,7 @@ export const PasswordInput = ({ label, ...props }: PasswordInputProps) => {
 		<label>
 			{label}
 			<Input
-				className={styles.passwordInput}
+				className={styles['password-input']}
 				type={viewable ? "text" : "password"}
 				{...props}
 			/>
