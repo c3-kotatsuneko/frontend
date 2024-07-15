@@ -20,11 +20,7 @@ export const HomeIcon: FC<Props> = ({
 		className,
 	);
 	return (
-		<svg
-			className="ionicon"
-			viewBox="0 0 512 512"
-			{...props}
-		>
+		<svg className="ionicon" viewBox="0 0 512 512" {...props}>
 			<title>home</title>
 			<path
 				d="M80 212v236a16 16 0 0016 16h96V328a24 24 0 0124-24h80a24 24 0 0124 24v136h96a16 16 0 0016-16V212"

@@ -7,16 +7,16 @@ import { ModeSelectPage } from "./ModeSelect";
 import "./App.css";
 
 function AppRoutes() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/loading" element={<LoadingPage />} />
-        <Route path="/guest-login" element={<GuestLoginPage />} />
-        <Route path="/mode-select" element={<ModeSelectPage />} />
-      </Routes>
-    </>
-  );
+	return (
+		<>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/loading" element={<LoadingPage />} />
+				<Route path="/guest-login" element={<GuestLoginPage />} />
+				<Route path="/mode-select" element={<ModeSelectPage />} />
+			</Routes>
+		</>
+	);
 }
 
 export default AppRoutes;
