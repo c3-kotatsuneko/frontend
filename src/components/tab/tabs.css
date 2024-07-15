@@ -5,26 +5,27 @@ ul, li {
   
   .tabs {
     margin: 0 auto;
-    margin-top: 50px;
-    width: 90%;
+    width: 100%;
   }
   
   .tab-btn {
     display: flex;
-    width: 100%;
+    width: 90%;
+    gap: 4px;
   }
   
   .tab-name {
     cursor: pointer;
     display: block;
-    width: calc(80% - 10px);
+    width: calc(60% );
     padding: 10px 16px 6px;  
     font-size: 16px;
     font-weight: bold;
     text-align: center;
     transition: ease 0.3s;
     border-radius: 50px 50px 0 0;
-    margin-right: 10px;
+    white-space: nowrap;
+    margin-left: 22px;
   }
 
   .tab-name-one {
@@ -61,4 +62,3 @@ ul, li {
     opacity: 1;
     transition: 0.3s ease;
   }
-  
