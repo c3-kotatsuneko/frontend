@@ -1,5 +1,6 @@
-label{
+.text-label {
   display: block;
   font-size: 12px;
   margin-bottom: 4px;
+  background-color: transparent;
 }

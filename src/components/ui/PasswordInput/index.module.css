@@ -1,3 +1,7 @@
 .password-input {
   border-color: var(--green);
 }
+
+.password-label {
+  background-color: transparent;
+}
