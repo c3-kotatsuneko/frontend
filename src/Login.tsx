@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 interface LoginProps {
   onSubmit: (name: string, password: string) => void;
@@ -28,7 +29,7 @@ const Login: React.FC<LoginProps> = ({ onSubmit }) => {
         onChange={(e) => setPassword(e.target.value)}
       />
       <button type="submit">あそびにいく</button>
-      <a href="#">ゲストとしてあそびにいく</a>
+      <a href="/">ゲストとしてあそびにいく</a>
     </form>
   );
 };

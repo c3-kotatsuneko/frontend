@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import type React from "react";
+import { useState } from "react";
 
 interface SignupProps {
   onSubmit: (name: string, password: string) => void;

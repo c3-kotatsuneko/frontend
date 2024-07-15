@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import "./welcome.css";
 import Tab from "./Tab";
 import Login from "./Login";
@@ -11,7 +11,7 @@ interface WelcomeProps {
 
 const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit }) => {
   return (
-    <div className="welcome_body">
+    <div className="welcome-body">
       <h2>ばーちゃるぼっくす</h2>
       <Tab
         labels={["ろぐいん", "とうろく"]}
