@@ -4,13 +4,13 @@ import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./App";
 import "./index.css";
 
-const rootElement = document.getElementById("root");
-if (rootElement) {
-  ReactDOM.createRoot(rootElement).render(
-    <React.StrictMode>
-      <BrowserRouter>
-        <AppRoutes />
-      </BrowserRouter>
-    </React.StrictMode>
-  );
-}
+
+// biome-ignore lint/style/noNonNullAssertion: <explanation>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+	<React.StrictMode>
+		<BrowserRouter>
+			<AppRoutes />
+		</BrowserRouter>
+	</React.StrictMode>,
+);
+
