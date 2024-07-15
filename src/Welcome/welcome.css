@@ -29,4 +29,11 @@ body, html {
     padding: 20px;
     gap: 16px;
   }
+
+  .main-logo{
+    position: absolute;
+    background-color: transparent;
+    top: 72%;
+    right: 4%;
+  }
   
