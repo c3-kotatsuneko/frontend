@@ -6,4 +6,5 @@
   font-size: 16px;
   border: 1px solid var(--redorange);
   border-radius: 4px;
+  background-color: var(--white);
 }

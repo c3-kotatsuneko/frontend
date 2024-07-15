@@ -1,5 +1,5 @@
 import type React from "react";
-import {  useState } from "react";
+import { useState } from "react";
 import "./tabs.css";
 
 interface TabProps {

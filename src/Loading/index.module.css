@@ -1,0 +1,17 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--black);
+}
+
+.loading-message {
+  font-size: 24px;
+  padding-bottom: 48px;
+}
+
+.cats-image {
+  padding-left: 24px;
+}

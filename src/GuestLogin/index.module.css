@@ -1,0 +1,22 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--black);
+
+  label {
+    margin-bottom: 40px;
+  }
+}
+
+.title {
+  font-size: 16px;
+  margin-bottom: 24px;
+}
+
+.cats-image {
+  padding-left: 24px;
+  margin-top: 32px;
+}
