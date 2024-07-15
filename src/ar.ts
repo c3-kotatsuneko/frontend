@@ -87,6 +87,7 @@ function enableCam() {
 let lastVideoTime = -1;
 let detections = undefined;
 async function predictWebcam() {
+  console.log("predictWebcam");
   const startTimeMs = performance.now();
   if (lastVideoTime !== video.currentTime) {
     lastVideoTime = video.currentTime;
