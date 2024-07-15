@@ -1,5 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
+import clsx from "clsx";
 import { DefaultButton } from "../Button";
+import defaultStyles from "../Button/index.module.css";
 import styles from "./index.module.css";
 
 type WelcomeButtonProps = {
@@ -14,7 +16,7 @@ export const WelcomeButton = ({
 }: WelcomeButtonProps) => {
 	return (
 		<DefaultButton
-			className={styles.welcomeStyle}
+			className={clsx(defaultStyles["button-style"], styles["welcome-style"])}
 			variant="contained"
 			color={color}
 			{...props}

@@ -8,11 +8,11 @@
   color: var(--black);
 }
 
-.loadingMessage {
+.loading-message {
   font-size: 24px;
   padding-bottom: 48px;
 }
 
-.catsImage {
+.cats-image {
   padding-left: 24px;
 }

@@ -17,7 +17,7 @@ export const DefaultButton = ({
 }: ButtonProps) => {
 	return (
 		<button
-			className={styles.buttonStyle}
+			className={styles["button-style"]}
 			data-variant={variant}
 			data-size={size}
 			data-color={color}

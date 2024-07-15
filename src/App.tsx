@@ -5,14 +5,14 @@ import { LoadingPage } from "./Loading";
 import "./App.css";
 
 function AppRoutes() {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/loading" element={<LoadingPage />} />
-      </Routes>
-    </>
-  );
+	return (
+		<>
+			<Routes>
+				<Route path="/" element={<Home />} />
+				<Route path="/loading" element={<LoadingPage />} />
+			</Routes>
+		</>
+	);
 }
 
 export default AppRoutes;

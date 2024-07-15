@@ -6,5 +6,7 @@ type InputProps = {
 } & ComponentPropsWithRef<"input">;
 
 export const Input = ({ forwardRef, ...props }: InputProps) => {
-	return <input className={styles.inputStyle} ref={forwardRef} {...props} />;
+	return (
+		<input className={styles["input-style"]} ref={forwardRef} {...props} />
+	);
 };
