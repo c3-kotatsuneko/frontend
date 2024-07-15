@@ -115,6 +115,7 @@ jobs:
     outputs:
       urls: ${{ steps.hosting_deploy.outputs.urls }}
     steps:
+      - uses: actions/checkout@v2
       - name: Use Cached Dependencies
         uses: actions/cache@v4
         with:
