@@ -1,14 +1,25 @@
 {
   "name": "ba-tyarubox-frontend",
-  "private": true,
-  "version": "0.0.0",
-  "type": "module",
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
-  },
+	"private": true,
+	"version": "0.1.0",
+	"type": "module",
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc -b && vite build",
+		"start": "vite preview",
+		"lint:stylelint": "stylelint 'src/**/*.css'",
+		"format:stylelint": "stylelint 'src/**/*.css' --fix",
+		"lint:markuplint": "markuplint 'src/**/*.{tsx,ts,jsx,js,html}'",
+		"format:markuplint": "markuplint 'src/**/*.{tsx,ts,jsx,js,html}' --fix",
+		"ci:lint": "npm-run-all lint:*",
+		"ci:test": "npm-run-all test:*",
+		"lint:biome": "biome lint --apply --no-errors-on-unmatched .",
+		"format:biome": "biome format --write --no-errors-on-unmatched .",
+		"lint": "run-p lint:*",
+		"format": "run-p format:*",
+		"lint:eslint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+		"prepare": "husky"
+	},
   "dependencies": {
     "@mediapipe/tasks-vision": "^0.10.14",
     "react": "^18.3.1",
