@@ -18,8 +18,7 @@ const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit }) => {
         contents={[
           <Login key="login" onSubmit={onLoginSubmit} />,
           <Signup key="signup" onSubmit={onSignupSubmit} />
-        ]}
-      />
+        ]} id={""}      />
     </div>
   );
 };

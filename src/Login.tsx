@@ -16,13 +16,13 @@ const Login: React.FC<LoginProps> = ({ onSubmit }) => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <label>おなまえ</label>
+      <label  htmlFor={name}>おなまえ</label>
       <input
         type="text"
         value={name}
         onChange={(e) => setName(e.target.value)}
       />
-      <label>おまじない</label>
+      <label htmlFor={password}>おまじない</label>
       <input
         type="password"
         value={password}
