@@ -1,0 +1,50 @@
+.root {
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--black);
+}
+
+.user-name {
+  position: absolute;
+  top: 24px;
+  right: 16px;
+  font-size: 16px;
+}
+
+.title {
+  font-size: 24px;
+  margin-bottom: 48px;
+}
+
+.button-wrap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  button {
+    display: block;
+  }
+
+  :not(:last-child) {
+    margin-bottom: 28px;
+  }
+
+  :last-child {
+    display: flex;
+    align-items: center;
+  }
+}
+
+.crown-image {
+  margin-right: 8px;
+  background-color: var(--white);
+}
+
+.cats-image {
+  margin-top: 32px;
+  margin-right: 14px;
+}
