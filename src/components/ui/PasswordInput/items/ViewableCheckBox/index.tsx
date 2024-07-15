@@ -9,7 +9,7 @@ export const ViewableCheckBox = ({ onCheck }: ViewableCheckBoxProps) => {
 	return (
 		<label className={styles.label}>
 			<input
-				className={styles['check-box']}
+				className={styles["check-box"]}
 				type="checkbox"
 				onClick={() => onCheck((prevState) => !prevState)}
 			/>
