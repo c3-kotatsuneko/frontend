@@ -1,6 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
 import Home from "./Home";
+import { LoadingPage } from "./Loading";
 import "./App.css";
 
 function AppRoutes() {
@@ -8,6 +9,7 @@ function AppRoutes() {
 		<>
 			<Routes>
 				<Route path="/" element={<Home />} />
+				<Route path="/loading" element={<LoadingPage />} />
 			</Routes>
 		</>
 	);
