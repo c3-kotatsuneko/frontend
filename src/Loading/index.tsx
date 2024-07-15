@@ -7,7 +7,7 @@ export const LoadingPage = () => {
       <img
         className={styles["cats-image"]}
         alt="丸ねこタワー"
-        src="catsTower-circle.png"
+        src="cats/catsTower-circle.png"
         height={216}
         width={148}
       />
