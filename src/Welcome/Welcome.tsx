@@ -1,9 +1,9 @@
 import type React from "react";
 import "./welcome.css";
-import Tab from "../components/tab/Tab";
 import Signup from "../SignupForm/Signup";
 import Layout from "../layout";
 import Login from "../LoginForm/Login";
+import Tab from "../components/tab/Tab";
 
 interface WelcomeProps {
 	onLoginSubmit: (name: string, password: string) => void;
