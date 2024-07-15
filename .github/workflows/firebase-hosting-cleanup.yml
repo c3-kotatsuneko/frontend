@@ -10,5 +10,5 @@ jobs:
       - name: delete preview
         run: firebase hosting:channel:delete ${{ github.event.number }} --project=${{ env.PROJECT_ID }} -f
         env:
-          FIREBASE_TOKEN: ${{ secrets.FIREBASE_SERVICE_ACCOUNT }}
+          FIREBASE_TOKEN: ${{ secrets.FIREBASE_TOKEN }}
           PROJECT_ID: kotatsu-neko-429207
