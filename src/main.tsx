@@ -4,6 +4,7 @@ import { BrowserRouter } from "react-router-dom";
 import AppRoutes from "./App";
 import "./index.css";
 
+
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
 ReactDOM.createRoot(document.getElementById("root")!).render(
 	<React.StrictMode>
@@ -12,3 +13,4 @@ ReactDOM.createRoot(document.getElementById("root")!).render(
 		</BrowserRouter>
 	</React.StrictMode>,
 );
+
