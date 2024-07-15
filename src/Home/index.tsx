@@ -1,5 +1,5 @@
 import { lazy, Suspense } from "react";
-const Component = lazy(() => import("../Signup.tsx"));
+const Component = lazy(() => import("../SignupForm/Signup"));
 
 function Home() {
   return (
