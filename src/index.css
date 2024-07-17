@@ -3,7 +3,6 @@
   padding: 0;
   box-sizing: border-box;
   color: #080000;
-  background-color: var(--gray);
 }
 
 :root {
@@ -16,7 +15,8 @@
   --blue: #005192;
   --green: #aae190;
   --brown: #b99075;
-
+  
+  background-color: var(--gray);
   font-family: "Zen Kaku Gothic New", sans-serif;
   font-weight: 400;
   font-style: normal;
