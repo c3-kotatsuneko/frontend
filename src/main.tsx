@@ -6,12 +6,24 @@ import "./index.css";
 import Layout from "./layout";
 
 // biome-ignore lint/style/noNonNullAssertion: <explanation>
-ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
-		<BrowserRouter>
-			<Layout>
-				<AppRoutes />
-			</Layout>
-		</BrowserRouter>
-	</React.StrictMode>,
-);
+//pathがarの時は読み込まない
+const root = document.getElementById("root");
+const url = location.pathname;
+if (url !== "/ar") {
+  if (root) {
+    ReactDOM.createRoot(root).render(
+      <React.StrictMode>
+        <BrowserRouter>
+          <Layout>
+            <AppRoutes />
+          </Layout>
+        </BrowserRouter>
+      </React.StrictMode>
+    );
+  }
+} else {
+  //rootを削除
+  if (root) {
+    root.remove();
+  }
+}
