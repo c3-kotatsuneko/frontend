@@ -55,3 +55,7 @@ a {
   font-size: 12px;
   background-color: transparent;
 }
+
+button {
+  z-index: calc(infinity);
+}

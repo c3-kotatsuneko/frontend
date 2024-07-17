@@ -181,7 +181,7 @@ function startAR() {
   //a-sceneの中にa-marker-cameraを追加
   const frontMarker = document.createElement("a-marker");
   frontMarker.setAttribute("type", "pattern");
-  frontMarker.setAttribute("url", "./pattern-frontMarker.patt");
+  frontMarker.setAttribute("url", "/pattern-hackU.patt");
   frontMarker.setAttribute("id", "frontMarker");
   //sceneの中にfrontMarkerを追加
   //frontMarkerにa-boxを追加

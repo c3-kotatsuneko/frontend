@@ -21,13 +21,15 @@
 		"prepare": "husky"
 	},
 	"dependencies": {
-		"clsx": "^2.1.1",
 		"@mediapipe/tasks-vision": "^0.10.14",
+		"aframe": "^1.6.0",
+		"clsx": "^2.1.1",
 		"react": "^18.3.1",
 		"react-dom": "^18.3.1",
 		"react-router-dom": "^6.24.1"
 	},
 	"devDependencies": {
+		"@ar-js-org/ar.js-threejs": "^0.3.0",
 		"@biomejs/biome": "^1.8.3",
 		"@markuplint/jsx-parser": "^4.7.5",
 		"@markuplint/react-spec": "^4.5.5",
@@ -43,8 +45,10 @@
 		"@types/node": "^20",
 		"@types/react": "^18.3.3",
 		"@types/react-dom": "^18.3.0",
+		"@types/three": "^0.166.0",
 		"@typescript-eslint/eslint-plugin": "^7.13.1",
 		"@typescript-eslint/parser": "^7.13.1",
+		"@vitejs/plugin-basic-ssl": "^1.1.0",
 		"@vitejs/plugin-react": "^4.3.1",
 		"@vitejs/plugin-react-swc": "^3.5.0",
 		"eslint": "^8.57.0",
@@ -58,6 +62,7 @@
 		"storybook": "^8.2.2",
 		"stylelint": "^16.7.0",
 		"stylelint-config-standard": "^36.0.1",
+		"three": "^0.166.1",
 		"typescript": "^5.2.2",
 		"vite": "^5.3.1",
 		"vitest": "^2.0.2"
