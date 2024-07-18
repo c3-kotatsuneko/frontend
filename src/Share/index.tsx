@@ -10,56 +10,61 @@ const SAMPLE_RANK = 1;
 const SAMPLE_TIME = "02:10";
 
 export const SharePage = () => {
-	const rank = SAMPLE_RANK;
-	const time = SAMPLE_TIME;
+  const rank = SAMPLE_RANK;
+  const time = SAMPLE_TIME;
 
-	return (
-		<main className={styles.root}>
-			<p className={styles["user-name"]}>ユーザー名</p>
+  const shareMessage = `ランキング${rank}位! タイム${time}!`;
+  const encodedLineShareMessage = encodeURIComponent(
+    `${shareMessage}\n\nばーちゃるぼっくすであそんだよ`
+  );
 
-			<div className={styles["share-container"]}>
-				<div className={styles["share-text"]}>
-					<img
-						alt="おすわりねこ"
-						src="cats/sitDown.png"
-						width={64}
-						height={65}
-					/>
-					<div>おつかれさまにゃ！ 結果を共有してにゃ〜</div>
-				</div>
+  return (
+    <main className={styles.root}>
+      <p className={styles["user-name"]}>ユーザー名</p>
 
-				<a
-					className={styles["x-share-button"]}
-					href={`http://twitter.com/share?text=ランキング${rank}位!%20タイム${time}!%0a%0a&hashtags=ばーちゃるぼっくす`}
-					target="_blank"
-					rel="nofollow noopener noreferrer"
-				>
-					X で結果をシェアする
-				</a>
-				<a
-					className={styles["line-share-button"]}
-					href={`https://social-plugins.line.me/lineit/share?&text=ランキング${rank}位!%20タイム${time}!%0a%0aばーちゃるぼっくすであそんだよ`}
-					target="_blank"
-					rel="noreferrer"
-				>
-					LINE で結果をシェアする
-				</a>
-			</div>
+      <div className={styles["share-container"]}>
+        <div className={styles["share-text"]}>
+          <img
+            alt="おすわりねこ"
+            src="cats/sitDown.png"
+            width={64}
+            height={65}
+          />
+          <div>おつかれさまにゃ！ 結果を共有してにゃ〜</div>
+        </div>
 
-			<Link className={styles["return-game"]} to="/mode_select">
-				もういちどあそびにいく
-			</Link>
+        <a
+          className={styles["x-share-button"]}
+          href={`http://twitter.com/share?text=${shareMessage}%0a%0a&hashtags=ばーちゃるぼっくす`}
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+        >
+          X で結果をシェアする
+        </a>
+        <a
+          className={styles["line-share-button"]}
+          href={`https://line.me/R/share?text=&text=${encodedLineShareMessage}`}
+          target="_blank"
+          rel="nofollow noopener noreferrer"
+        >
+          LINE で結果をシェアする
+        </a>
+      </div>
 
-			<DefaultButton
-				variant="outlined"
-				className={clsx(buttonStyles["button-style"], styles["return-home"])}
-			>
-				<HomeIcon
-					variant={{ color: "blue" }}
-					style={{ width: "24px", height: "24px" }}
-				/>
-				おうちへ
-			</DefaultButton>
-		</main>
-	);
+      <Link className={styles["return-game"]} to="/mode_select">
+        もういちどあそびにいく
+      </Link>
+
+      <DefaultButton
+        variant="outlined"
+        className={clsx(buttonStyles["button-style"], styles["return-home"])}
+      >
+        <HomeIcon
+          variant={{ color: "blue" }}
+          style={{ width: "24px", height: "24px" }}
+        />
+        おうちへ
+      </DefaultButton>
+    </main>
+  );
 };
