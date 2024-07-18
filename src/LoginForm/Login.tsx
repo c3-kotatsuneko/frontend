@@ -2,7 +2,7 @@ import { PasswordInput } from "../components/ui/PasswordInput";
 import { TextInput } from "../components/ui/TextInput";
 import { WelcomeButton } from "../components/ui/WelcomeButton";
 import { useState } from "react";
-import LoginAnonymous from "./LoginAnonimus";
+import LoginAnonymous from "./LoginAnonimos";
 
 interface LoginProps {
 	onSubmit: (name: string, password: string) => void;

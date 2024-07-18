@@ -9,6 +9,43 @@ import "./App.css";
 import Welcome from "./Welcome/Welcome";
 
 const AppRoutes = () => {
+	const handleLoginSubmit = async (name: string, password: string) => {
+		try {
+			const response = await fetch('fugafugadayo', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ name, password }),
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			console.log('Login response:', data);
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
+
+	const handleSignupSubmit = async (name: string, password: string) => {
+		try {
+			const response = await fetch('hemuhemudane', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ name, password }),
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			console.log('Signup response:', data);
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
 	return (
 		<>
 			<Routes>
@@ -17,14 +54,8 @@ const AppRoutes = () => {
 					path="/welcome"
 					element={
 						<Welcome
-							onLoginSubmit={(name: string, password: string) => {
-								console.log(name, password);
-								throw new Error("Function not implemented.");
-							}}
-							onSignupSubmit={(name: string, password: string) => {
-								console.log(name, password);
-								throw new Error("Function not implemented.");
-							}}
+							onLoginSubmit={handleLoginSubmit}
+							onSignupSubmit={handleSignupSubmit}
 						/>
 					}
 				/>
