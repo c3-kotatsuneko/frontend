@@ -7,8 +7,11 @@ import { SharePage } from "./Share";
 import { RankingPage } from "./Ranking";
 import "./App.css";
 import Welcome from "./Welcome/Welcome";
+import { useState } from "react";
 
 const AppRoutes = () => {
+	const [loginError, setLoginError] = useState<string | null>(null);
+
 	const handleLoginSubmit = async (name: string, password: string) => {
 		try {
 			const response = await fetch('fugafugadayo', {
@@ -19,12 +22,19 @@ const AppRoutes = () => {
 				body: JSON.stringify({ name, password }),
 			});
 			if (!response.ok) {
-				throw new Error('Network response was not ok');
+				setLoginError('あれ、なにかちがうみたいだよ');
+				return;
 			}
-			const data = await response.json();
-			console.log('Login response:', data);
+				const data = await response.json();
+			if (data.success) {
+				setLoginError(null);
+				console.log('Login response:', data);
+			} else {
+				setLoginError('あれ、なにかちがうみたいだよ');
+			}
 		} catch (error) {
 			console.error('Error:', error);
+			setLoginError('あれ、なにかちがうみたいだよ');
 		}
 	};
 
@@ -56,6 +66,7 @@ const AppRoutes = () => {
 						<Welcome
 							onLoginSubmit={handleLoginSubmit}
 							onSignupSubmit={handleSignupSubmit}
+							loginError={loginError} 
 						/>
 					}
 				/>
