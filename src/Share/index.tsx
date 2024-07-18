@@ -1,4 +1,5 @@
 import clsx from "clsx";
+import { Link } from "react-router-dom";
 
 import { HomeIcon } from "../components/icon/home";
 import { DefaultButton } from "../components/ui/Button";
@@ -48,9 +49,9 @@ export const SharePage = () => {
 				</a>
 			</div>
 
-			<a className={styles["return-game"]} href="/mode-select">
+			<Link className={styles["return-game"]} to="/mode-select">
 				もういちどあそびにいく
-			</a>
+			</Link>
 
 			<DefaultButton
 				variant="outlined"
