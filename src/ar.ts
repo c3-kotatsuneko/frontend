@@ -10,181 +10,181 @@ let video: HTMLVideoElement;
 let webcamRunning = false;
 
 const startSetup = () => {
-  webcamRunning = true;
-  enableCam();
-  startAR();
+	webcamRunning = true;
+	enableCam();
+	startAR();
 };
 
 const createHandLandmarker = async () => {
-  const vision = await FilesetResolver.forVisionTasks(
-    "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
-  );
-  handLandmarker = await HandLandmarker.createFromOptions(vision, {
-    baseOptions: {
-      modelAssetPath:
-        "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-      delegate: "GPU",
-    },
-    runningMode: "VIDEO",
-    numHands: 2,
-  });
+	const vision = await FilesetResolver.forVisionTasks(
+		"https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm",
+	);
+	handLandmarker = await HandLandmarker.createFromOptions(vision, {
+		baseOptions: {
+			modelAssetPath:
+				"https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+			delegate: "GPU",
+		},
+		runningMode: "VIDEO",
+		numHands: 2,
+	});
 };
 createHandLandmarker();
 
 const hasGetUserMedia = () => !!navigator.mediaDevices?.getUserMedia;
 
 if (url === "/ar") {
-  document.addEventListener("DOMContentLoaded", () => {
-    //id="arButton"の要素を作成
-    const arButton = document.createElement("button");
-    arButton.textContent = "ARstart";
-    arButton.addEventListener("click", startSetup);
-    //id="video"の要素を作成
-    const handTrack = document.createElement("video");
-    handTrack.setAttribute("id", "video");
-    handTrack.setAttribute("autoplay", "");
-    handTrack.setAttribute("muted", "");
-    //styleを設定
-    handTrack.style.display = "none";
-    //body要素を取得
-    const body = document.querySelector("body");
-    //bodyの中に追加
-    if (body !== null) {
-      body.appendChild(arButton);
-    }
-    if (body !== null) {
-      body.appendChild(handTrack);
-    }
-    enableWebcamButton = arButton;
-    video = handTrack;
-    if (hasGetUserMedia()) {
-      console.log("getUserMedia()が使えるよ");
-      //id="arButton"の要素を取得
-      if (enableWebcamButton === null) {
-        console.warn("enableWebcamButtonが存在しないよ");
-      }
-      enableWebcamButton.addEventListener("click", startSetup);
-    } else {
-      console.warn(
-        "getUserMedia()がこのブラウザでは対応してないよ、そんなブラウザ捨ててしまえ！"
-      );
-    }
-  });
+	document.addEventListener("DOMContentLoaded", () => {
+		//id="arButton"の要素を作成
+		const arButton = document.createElement("button");
+		arButton.textContent = "ARstart";
+		arButton.addEventListener("click", startSetup);
+		//id="video"の要素を作成
+		const handTrack = document.createElement("video");
+		handTrack.setAttribute("id", "video");
+		handTrack.setAttribute("autoplay", "");
+		handTrack.setAttribute("muted", "");
+		//styleを設定
+		handTrack.style.display = "none";
+		//body要素を取得
+		const body = document.querySelector("body");
+		//bodyの中に追加
+		if (body !== null) {
+			body.appendChild(arButton);
+		}
+		if (body !== null) {
+			body.appendChild(handTrack);
+		}
+		enableWebcamButton = arButton;
+		video = handTrack;
+		if (hasGetUserMedia()) {
+			console.log("getUserMedia()が使えるよ");
+			//id="arButton"の要素を取得
+			if (enableWebcamButton === null) {
+				console.warn("enableWebcamButtonが存在しないよ");
+			}
+			enableWebcamButton.addEventListener("click", startSetup);
+		} else {
+			console.warn(
+				"getUserMedia()がこのブラウザでは対応してないよ、そんなブラウザ捨ててしまえ！",
+			);
+		}
+	});
 }
 
 function enableCam() {
-  if (!handLandmarker) {
-    console.log("まだ映像が読み込めてないよ");
-    return;
-  }
-  // Activate the webcam stream.
-  navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-    video.srcObject = stream;
-    video.addEventListener("loadeddata", predictWebcam);
-  });
+	if (!handLandmarker) {
+		console.log("まだ映像が読み込めてないよ");
+		return;
+	}
+	// Activate the webcam stream.
+	navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+		video.srcObject = stream;
+		video.addEventListener("loadeddata", predictWebcam);
+	});
 }
 
 let lastVideoTime = -1;
 let detections = undefined;
 async function predictWebcam() {
-  console.log("predictWebcam");
-  const startTimeMs = performance.now();
-  if (lastVideoTime !== video.currentTime) {
-    lastVideoTime = video.currentTime;
-    if (handLandmarker) {
-      detections = handLandmarker.detectForVideo(video, startTimeMs);
-      if (detections.landmarks.length > 0) {
-        const handMidPos = {
-          x: detections.landmarks[0][9].x - detections.landmarks[0][0].x,
-          y: detections.landmarks[0][9].y - detections.landmarks[0][0].y,
-          z: detections.landmarks[0][9].z - detections.landmarks[0][0].z,
-        };
-        const handTopPos = {
-          x: detections.landmarks[0][12].x - detections.landmarks[0][0].x,
-          y: detections.landmarks[0][12].y - detections.landmarks[0][0].y,
-          z: detections.landmarks[0][12].z - detections.landmarks[0][0].z,
-        };
-        const handPos = {
-          x: (detections.landmarks[0][0].x - 0.5) * 5,
-          y: (detections.landmarks[0][0].y - 0.5) * 5,
-          z: detections.landmarks[0][0].z,
-        };
-        //handTopPosの原点からの距離の絶対値が0.1以上なら掌を開いている
-        const dist = Math.sqrt(
-          handTopPos.x * handTopPos.x +
-            handTopPos.y * handTopPos.y +
-            handTopPos.z * handTopPos.z
-        );
-        console.log(dist);
-        let status: string;
-        if (dist > 0.4) {
-          status = "red";
-        } else {
-          status = "blue";
-        }
-        //handMidPosとhandTopPosから手の向きを判定
-        const handDir = {
-          x: handMidPos.x - handTopPos.x,
-          y: handMidPos.y - handTopPos.y,
-          z: handMidPos.z - handTopPos.z,
-        };
-        //handDirを度数法に変換しx軸y軸z軸の回転を求める
-        const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
-        const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
-        const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
-        //id="marker"にa-boxを追加
-        const marker = document.getElementById("marker");
-        //id="box"が存在する場合は属性だけ変更
-        const box = document.getElementById("box");
-        if (box !== null) {
-          box.setAttribute(
-            "position",
-            `${handPos.x} ${handPos.y} ${handPos.z}`
-          );
-          box.setAttribute("color", status);
-          box.setAttribute("rotation", `${angleX} ${angleY} ${angleZ}`);
-        } else {
-          const box = document.createElement("a-box");
-          box.setAttribute("id", "box");
-          box.setAttribute(
-            "position",
-            `${handPos.x} ${handPos.y} ${handPos.z}`
-          );
-          box.setAttribute("color", status);
-          box.setAttribute("width", "0.1");
-          box.setAttribute("height", "0.1");
-          box.setAttribute("depth", "0.1");
-          box.setAttribute("rotation", `${angleX} ${angleY} ${angleZ}`);
-          marker?.appendChild(box);
-        }
-        console.log(handPos);
-      }
-    }
-  }
-  // Call this function again to keep predicting when the browser is ready.
-  if (webcamRunning === true) {
-    window.requestAnimationFrame(predictWebcam);
-  }
+	console.log("predictWebcam");
+	const startTimeMs = performance.now();
+	if (lastVideoTime !== video.currentTime) {
+		lastVideoTime = video.currentTime;
+		if (handLandmarker) {
+			detections = handLandmarker.detectForVideo(video, startTimeMs);
+			if (detections.landmarks.length > 0) {
+				const handMidPos = {
+					x: detections.landmarks[0][9].x - detections.landmarks[0][0].x,
+					y: detections.landmarks[0][9].y - detections.landmarks[0][0].y,
+					z: detections.landmarks[0][9].z - detections.landmarks[0][0].z,
+				};
+				const handTopPos = {
+					x: detections.landmarks[0][12].x - detections.landmarks[0][0].x,
+					y: detections.landmarks[0][12].y - detections.landmarks[0][0].y,
+					z: detections.landmarks[0][12].z - detections.landmarks[0][0].z,
+				};
+				const handPos = {
+					x: (detections.landmarks[0][0].x - 0.5) * 5,
+					y: (detections.landmarks[0][0].y - 0.5) * 5,
+					z: detections.landmarks[0][0].z,
+				};
+				//handTopPosの原点からの距離の絶対値が0.1以上なら掌を開いている
+				const dist = Math.sqrt(
+					handTopPos.x * handTopPos.x +
+						handTopPos.y * handTopPos.y +
+						handTopPos.z * handTopPos.z,
+				);
+				console.log(dist);
+				let status: string;
+				if (dist > 0.4) {
+					status = "red";
+				} else {
+					status = "blue";
+				}
+				//handMidPosとhandTopPosから手の向きを判定
+				const handDir = {
+					x: handMidPos.x - handTopPos.x,
+					y: handMidPos.y - handTopPos.y,
+					z: handMidPos.z - handTopPos.z,
+				};
+				//handDirを度数法に変換しx軸y軸z軸の回転を求める
+				const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
+				const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
+				const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
+				//id="marker"にa-boxを追加
+				const marker = document.getElementById("marker");
+				//id="box"が存在する場合は属性だけ変更
+				const box = document.getElementById("box");
+				if (box !== null) {
+					box.setAttribute(
+						"position",
+						`${handPos.x} ${handPos.y} ${handPos.z}`,
+					);
+					box.setAttribute("color", status);
+					box.setAttribute("rotation", `${angleX} ${angleY} ${angleZ}`);
+				} else {
+					const box = document.createElement("a-box");
+					box.setAttribute("id", "box");
+					box.setAttribute(
+						"position",
+						`${handPos.x} ${handPos.y} ${handPos.z}`,
+					);
+					box.setAttribute("color", status);
+					box.setAttribute("width", "0.1");
+					box.setAttribute("height", "0.1");
+					box.setAttribute("depth", "0.1");
+					box.setAttribute("rotation", `${angleX} ${angleY} ${angleZ}`);
+					marker?.appendChild(box);
+				}
+				console.log(handPos);
+			}
+		}
+	}
+	// Call this function again to keep predicting when the browser is ready.
+	if (webcamRunning === true) {
+		window.requestAnimationFrame(predictWebcam);
+	}
 }
 
 function startAR() {
-  //body要素を取得
-  const body = document.querySelector("body");
-  //bodyにa-sceneを追加
-  const scene = document.createElement("a-scene");
-  scene.setAttribute("embedded", "");
-  scene.setAttribute("arjs", "sourceType: webcam; debugUIEnabled: false");
-  //a-sceneの中にa-marker-cameraを追加
-  const marker = document.createElement("a-marker-camera");
-  marker.setAttribute("type", "pattern");
-  marker.setAttribute("url", "/pattern-hackU.patt");
-  //idをmarkerに設定
-  marker.setAttribute("id", "marker");
-  scene.appendChild(marker);
-  //bodyの中に追加
-  if (body !== null) {
-    body.appendChild(scene);
-  }
+	//body要素を取得
+	const body = document.querySelector("body");
+	//bodyにa-sceneを追加
+	const scene = document.createElement("a-scene");
+	scene.setAttribute("embedded", "");
+	scene.setAttribute("arjs", "sourceType: webcam; debugUIEnabled: false");
+	//a-sceneの中にa-marker-cameraを追加
+	const marker = document.createElement("a-marker-camera");
+	marker.setAttribute("type", "pattern");
+	marker.setAttribute("url", "/pattern-hackU.patt");
+	//idをmarkerに設定
+	marker.setAttribute("id", "marker");
+	scene.appendChild(marker);
+	//bodyの中に追加
+	if (body !== null) {
+		body.appendChild(scene);
+	}
 }
 
 // const createHandLandmarker = async () => {
