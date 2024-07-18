@@ -14,8 +14,8 @@ export const TextButton = ({
 }: TextButtonProps) => {
 	return (
 		<button
-			className={clsx(styles["text-button-style"],className)}
-            style={{ fontSize: '12px' }}
+			className={clsx(styles["text-button-style"], className)}
+			style={{ fontSize: "12px" }}
 			data-color={color}
 			{...props}
 		>

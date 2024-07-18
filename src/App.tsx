@@ -3,6 +3,7 @@ import Home from "./Home";
 import { LoadingPage } from "./Loading";
 import { GuestLoginPage } from "./GuestLogin";
 import { ModeSelectPage } from "./ModeSelect";
+import { RankingPage } from "./Ranking";
 import "./App.css";
 import Welcome from "./Welcome/Welcome";
 
@@ -29,6 +30,7 @@ const AppRoutes = () => {
 				<Route path="/loading" element={<LoadingPage />} />
 				<Route path="/guest-login" element={<GuestLoginPage />} />
 				<Route path="/mode-select" element={<ModeSelectPage />} />
+				<Route path="/ranking" element={<RankingPage />} />
 			</Routes>
 		</>
 	);
