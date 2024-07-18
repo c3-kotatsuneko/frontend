@@ -2,9 +2,16 @@ import { useState } from "react";
 import { DefaultButton } from "../components/ui/Button";
 import { Modal } from "../components/ui/Modal";
 import styles from "./index.module.css";
+import { useNavigate } from "react-router-dom";
 
 const ExitButton = () => {
     const [isOpen, setIsOpen] = useState(false);
+    const navigate = useNavigate();
+
+    const handleExitButtonClick = () => {
+        setIsOpen(false); 
+        navigate("/mode_select"); 
+      };
 
     return (
         <>
@@ -12,7 +19,7 @@ const ExitButton = () => {
                 おかたづけ
             </DefaultButton>
             <Modal open={isOpen} onClose={() => setIsOpen(false)}>
-                <ModalContent setIsOpen={setIsOpen} />
+            <ModalContent setIsOpen={setIsOpen} onExitButtonClick={handleExitButtonClick} />
             </Modal>
         </>
     );
@@ -20,9 +27,10 @@ const ExitButton = () => {
 
 type ModalContentProps = {
     setIsOpen: (isOpen: boolean) => void;
+    onExitButtonClick: () => void;
 };
 
-const ModalContent: React.FC<ModalContentProps> = ({ setIsOpen }) => {
+const ModalContent: React.FC<ModalContentProps> = ({ setIsOpen , onExitButtonClick}) => {
     return (
         <div className={styles["modal-wrapper"]}>
             <div className={styles["modal-row"]}>
@@ -47,6 +55,7 @@ const ModalContent: React.FC<ModalContentProps> = ({ setIsOpen }) => {
                 <DefaultButton
                     className={styles["selection-button"]}
                     variant="contained"
+                    onClick={onExitButtonClick}
                 >
                     おうちへ
                 </DefaultButton>
