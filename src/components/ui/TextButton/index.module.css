@@ -1,0 +1,26 @@
+.text-button-style {
+    font-size: 12px;
+    border: 0;
+    background: none;
+    padding: 0;
+    color: var(--blue); 
+    text-decoration: underline; 
+  
+    &:disabled {
+      cursor: not-allowed;
+      color: var(--black-lighter); 
+    }
+  
+    &[data-variant="contained"] {
+      color: var(--white);
+  
+      &[data-color="blue"] {
+        background-color: var(--blue);
+      }
+  
+      &:disabled {
+        background-color: var(--black-lighter);
+      }
+    }
+  }
+  
