@@ -5,6 +5,7 @@ import { GuestLoginPage } from "./GuestLogin";
 import { ModeSelectPage } from "./ModeSelect";
 import "./App.css";
 import Welcome from "./Welcome/Welcome";
+import AR from "./AR";
 // import ARComponent from "./Test/Test";
 
 const AppRoutes = () => {
@@ -31,6 +32,8 @@ const AppRoutes = () => {
         <Route path="/loading" element={<LoadingPage />} />
         <Route path="/guest-login" element={<GuestLoginPage />} />
         <Route path="/mode-select" element={<ModeSelectPage />} />
+        <Route path="/ar" element={<AR />} />
+        <Route path="*" element={<h1>Not Found</h1>} />
       </Routes>
     </>
   );
