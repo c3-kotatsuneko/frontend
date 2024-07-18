@@ -10,24 +10,9 @@ interface GuestLoginProps {
 export const GuestLoginPage: React.FC<GuestLoginProps> = ({ onSubmit }) => {
 	const [name, setName] = useState('');
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    try {
-      const response = await fetch('hogehoegedayo', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ name }),
-      });
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
-      const data = await response.json();
-      onSubmit(data.name);
-    } catch (error) {
-      console.error('Error:', error);
-    }
+    onSubmit(name);
   };
 	return (
 		<main className={styles.root}>
