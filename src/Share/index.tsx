@@ -26,7 +26,7 @@ export const SharePage = () => {
 
 				<a
 					className={styles["x-share-button"]}
-					href={`http://twitter.com/share?url=https://kotatsu-neko.web.app%0a&text=ランキング${"rank"}位!%20タイム${"time"}!%0a%0a&hashtags=ばーちゃるぼっくす`}
+					href={`http://twitter.com/share?text=ランキング${"rank"}位!%20タイム${"time"}!%0a%0a&hashtags=ばーちゃるぼっくす`}
 					target="_blank"
 					rel="nofollow noopener noreferrer"
 				>
@@ -34,7 +34,7 @@ export const SharePage = () => {
 				</a>
 				<a
 					className={styles["line-share-button"]}
-					href={`https://social-plugins.line.me/lineit/share?url=https://kotatsu-neko.web.app&text=ランキング${"rank"}位!%20タイム${"time"}!`}
+					href={`https://social-plugins.line.me/lineit/share?&text=ランキング${"rank"}位!%20タイム${"time"}!%0a%0aばーちゃるぼっくすであそんだよ`}
 					target="_blank"
 					rel="noreferrer"
 				>
