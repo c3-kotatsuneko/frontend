@@ -43,7 +43,7 @@ export const SharePage = () => {
 				</a>
 				<a
 					className={styles["line-share-button"]}
-					href={`https://line.me/R/share?text=&text=${encodedLineShareMessage}`}
+					href={`https://line.me/R/share?text=${encodedLineShareMessage}`}
 					target="_blank"
 					rel="nofollow noopener noreferrer"
 				>
