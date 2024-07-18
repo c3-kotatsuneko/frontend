@@ -25,10 +25,7 @@ export const SharePage = () => {
 						width={64}
 						height={65}
 					/>
-					<div>
-						<span>おつかれさまにゃ！</span>
-						<span>結果を共有してにゃ〜</span>
-					</div>
+					<div>おつかれさまにゃ！ 結果を共有してにゃ〜</div>
 				</div>
 
 				<a
