@@ -3,9 +3,16 @@ import { DefaultButton } from "../components/ui/Button";
 import { Modal } from "../components/ui/Modal";
 import styles from "./LoginAnonymous.module.css";
 import { TextButton } from "../components/ui/TextButton";
+import { useNavigate } from "react-router-dom";
 
 const LoginAnonymous = () => {
 	const [isOpen, setIsOpen] = useState(false);
+	const navigate = useNavigate();
+
+	const handleGuestLoginClick = () => {
+		setIsOpen(false);
+		navigate("/guest_login");
+	};
 
 	return (
 		<>
@@ -13,7 +20,7 @@ const LoginAnonymous = () => {
 				ゲストとしてあそびにいく
 			</TextButton>
 			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
-				<ModalContent setIsOpen={setIsOpen} />
+				<ModalContent setIsOpen={setIsOpen} onGuestLoginClick={handleGuestLoginClick} />
 			</Modal>
 		</>
 	);
@@ -21,9 +28,10 @@ const LoginAnonymous = () => {
 
 type ModalContentProps = {
 	setIsOpen: (isOpen: boolean) => void;
+	onGuestLoginClick: () => void;
 };
 
-const ModalContent: React.FC<ModalContentProps> = ({ setIsOpen }) => {
+const ModalContent: React.FC<ModalContentProps> = ({ setIsOpen, onGuestLoginClick }) => {
 	return (
 		<div className={styles["modal-wrapper"]}>
 			<p className={styles["modal-description"]}>
@@ -35,13 +43,14 @@ const ModalContent: React.FC<ModalContentProps> = ({ setIsOpen }) => {
 					variant="outlined"
 					onClick={() => setIsOpen(false)}
 				>
-					もどる！
+					もどる
 				</DefaultButton>
 				<DefaultButton
 					className={styles["selection-button"]}
 					variant="contained"
+					onClick={onGuestLoginClick}
 				>
-					いいよ！
+					いいよ
 				</DefaultButton>
 			</div>
 		</div>
