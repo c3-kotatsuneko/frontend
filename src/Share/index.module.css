@@ -1,0 +1,82 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--black);
+}
+
+.user-name {
+  position: absolute;
+  top: 24px;
+  right: 16px;
+  font-size: 16px;
+}
+
+.share-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  border-radius: 8px;
+  padding: 24px;
+  background-color: var(--white);
+}
+
+.share-text {
+  display: flex;
+  align-items: center;
+  padding-bottom: 32px;
+
+  & > img {
+    margin-right: 4px;
+  }
+
+  & > div {
+    display: block;
+    font-size: 20px;
+    max-width: 200px;
+    word-break: keep-all;
+  }
+}
+
+.x-share-button {
+  padding: 8px 32px;
+  border-radius: 8px;
+  background-color: var(--black);
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+  margin-bottom: 16px;
+}
+
+.line-share-button {
+  padding: 8px 32px;
+  border-radius: 8px;
+  background-color: #00b900;
+  color: var(--white);
+  font-size: 16px;
+  font-weight: 700;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.return-game {
+  margin-top: 32px;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.return-home {
+  display: flex;
+  position: absolute;
+  right: 16px;
+  bottom: 48px;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
