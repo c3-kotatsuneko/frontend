@@ -4,7 +4,7 @@ import Signup from "../SignupForm/Signup";
 import Layout from "../layout";
 import Login from "../LoginForm/Login";
 import Tab from "../components/tab/Tab";
-import mainCat from "../../public/cats/catsTower-circle.png"
+import mainCat from "../../public/cats/catsTower-circle.png";
 
 interface WelcomeProps {
 	onLoginSubmit: (name: string, password: string) => void;
