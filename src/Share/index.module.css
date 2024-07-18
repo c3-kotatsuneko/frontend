@@ -36,7 +36,7 @@
 
   & > div {
     font-size: 20px;
-    inline-size: 200px;
+    max-width: 200px;
     word-break: keep-all;
   }
 }
