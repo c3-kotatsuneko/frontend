@@ -1,0 +1,26 @@
+.modal-wrapper{
+    padding:24px 16px;
+    border-radius:8px;
+    background-color:white;
+    min-width:320px;
+    display:flex;
+    flex-direction:column;
+    gap:24px
+}
+
+
+.modal-description{
+    font-size:18px;
+    padding:0 36px;
+}
+
+.modal-selection-wrapper{
+    display:flex;
+    width:100%;
+    flex-direction:row;
+    gap:16px;
+}
+
+.selection-button{
+    flex-grow:1;
+}
