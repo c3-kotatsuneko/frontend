@@ -1,0 +1,29 @@
+.rank-list-container {
+  font-weight: 700;
+  font-size: 18px;
+
+  & > :not(:last-child) {
+    margin-bottom: 20px;
+  }
+}
+
+.rank-container {
+  display: flex;
+  justify-content: start;
+  align-items: flex-start;
+  gap: 20px;
+}
+
+.name-date-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date-style {
+  font-size: 10px;
+}
+
+.time-style {
+  font-size: 32px;
+}
