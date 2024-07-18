@@ -36,20 +36,23 @@ export const Modal: FC<Props> = ({
 		}
 	}, [open, handleShowModal, handleCloseModal]);
 
-	const handleKeyUp = useCallback((event: KeyboardEvent) => {
-		if (event.key === 'Escape') {
-			handleCloseModal();
-		}
-	}, [handleCloseModal]);
+	const handleKeyUp = useCallback(
+		(event: KeyboardEvent) => {
+			if (event.key === "Escape") {
+				handleCloseModal();
+			}
+		},
+		[handleCloseModal],
+	);
 
 	useEffect(() => {
 		if (open) {
-			document.addEventListener('keyup', handleKeyUp);
+			document.addEventListener("keyup", handleKeyUp);
 		} else {
-			document.removeEventListener('keyup', handleKeyUp);
+			document.removeEventListener("keyup", handleKeyUp);
 		}
 		return () => {
-			document.removeEventListener('keyup', handleKeyUp);
+			document.removeEventListener("keyup", handleKeyUp);
 		};
 	}, [open, handleKeyUp]);
 
@@ -58,7 +61,7 @@ export const Modal: FC<Props> = ({
 			<dialog
 				ref={dialogRef}
 				className={styles["modal-content-wrapper"]}
-				onKeyDown={(e) => e.key === 'Enter' && handleShowModal()}
+				onKeyDown={(e) => e.key === "Enter" && handleShowModal()}
 				tabIndex={-1}
 			>
 				{children}
@@ -68,11 +71,11 @@ export const Modal: FC<Props> = ({
 					type="button"
 					className={styles["modal-background"]}
 					onClick={handleCloseModal}
-					onKeyDown={(e) => e.key === 'Enter' && handleCloseModal()}
+					onKeyDown={(e) => e.key === "Enter" && handleCloseModal()}
 					aria-label="Close modal"
 				/>
 			)}
 		</>,
-		document.body
+		document.body,
 	);
 };

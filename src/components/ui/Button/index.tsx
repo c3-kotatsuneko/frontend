@@ -19,7 +19,7 @@ export const DefaultButton = ({
 }: ButtonProps) => {
 	return (
 		<button
-			className={clsx(styles["button-style"],className)}
+			className={clsx(styles["button-style"], className)}
 			data-variant={variant}
 			data-size={size}
 			data-color={color}
