@@ -5,7 +5,13 @@ import { DefaultButton } from "../components/ui/Button";
 import buttonStyles from "../components/ui/Button/index.module.css";
 import styles from "./index.module.css";
 
+const SAMPLE_RANK = 1;
+const SAMPLE_TIME = "02:10";
+
 export const SharePage = () => {
+	const rank = SAMPLE_RANK;
+	const time = SAMPLE_TIME;
+
 	return (
 		<main className={styles.root}>
 			<p className={styles["user-name"]}>ユーザー名</p>
@@ -26,7 +32,7 @@ export const SharePage = () => {
 
 				<a
 					className={styles["x-share-button"]}
-					href={`http://twitter.com/share?text=ランキング${"rank"}位!%20タイム${"time"}!%0a%0a&hashtags=ばーちゃるぼっくす`}
+					href={`http://twitter.com/share?text=ランキング${rank}位!%20タイム${time}!%0a%0a&hashtags=ばーちゃるぼっくす`}
 					target="_blank"
 					rel="nofollow noopener noreferrer"
 				>
@@ -34,7 +40,7 @@ export const SharePage = () => {
 				</a>
 				<a
 					className={styles["line-share-button"]}
-					href={`https://social-plugins.line.me/lineit/share?&text=ランキング${"rank"}位!%20タイム${"time"}!%0a%0aばーちゃるぼっくすであそんだよ`}
+					href={`https://social-plugins.line.me/lineit/share?&text=ランキング${rank}位!%20タイム${time}!%0a%0aばーちゃるぼっくすであそんだよ`}
 					target="_blank"
 					rel="noreferrer"
 				>
