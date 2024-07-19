@@ -48,7 +48,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
       <p className={styles["modal-description"]} data-type="record">
         きろくは{formatTime(clearTime)}！
       </p>
-      {!resultStatus.canRecord && (
+      {!resultStatus.canRecord && lastHighestTime !== -1 && (
         <div className={styles["modal-p"]}>
           <p className={styles["modal-description"]} data-type="highest">
             前回の最高記録は{formatTime(lastHighestTime)}！

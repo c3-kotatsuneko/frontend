@@ -5,12 +5,15 @@ import { HomeIcon } from "../../components/icon/Home";
 import { DefaultButton } from "../../components/ui/Button";
 import buttonStyles from "../../components/ui/Button/index.module.css";
 import styles from "./index.module.css";
+import { useUserName } from "../../utils/setUserName";
 
 const SAMPLE_RANK = 1;
 const SAMPLE_TIME = "02:10";
 
 export const SharePage = () => {
   const navigate = useNavigate();
+  const { userName } = useUserName();
+
   const rank = SAMPLE_RANK;
   const time = SAMPLE_TIME;
 
@@ -21,7 +24,7 @@ export const SharePage = () => {
 
   return (
     <main className={styles.root}>
-      <p className={styles["user-name"]}>ユーザー名</p>
+      <p className={styles["user-name"]}>{userName}</p>
       <div className={styles["share-container"]}>
         <div className={styles["share-text"]}>
           <img
