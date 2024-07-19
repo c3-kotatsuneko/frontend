@@ -6,16 +6,16 @@ import { WelcomeButton } from "../WelcomeButton";
 import styles from "./index.module.css";
 
 interface SignupProps {
-	onSubmit: (name: string, password: string) => void;
+	onSubmit: (userName: string, omajinai: string) => void;
 }
 
 const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
-	const [name, setName] = useState("");
-	const [password, setPassword] = useState("");
+	const [userName, setUserName] = useState("");
+	const [omajinai, setOmajinai] = useState("");
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		onSubmit(name, password);
+		onSubmit(userName, omajinai);
 	};
 
 	return (
@@ -23,14 +23,14 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
 			<TextInput
 				label={"おなまえ"}
 				type="text"
-				value={name}
-				onChange={(e) => setName(e.target.value)}
+				value={userName}
+				onChange={(e) => setUserName(e.target.value)}
 			/>
 
 			<PasswordInput
 				label={"おまじない"}
-				value={password}
-				onChange={(e) => setPassword(e.target.value)}
+				value={omajinai}
+				onChange={(e) => setOmajinai(e.target.value)}
 			/>
 			<WelcomeButton type="submit" color="redorange">
 				とうろくする
