@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 import * as THREE from "three";
 import cameraPara from "../assets/camera_para.dat?url";
@@ -189,6 +189,175 @@ const ARApp = () => {
     markerPatternURL: markerURL,
     scene: sceneRef.current!,
   });
+
+  const HandTrackingComponent = () => {
+    const [webcamRunning, setWebcamRunning] = useState(false);
+    const videoRef = useRef<HTMLVideoElement | null>(null);
+    const handLandmarkerRef = useRef<HandLandmarker | undefined>(undefined);
+    const predictWebcam = useCallback(async () => {
+      console.log("predictWebcam");
+      const video = videoRef.current;
+      if (!video) return;
+
+      let lastVideoTime = -1;
+      let detections = undefined;
+
+      const processFrame = async () => {
+        const startTimeMs = performance.now();
+        if (lastVideoTime !== video.currentTime) {
+          lastVideoTime = video.currentTime;
+          if (handLandmarkerRef.current) {
+            detections = handLandmarkerRef.current.detectForVideo(
+              video,
+              startTimeMs
+            );
+
+            if (detections.landmarks.length > 0) {
+              const handMidPos = {
+                x: detections.landmarks[0][9].x - detections.landmarks[0][0].x,
+                y: detections.landmarks[0][9].y - detections.landmarks[0][0].y,
+                z: detections.landmarks[0][9].z - detections.landmarks[0][0].z,
+              };
+              const handTopPos = {
+                x: detections.landmarks[0][12].x - detections.landmarks[0][0].x,
+                y: detections.landmarks[0][12].y - detections.landmarks[0][0].y,
+                z: detections.landmarks[0][12].z - detections.landmarks[0][0].z,
+              };
+              const handPos = {
+                x: (detections.landmarks[0][0].x - 0.5) * 5,
+                y: (detections.landmarks[0][0].y - 0.5) * 5,
+                z: detections.landmarks[0][0].z,
+              };
+              // console.log("x/y/z", handMidPos);
+              const dist = Math.sqrt(
+                handTopPos.x * handTopPos.x +
+                  handTopPos.y * handTopPos.y +
+                  handTopPos.z * handTopPos.z
+              );
+              console.log(dist);
+              let status = "";
+              if (dist > 0.4) {
+                status = "open";
+              } else {
+                status = "close";
+              }
+              const handDir = {
+                x: handMidPos.x - handTopPos.x,
+                y: handMidPos.y - handTopPos.y,
+                z: handMidPos.z - handTopPos.z,
+              };
+              const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
+              const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
+              const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
+              const handAngle = {
+                x: angleX,
+                y: angleZ,
+                z: angleY,
+              };
+              handBlock.current?.position.set(handPos.x, handPos.z, handPos.y);
+              handBlock.current?.rotation.set(angleX, angleZ, angleY);
+              // クソ長処理ゾーン
+            }
+            //   console.log(detections);
+          }
+        }
+
+        if (webcamRunning) {
+          requestAnimationFrame(processFrame);
+        }
+      };
+
+      processFrame();
+    }, [webcamRunning, videoRef, handLandmarkerRef]);
+    // useEffect(() => {
+    //   const arCamera = document.getElementById("arjs-video") as HTMLVideoElement;
+    //   videoRef.current = arCamera;
+    //   console.log("videoRef", arCamera);
+    // }, [predictWebcam]);
+    useEffect(() => {
+      const targetNode = document.documentElement;
+
+      // MutationObserverのコールバック関数を定義
+      const callback = function (mutationsList, observer) {
+        for (let mutation of mutationsList) {
+          if (mutation.type === "childList") {
+            for (let node of mutation.addedNodes) {
+              if (node.id === "arjs-video") {
+                console.log('Element with id "hoge" has been added.');
+                // ここに対象要素が追加された際の処理を記述する
+                const arCamera = document.getElementById(
+                  "arjs-video"
+                ) as HTMLVideoElement;
+                videoRef.current = arCamera;
+                console.log("videoRef", arCamera);
+              }
+            }
+          }
+        }
+      };
+
+      // MutationObserverのオプションを設定
+      const config = { childList: true, subtree: true };
+
+      // MutationObserverをインスタンス化し、監視を開始
+      const observer = new MutationObserver(callback);
+      observer.observe(targetNode, config);
+
+      const arCamera = document.getElementById(
+        "arjs-video"
+      ) as HTMLVideoElement;
+      videoRef.current = arCamera;
+      console.log("videoRef", arCamera);
+      const enableCam = () => {
+        if (!handLandmarkerRef.current) {
+          console.log("まだ映像が読み込めてないよ");
+          return;
+        }
+        console.log("映像読み込み完了", handLandmarkerRef);
+
+        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+          if (videoRef.current) {
+            videoRef.current.srcObject = stream;
+            videoRef.current.addEventListener("loadeddata", predictWebcam);
+          }
+        });
+      };
+
+      const createHandLandmarker = async () => {
+        const vision = await FilesetResolver.forVisionTasks(
+          "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+        );
+        handLandmarkerRef.current = await HandLandmarker.createFromOptions(
+          vision,
+          {
+            baseOptions: {
+              modelAssetPath:
+                "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+              delegate: "GPU",
+            },
+            runningMode: "VIDEO",
+            numHands: 2,
+          }
+        );
+        setWebcamRunning(true);
+        enableCam();
+      };
+
+      createHandLandmarker();
+    }, [predictWebcam]);
+
+    return (
+      <div>
+        <video
+          ref={videoRef}
+          id="video"
+          style={{ display: "none" }}
+          autoPlay
+          muted
+        />
+      </div>
+    );
+  };
 
   useEffect(() => {
     const debugLog = (e: Event) => {
@@ -467,7 +636,11 @@ const ARApp = () => {
     position,
   ]);
 
-  return null;
+  return (
+    <>
+      <HandTrackingComponent />
+    </>
+  );
 };
 
 export default ARApp;
