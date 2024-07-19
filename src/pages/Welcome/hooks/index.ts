@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from "react";
 import { baseUrl } from "../../../utils/baseUrl";
+import { useNavigate } from "react-router-dom";
 
 type useWelcomeProps = {
 	loginError: string | null;
@@ -11,6 +12,7 @@ type useWelcomeProps = {
 };
 
 export const useWelcome = (): useWelcomeProps => {
+	const navigate = useNavigate();
 	const [loginError, setLoginError] = useState<string | null>(null);
 	const [userExistsMessage, setUserExistsMessage] = useState("");
 
@@ -51,6 +53,8 @@ export const useWelcome = (): useWelcomeProps => {
 			const data = await response.json();
 			setLoginError(null);
 			localStorage.setItem("token", data.access_token);
+
+			navigate("/mode_select");
 		} catch (error) {
 			console.error("Login error:", error);
 			setLoginError("あれ、なにかちがうみたいだよ");

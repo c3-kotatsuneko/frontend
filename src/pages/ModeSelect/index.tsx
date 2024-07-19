@@ -1,7 +1,10 @@
+import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 
 export const ModeSelectPage = () => {
+	const navigate = useNavigate();
+
 	return (
 		<main className={styles.root}>
 			<p className={styles["user-name"]}>ユーザー名</p>
@@ -19,7 +22,11 @@ export const ModeSelectPage = () => {
 					つみきで脳トレ
 				</DefaultButton>
 
-				<DefaultButton variant="outlined" size="sm">
+				<DefaultButton
+					variant="outlined"
+					size="sm"
+					onClick={() => navigate("/ranking_preview")}
+				>
 					<img
 						className={styles["crown-image"]}
 						alt="crown"

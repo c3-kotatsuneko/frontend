@@ -1,5 +1,5 @@
 import clsx from "clsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 import { HomeIcon } from "../../components/icon/Home";
 import { DefaultButton } from "../../components/ui/Button";
@@ -10,6 +10,7 @@ const SAMPLE_RANK = 1;
 const SAMPLE_TIME = "02:10";
 
 export const SharePage = () => {
+	const navigate = useNavigate();
 	const rank = SAMPLE_RANK;
 	const time = SAMPLE_TIME;
 
@@ -21,7 +22,6 @@ export const SharePage = () => {
 	return (
 		<main className={styles.root}>
 			<p className={styles["user-name"]}>ユーザー名</p>
-
 			<div className={styles["share-container"]}>
 				<div className={styles["share-text"]}>
 					<img
@@ -50,14 +50,14 @@ export const SharePage = () => {
 					LINE で結果をシェアする
 				</a>
 			</div>
-
+			// TODO: 遷移先は仮
 			<Link className={styles["return-game"]} to="/mode_select">
 				もういちどあそびにいく
 			</Link>
-
 			<DefaultButton
 				variant="outlined"
 				className={clsx(buttonStyles["button-style"], styles["return-home"])}
+				onClick={() => navigate("/mode_select")}
 			>
 				<HomeIcon
 					variant={{ color: "blue" }}

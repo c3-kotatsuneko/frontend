@@ -5,6 +5,7 @@ import styles from "./index.module.css";
 import { useRankingPage } from "./hooks";
 import { useState } from "react";
 import { ResultModalContent } from "../../components/features/ranking/ResultModalContent";
+import { useNavigate } from "react-router-dom";
 
 export const RankingPage = () => {
 	const {
@@ -14,6 +15,7 @@ export const RankingPage = () => {
 		resultStatus,
 		handleUpdateRanking,
 	} = useRankingPage();
+	const navigate = useNavigate();
 	const [isOpen, setIsOpen] = useState(true);
 	const updateRanking = (clearTime: number, limit: number) => {
 		handleUpdateRanking(clearTime, limit);
@@ -29,7 +31,9 @@ export const RankingPage = () => {
 				<RankList rankList={rankList} />
 			</div>
 
-			<DefaultButton>おっけー</DefaultButton>
+			<DefaultButton onClick={() => navigate("/congratulation_share_sns")}>
+				おっけー
+			</DefaultButton>
 
 			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
 				<ResultModalContent
