@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
+import { useLocation } from "react-router-dom";
 import * as THREE from "three";
 import cameraPara from "../assets/camera_para.dat?url";
 import { useARToolkit } from "../hooks/useARTools";
@@ -157,11 +158,17 @@ const useInitializeThreeJS = () => {
 
 const ARApp = () => {
   //three.jsゾーン
-  const [position, setPosition] = useState<Position>("left");
+  const param = new URLSearchParams(useLocation().search);
+  //パラメーターからポジションを取得
+  const position = param.get("position") as Position;
   const [allObjectInfo, setallObjectInfo] = useState<objectInfo[] | null>(
     testData
   );
-  const [handInfo, setHandInfo] = useState<handInfo | null>(null);
+  var handInfoData: handInfo = {
+    handStatus: "close",
+    handPos: { x: 0, y: 0, z: 0 },
+    handAngle: { x: 0, y: 0, z: 0 },
+  };
   const { rendererRef, sceneRef, cameraRef, allBlockSet, handBlock } =
     useInitializeThreeJS();
   let markerURL = "";
@@ -249,14 +256,66 @@ const ARApp = () => {
               const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
               const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
               const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
-              const handAngle = {
-                x: angleX,
-                y: angleZ,
-                z: angleY,
-              };
+              // const handAngle = {
+              //   x: angleX,
+              //   y: angleZ,
+              //   z: angleY,
+              // };
               handBlock.current?.position.set(handPos.x, handPos.z, handPos.y);
-              handBlock.current?.rotation.set(angleX, angleZ, angleY);
               // クソ長処理ゾーン
+              switch (position) {
+                case "front":
+                  {
+                    const handInfo: objectInfo = frontObjectToWorld({
+                      position: handPos,
+                      angle: { x: 0, y: 0, z: 0 },
+                      scale: { x: 0.1, y: 0.1, z: 0.1 },
+                    }).object;
+                  }
+                  break;
+                case "left":
+                  {
+                    const handInfo: objectInfo = leftObjectToWorld({
+                      position: handPos,
+                      angle: { x: 0, y: 0, z: 0 },
+                      scale: { x: 0.1, y: 0.1, z: 0.1 },
+                    }).object;
+                    handInfoData = {
+                      handStatus: status,
+                      handPos: handInfo.position,
+                      handAngle: handInfo.angle,
+                    };
+                  }
+                  break;
+                case "right":
+                  {
+                    const handInfo: objectInfo = rightObjectToWorld({
+                      position: handPos,
+                      angle: { x: 0, y: 0, z: 0 },
+                      scale: { x: 0.1, y: 0.1, z: 0.1 },
+                    }).object;
+                    handInfoData = {
+                      handStatus: status,
+                      handPos: handInfo.position,
+                      handAngle: handInfo.angle,
+                    };
+                  }
+                  break;
+                case "back":
+                  {
+                    const handInfo: objectInfo = backObjectToWorld({
+                      position: handPos,
+                      angle: { x: 0, y: 0, z: 0 },
+                      scale: { x: 0.1, y: 0.1, z: 0.1 },
+                    }).object;
+                    handInfoData = {
+                      handStatus: status,
+                      handPos: handInfo.position,
+                      handAngle: handInfo.angle,
+                    };
+                  }
+                  break;
+              }
             }
             //   console.log(detections);
           }
@@ -617,7 +676,6 @@ const ARApp = () => {
           sceneRef.current.visible = cameraRef.current.visible;
         }
       }
-
       requestAnimationFrame(animate);
     };
     animate();
