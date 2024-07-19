@@ -8,6 +8,7 @@ import { SharePage } from "./Share";
 import { RankingPage } from "./Ranking";
 import "./App.css";
 import Welcome from "./Welcome/Welcome";
+import { useState } from "react";
 
 const AppRoutes = () => {
 	const handleGuestLoginSubmit = async (name: string) => {
@@ -28,6 +29,54 @@ const AppRoutes = () => {
 		  console.error('Error:', error);
 		}
 	  };
+
+	const [loginError, setLoginError] = useState<string | null>(null);
+
+	const handleLoginSubmit = async (name: string, password: string) => {
+		try {
+			const response = await fetch('fugafugadayo', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ name, password }),
+			});
+			if (!response.ok) {
+				setLoginError('あれ、なにかちがうみたいだよ');
+				return;
+			}
+				const data = await response.json();
+			if (data.success) {
+				setLoginError(null);
+				console.log('Login response:', data);
+			} else {
+				setLoginError('あれ、なにかちがうみたいだよ');
+			}
+		} catch (error) {
+			console.error('Error:', error);
+			setLoginError('あれ、なにかちがうみたいだよ');
+		}
+	};
+
+	const handleSignupSubmit = async (name: string, password: string) => {
+		try {
+			const response = await fetch('hemuhemudane', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ name, password }),
+			});
+			if (!response.ok) {
+				throw new Error('Network response was not ok');
+			}
+			const data = await response.json();
+			console.log('Signup response:', data);
+		} catch (error) {
+			console.error('Error:', error);
+		}
+	};
+
 	return (
 		<>
 			<Routes>
@@ -36,14 +85,9 @@ const AppRoutes = () => {
 					path="/welcome"
 					element={
 						<Welcome
-							onLoginSubmit={(name: string, password: string) => {
-								console.log(name, password);
-								throw new Error("Function not implemented.");
-							}}
-							onSignupSubmit={(name: string, password: string) => {
-								console.log(name, password);
-								throw new Error("Function not implemented.");
-							}}
+							onLoginSubmit={handleLoginSubmit}
+							onSignupSubmit={handleSignupSubmit}
+							loginError={loginError}
 						/>
 					}
 				/>
