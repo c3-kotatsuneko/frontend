@@ -4,49 +4,49 @@ import styles from "./index.module.css";
 import { useUserName } from "../../utils/setUserName";
 
 export const ModeSelectPage = () => {
-  const navigate = useNavigate();
-  const { userName } = useUserName();
+	const navigate = useNavigate();
+	const { userName } = useUserName();
 
-  return (
-    <main className={styles.root}>
-      <p className={styles["user-name"]}>{userName}</p>
+	return (
+		<main className={styles.root}>
+			<p className={styles["user-name"]}>{userName}</p>
 
-      <p className={styles.title}>どこであそぶ？</p>
+			<p className={styles.title}>どこであそぶ？</p>
 
-      <div className={styles["button-wrap"]}>
-        <DefaultButton>たいむあたっく</DefaultButton>
+			<div className={styles["button-wrap"]}>
+				<DefaultButton>たいむあたっく</DefaultButton>
 
-        <DefaultButton color="redorange" disabled>
-          いっしょにたいせん
-        </DefaultButton>
+				<DefaultButton color="redorange" disabled>
+					いっしょにたいせん
+				</DefaultButton>
 
-        <DefaultButton color="green" disabled>
-          つみきで脳トレ
-        </DefaultButton>
+				<DefaultButton color="green" disabled>
+					つみきで脳トレ
+				</DefaultButton>
 
-        <DefaultButton
-          variant="outlined"
-          size="sm"
-          onClick={() => navigate("/ranking_preview")}
-        >
-          <img
-            className={styles["crown-image"]}
-            alt="crown"
-            src="crown.png?url"
-            width={16}
-            height={16}
-          />
-          ランキング
-        </DefaultButton>
-      </div>
+				<DefaultButton
+					variant="outlined"
+					size="sm"
+					onClick={() => navigate("/ranking_preview")}
+				>
+					<img
+						className={styles["crown-image"]}
+						alt="crown"
+						src="crown.png?url"
+						width={16}
+						height={16}
+					/>
+					ランキング
+				</DefaultButton>
+			</div>
 
-      <img
-        className={styles["cats-image"]}
-        alt="のびねこ"
-        src="/cats/extendedMike.png?url"
-        width={216}
-        height={106}
-      />
-    </main>
-  );
+			<img
+				className={styles["cats-image"]}
+				alt="のびねこ"
+				src="/cats/extendedMike.png?url"
+				width={216}
+				height={106}
+			/>
+		</main>
+	);
 };
