@@ -1,6 +1,7 @@
 import type React from "react";
 import { useState } from "react";
-import "./tabs.css";
+import clsx from "clsx";
+import styles from "./index.module.css";
 
 interface TabProps {
 	labels: string[];
@@ -11,12 +12,16 @@ interface TabProps {
 const Tab: React.FC<TabProps> = ({ labels, contents, id }) => {
 	const [activeTab, setActiveTab] = useState(0);
 	return (
-		<div className="tabs">
-			<ul className="tab-btn">
+		<div className={styles.tabs}>
+			<ul className={styles["tab-btn"]}>
 				{labels.map((label, index) => (
 					<li
 						key={`${id + index}`}
-						className={`tab-name tab-name-${index === 0 ? "one" : "two"} ${index === activeTab ? "is-active" : ""}`}
+						className={clsx(
+							styles["tab-name"],
+							styles[`tab-name-${index === 0 ? "one" : "two"}`],
+							index === activeTab && styles["is-active"],
+						)}
 						onClick={() => setActiveTab(index)}
 						onKeyDown={() => {}}
 					>
@@ -25,7 +30,10 @@ const Tab: React.FC<TabProps> = ({ labels, contents, id }) => {
 				))}
 			</ul>
 			<div
-				className={`tab-content tab-content-${activeTab === 0 ? "one" : "two"}`}
+				className={clsx(
+					styles["tab-content"],
+					styles[`tab-content-${activeTab === 0 ? "one" : "two"}`],
+				)}
 			>
 				{contents[activeTab]}
 			</div>

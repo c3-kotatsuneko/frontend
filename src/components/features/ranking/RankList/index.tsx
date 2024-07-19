@@ -1,5 +1,11 @@
-import type { Rank } from "../..";
 import styles from "./index.module.css";
+
+export type Rank = {
+	rank: number;
+	name: string;
+	date: string;
+	time: string;
+};
 
 type RankProps = {
 	rankList: Rank[];

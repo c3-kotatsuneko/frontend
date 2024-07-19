@@ -7,7 +7,7 @@ import { GuestLoginPage } from "./pages/GuestLogin";
 import { ModeSelectPage } from "./pages/ModeSelect";
 import { SharePage } from "./pages/Share";
 import { RankingPage } from "./pages/Ranking";
-import Welcome from "./pages/Welcome/Welcome";
+import Welcome from "./pages/Welcome";
 
 const AppRoutes = () => {
 	const handleGuestLoginSubmit = async (name: string) => {

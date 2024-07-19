@@ -1,7 +1,7 @@
 import type { ComponentPropsWithoutRef, ReactNode } from "react";
 import clsx from "clsx";
-import { DefaultButton } from "../../ui/Button";
-import defaultStyles from "../../ui/Button/index.module.css";
+import { DefaultButton } from "../../../ui/Button";
+import defaultStyles from "../../../ui/Button/index.module.css";
 import styles from "./index.module.css";
 
 type WelcomeButtonProps = {

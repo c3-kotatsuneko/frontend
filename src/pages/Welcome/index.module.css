@@ -1,0 +1,14 @@
+.welcome-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.main-logo {
+  position: absolute;
+  background-color: transparent;
+  top: 72%;
+  right: 4%;
+}

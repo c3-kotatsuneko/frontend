@@ -1,8 +1,8 @@
 import { lazy, Suspense } from "react";
-import ExitButton from "../../components/features/ExitButton";
-import { Timer } from "../../components/features/Timer";
+import ExitButton from "../../components/features/play/ExitButton";
+import { Timer } from "../../components/features/play/Timer";
 const Component = lazy(
-	() => import("../../components/features/SignupForm/Signup"),
+	() => import("../../components/features/welcome/SignupForm"),
 );
 
 function Home() {

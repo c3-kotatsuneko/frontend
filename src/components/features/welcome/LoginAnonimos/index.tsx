@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { DefaultButton } from "../../ui/Button";
-import { Modal } from "../../ui/Modal";
-import styles from "./LoginAnonymous.module.css";
-import { TextButton } from "../../ui/TextButton";
+import { DefaultButton } from "../../../ui/Button";
+import { Modal } from "../../../ui/Modal";
+import styles from "./index.module.css";
+import { TextButton } from "../../../ui/TextButton";
 import { useNavigate } from "react-router-dom";
 
 const LoginAnonymous = () => {

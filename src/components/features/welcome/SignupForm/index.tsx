@@ -1,8 +1,9 @@
 import type React from "react";
 import { useState } from "react";
-import { TextInput } from "../../ui/TextInput";
-import { PasswordInput } from "../../ui/PasswordInput";
+import { TextInput } from "../../../ui/TextInput";
+import { PasswordInput } from "../../../ui/PasswordInput";
 import { WelcomeButton } from "../WelcomeButton";
+import styles from "./index.module.css";
 
 interface SignupProps {
 	onSubmit: (name: string, password: string) => void;
@@ -18,7 +19,7 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
 	};
 
 	return (
-		<form onSubmit={handleSubmit}>
+		<form className={styles["login-form"]} onSubmit={handleSubmit}>
 			<TextInput
 				label={"おなまえ"}
 				type="text"

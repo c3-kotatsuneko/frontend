@@ -1,13 +1,9 @@
 import { DefaultButton } from "../../components/ui/Button";
-import { RankList } from "./items/Rank";
+import {
+	type Rank,
+	RankList,
+} from "../../components/features/ranking/RankList";
 import styles from "./index.module.css";
-
-export type Rank = {
-	rank: number;
-	name: string;
-	date: string;
-	time: string;
-};
 
 const RANK_LIST: Rank[] = [
 	{
