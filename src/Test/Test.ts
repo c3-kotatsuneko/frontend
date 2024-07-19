@@ -21,6 +21,8 @@ import type {
 } from "./arTransform";
 import "./index.css";
 
+import testData from "./testData";
+
 type Position = "front" | "left" | "right" | "back";
 
 //three.jsのオブジェクトデータ
@@ -30,14 +32,6 @@ type AllObject = {
   rightBlockSet: THREE.Mesh[];
   backBlockSet: THREE.Mesh[];
   stage: THREE.Mesh;
-};
-
-//websocketで受け取るデータ
-type AllObjectInfo = {
-  frontBlockSet: objectInfo[]; //frontのブロックの情報
-  leftBlockSet: objectInfo[]; //leftのブロックの情報
-  rightBlockSet: objectInfo[]; //rightのブロックの情報
-  backBlockSet: objectInfo[]; //backのブロックの情報
 };
 
 //websocketで送るデータの型
@@ -85,7 +79,7 @@ const useInitializeThreeJS = () => {
     cameraRef.current = camera;
 
     const light = new THREE.DirectionalLight(0xffffff, 1);
-    light.position.set(2.4, 2, 5);
+    light.position.set(2.4, 2, -5);
     scene.add(light);
     lightRef.current = light;
 
@@ -126,7 +120,7 @@ const useInitializeThreeJS = () => {
     const backBlockSet: THREE.Mesh[] = [];
     for (let i = 0; i < 5; i++) {
       const backBlock = new THREE.Mesh(
-        new THREE.BoxGeometry(0.1, 0.1, 0.1),
+        new THREE.BoxGeometry(1, 1, 1),
         new THREE.MeshStandardMaterial({ color: 0xffff00 })
       );
       backBlock.position.set(0, -0.8, 0);
@@ -158,243 +152,21 @@ const useInitializeThreeJS = () => {
     };
   }
   console.log(rendererRef, sceneRef, cameraRef, lightRef, allBlockSet);
-  return {
-    rendererRef: useRef<THREE.WebGLRenderer | null>(null),
-    sceneRef: useRef<THREE.Scene | null>(null),
-    cameraRef: useRef<THREE.PerspectiveCamera | null>(null),
-    lightRef: useRef<THREE.DirectionalLight | null>(null),
-    allBlockSet: useRef<AllObject | null>(null),
-    handBlock: useRef<THREE.Mesh | null>(null),
-  };
-};
-
-const handTracking = (position: Position) => {
-  const [webcamRunning, setWebcamRunning] = useState(false);
-  const [handInfo, setHandInfo] = useState<handInfo | null>(null);
-  const [handPos, setHandPos] = useState<position | null>(null);
-  const [handAngle, setHandAngle] = useState<angle | null>(null);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const handLandmarkerRef = useRef<HandLandmarker | undefined>(undefined);
-  useEffect(() => {
-    const arCamera = document.getElementById("arjs-video") as HTMLVideoElement;
-    videoRef.current = arCamera;
-    console.log("videoRef", arCamera);
-  }, []);
-  useEffect(() => {
-    const arCamera = document.getElementById("arjs-video") as HTMLVideoElement;
-    videoRef.current = arCamera;
-    console.log("videoRef", arCamera);
-    const enableCam = () => {
-      if (!handLandmarkerRef.current) {
-        console.log("まだ映像が読み込めてないよ");
-        return;
-      }
-      console.log("映像読み込み完了", handLandmarkerRef);
-
-      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.addEventListener("loadeddata", predictWebcam);
-        }
-      });
-    };
-
-    const createHandLandmarker = async () => {
-      const vision = await FilesetResolver.forVisionTasks(
-        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
-      );
-      handLandmarkerRef.current = await HandLandmarker.createFromOptions(
-        vision,
-        {
-          baseOptions: {
-            modelAssetPath:
-              "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-            delegate: "CPU",
-          },
-          runningMode: "VIDEO",
-          numHands: 1,
-        }
-      );
-      setWebcamRunning(true);
-      enableCam();
-    };
-
-    createHandLandmarker();
-  }, []);
-
-  const predictWebcam = async () => {
-    console.log("predictWebcam");
-    const video = videoRef.current;
-    if (!video) return;
-
-    let lastVideoTime = -1;
-    let detections = undefined;
-
-    const processFrame = async () => {
-      const startTimeMs = performance.now();
-      if (lastVideoTime !== video.currentTime) {
-        lastVideoTime = video.currentTime;
-        if (handLandmarkerRef.current) {
-          detections = handLandmarkerRef.current.detectForVideo(
-            video,
-            startTimeMs
-          );
-
-          if (detections.landmarks.length > 0) {
-            const handMidPos = {
-              x: detections.landmarks[0][9].x - detections.landmarks[0][0].x,
-              y: detections.landmarks[0][9].y - detections.landmarks[0][0].y,
-              z: detections.landmarks[0][9].z - detections.landmarks[0][0].z,
-            };
-            const handTopPos = {
-              x: detections.landmarks[0][12].x - detections.landmarks[0][0].x,
-              y: detections.landmarks[0][12].y - detections.landmarks[0][0].y,
-              z: detections.landmarks[0][12].z - detections.landmarks[0][0].z,
-            };
-            const handPos = {
-              x: (detections.landmarks[0][0].x - 0.5) * 5,
-              y: (detections.landmarks[0][0].y - 0.5) * 5,
-              z: detections.landmarks[0][0].z,
-            };
-            // console.log("x/y/z", handMidPos);
-            const dist = Math.sqrt(
-              handTopPos.x * handTopPos.x +
-                handTopPos.y * handTopPos.y +
-                handTopPos.z * handTopPos.z
-            );
-            console.log(dist);
-            let status = "";
-            if (dist > 0.4) {
-              status = "open";
-            } else {
-              status = "close";
-            }
-            const handDir = {
-              x: handMidPos.x - handTopPos.x,
-              y: handMidPos.y - handTopPos.y,
-              z: handMidPos.z - handTopPos.z,
-            };
-            const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
-            const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
-            const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
-            // front, left, right, backの場合に分けて手の座標をworld座標に変換
-            //以下クソ長処理ゾーン
-            const angle: angle = {
-              x: angleX,
-              y: angleY,
-              z: angleZ,
-            };
-            let handInfo: handInfo;
-            let handObject: objectInfo;
-            switch (position) {
-              case "front":
-                handObject = frontObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                setHandPos(handPos);
-                setHandAngle(angle);
-                break;
-              case "left":
-                handObject = leftObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                setHandPos(handPos);
-                setHandAngle(angle);
-                break;
-              case "right":
-                handObject = rightObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                setHandPos(handPos);
-                setHandAngle(angle);
-                break;
-              case "back":
-                handObject = backObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                setHandPos(handPos);
-                setHandAngle(angle);
-                break;
-            }
-          }
-        }
-      }
-
-      if (webcamRunning) {
-        requestAnimationFrame(processFrame);
-        console.log("processFrame");
-      }
-    };
-
-    processFrame();
-  };
-
-  return {
-    handInfo,
-    handPos,
-    handAngle,
-  };
+  return { rendererRef, sceneRef, cameraRef, lightRef, allBlockSet, handBlock };
 };
 
 const ARApp = () => {
   //three.jsゾーン
-  const [position, setPosition] = useState<Position>("right");
-  const [allObject, setAllObject] = useState<AllObject | null>(null);
-  const [allObjectInfo, setallObjectInfo] = useState<AllObjectInfo | null>(
-    null
+  const [position, setPosition] = useState<Position>("left");
+  const [allObjectInfo, setallObjectInfo] = useState<objectInfo[] | null>(
+    testData
   );
   const [handInfo, setHandInfo] = useState<handInfo | null>(null);
   const { rendererRef, sceneRef, cameraRef, allBlockSet, handBlock } =
     useInitializeThreeJS();
   let markerURL = "";
-
-  //ハンドトラッキング
-  const { handInfo: handInfoData, handPos, handAngle } = handTracking(position);
-  useEffect(() => {
-    if (handInfoData) {
-      setHandInfo(handInfoData);
-      if (handPos) {
-        handBlock?.current?.position.set(handPos.x, handPos.y, handPos.z);
-      }
-      if (handAngle) {
-        handBlock?.current?.rotation.set(handAngle.x, handAngle.y, handAngle.z);
-      }
-    }
-  }, [handInfoData, handPos, handAngle, handBlock]);
-
   //ポジションごとにマーカーのURLを変える
+
   switch (position) {
     case "front":
       markerURL = "../../public/pattern-testFrontMarker.patt?url";
@@ -424,7 +196,6 @@ const ARApp = () => {
     };
     window.addEventListener("markerFound", debugLog);
     const animate = () => {
-      requestAnimationFrame(animate);
       //front, left, right, backの場合に分けて処理を行う
       //以下クソ長処理ゾーン
       switch (position) {
@@ -432,37 +203,57 @@ const ARApp = () => {
           if (allBlockSet) {
             if (allObjectInfo) {
               for (let i = 0; i < 5; i++) {
-                const frontPos: objectInfo = worldObjectToFront(
-                  allObjectInfo.frontBlockSet[i]
+                const frontInfo: objectInfo = worldObjectToFront(
+                  allObjectInfo[i]
                 ).object;
                 allBlockSet.current?.frontBlockSet[i]?.position.set(
-                  frontPos.position.x,
-                  frontPos.position.y,
-                  frontPos.position.z
+                  frontInfo.position.x,
+                  frontInfo.position.y,
+                  frontInfo.position.z
                 );
-                const leftPos: objectInfo = worldObjectToFront(
-                  allObjectInfo.leftBlockSet[i]
+                allBlockSet.current?.frontBlockSet[i]?.rotation.set(
+                  frontInfo.angle.x,
+                  frontInfo.angle.y,
+                  frontInfo.angle.z
+                );
+                const leftInfo: objectInfo = worldObjectToFront(
+                  allObjectInfo[i + 5]
                 ).object;
                 allBlockSet.current?.leftBlockSet[i]?.position.set(
-                  leftPos.position.x,
-                  leftPos.position.y,
-                  leftPos.position.z
+                  leftInfo.position.x,
+                  leftInfo.position.y,
+                  leftInfo.position.z
                 );
-                const rightPos: objectInfo = worldObjectToFront(
-                  allObjectInfo.rightBlockSet[i]
+                allBlockSet.current?.leftBlockSet[i]?.rotation.set(
+                  leftInfo.angle.x,
+                  leftInfo.angle.y,
+                  leftInfo.angle.z
+                );
+                const rightInfo: objectInfo = worldObjectToFront(
+                  allObjectInfo[i + 10]
                 ).object;
                 allBlockSet.current?.rightBlockSet[i]?.position.set(
-                  rightPos.position.x,
-                  rightPos.position.y,
-                  rightPos.position.z
+                  rightInfo.position.x,
+                  rightInfo.position.y,
+                  rightInfo.position.z
                 );
-                const backPos: objectInfo = worldObjectToFront(
-                  allObjectInfo.backBlockSet[i]
+                allBlockSet.current?.rightBlockSet[i]?.rotation.set(
+                  rightInfo.angle.x,
+                  rightInfo.angle.y,
+                  rightInfo.angle.z
+                );
+                const backInfo: objectInfo = worldObjectToFront(
+                  allObjectInfo[i + 15]
                 ).object;
                 allBlockSet.current?.backBlockSet[i]?.position.set(
-                  backPos.position.x,
-                  backPos.position.y,
-                  backPos.position.z
+                  backInfo.position.x,
+                  backInfo.position.y,
+                  backInfo.position.z
+                );
+                allBlockSet.current?.backBlockSet[i]?.rotation.set(
+                  backInfo.angle.x,
+                  backInfo.angle.y,
+                  backInfo.angle.z
                 );
               }
             }
@@ -472,37 +263,57 @@ const ARApp = () => {
           if (allBlockSet) {
             if (allObjectInfo) {
               for (let i = 0; i < 5; i++) {
-                const frontPos: objectInfo = worldObjectToLeft(
-                  allObjectInfo.frontBlockSet[i]
+                const frontInfo: objectInfo = worldObjectToLeft(
+                  allObjectInfo[i]
                 ).object;
                 allBlockSet.current?.frontBlockSet[i]?.position.set(
-                  frontPos.position.x,
-                  frontPos.position.y,
-                  frontPos.position.z
+                  frontInfo.position.x,
+                  frontInfo.position.y,
+                  frontInfo.position.z
                 );
-                const leftPos: objectInfo = worldObjectToLeft(
-                  allObjectInfo.leftBlockSet[i]
+                allBlockSet.current?.frontBlockSet[i]?.rotation.set(
+                  frontInfo.angle.x,
+                  frontInfo.angle.y,
+                  frontInfo.angle.z
+                );
+                const leftInfo: objectInfo = worldObjectToLeft(
+                  allObjectInfo[i + 5]
                 ).object;
                 allBlockSet.current?.leftBlockSet[i]?.position.set(
-                  leftPos.position.x,
-                  leftPos.position.y,
-                  leftPos.position.z
+                  leftInfo.position.x,
+                  leftInfo.position.y,
+                  leftInfo.position.z
                 );
-                const rightPos: objectInfo = worldObjectToLeft(
-                  allObjectInfo.rightBlockSet[i]
+                allBlockSet.current?.leftBlockSet[i]?.rotation.set(
+                  leftInfo.angle.x,
+                  leftInfo.angle.y,
+                  leftInfo.angle.z
+                );
+                const rightInfo: objectInfo = worldObjectToLeft(
+                  allObjectInfo[i + 10]
                 ).object;
                 allBlockSet.current?.rightBlockSet[i]?.position.set(
-                  rightPos.position.x,
-                  rightPos.position.y,
-                  rightPos.position.z
+                  rightInfo.position.x,
+                  rightInfo.position.y,
+                  rightInfo.position.z
                 );
-                const backPos: objectInfo = worldObjectToLeft(
-                  allObjectInfo.backBlockSet[i]
+                allBlockSet.current?.rightBlockSet[i]?.rotation.set(
+                  rightInfo.angle.x,
+                  rightInfo.angle.y,
+                  rightInfo.angle.z
+                );
+                const backInfo: objectInfo = worldObjectToLeft(
+                  allObjectInfo[i + 15]
                 ).object;
                 allBlockSet.current?.backBlockSet[i]?.position.set(
-                  backPos.position.x,
-                  backPos.position.y,
-                  backPos.position.z
+                  backInfo.position.x,
+                  backInfo.position.y,
+                  backInfo.position.z
+                );
+                allBlockSet.current?.backBlockSet[i]?.rotation.set(
+                  backInfo.angle.x,
+                  backInfo.angle.y,
+                  backInfo.angle.z
                 );
               }
             }
@@ -512,37 +323,57 @@ const ARApp = () => {
           if (allBlockSet) {
             if (allObjectInfo) {
               for (let i = 0; i < 5; i++) {
-                const frontPos: objectInfo = worldObjectToRight(
-                  allObjectInfo.frontBlockSet[i]
+                const frontInfo: objectInfo = worldObjectToRight(
+                  allObjectInfo[i]
                 ).object;
                 allBlockSet.current?.frontBlockSet[i]?.position.set(
-                  frontPos.position.x,
-                  frontPos.position.y,
-                  frontPos.position.z
+                  frontInfo.position.x,
+                  frontInfo.position.y,
+                  frontInfo.position.z
                 );
-                const leftPos: objectInfo = worldObjectToRight(
-                  allObjectInfo.leftBlockSet[i]
+                allBlockSet.current?.frontBlockSet[i]?.rotation.set(
+                  frontInfo.angle.x,
+                  frontInfo.angle.y,
+                  frontInfo.angle.z
+                );
+                const leftInfo: objectInfo = worldObjectToRight(
+                  allObjectInfo[i + 5]
                 ).object;
                 allBlockSet.current?.leftBlockSet[i]?.position.set(
-                  leftPos.position.x,
-                  leftPos.position.y,
-                  leftPos.position.z
+                  leftInfo.position.x,
+                  leftInfo.position.y,
+                  leftInfo.position.z
                 );
-                const rightPos: objectInfo = worldObjectToRight(
-                  allObjectInfo.rightBlockSet[i]
+                allBlockSet.current?.leftBlockSet[i]?.rotation.set(
+                  leftInfo.angle.x,
+                  leftInfo.angle.y,
+                  leftInfo.angle.z
+                );
+                const rightInfo: objectInfo = worldObjectToRight(
+                  allObjectInfo[i + 10]
                 ).object;
                 allBlockSet.current?.rightBlockSet[i]?.position.set(
-                  rightPos.position.x,
-                  rightPos.position.y,
-                  rightPos.position.z
+                  rightInfo.position.x,
+                  rightInfo.position.y,
+                  rightInfo.position.z
                 );
-                const backPos: objectInfo = worldObjectToRight(
-                  allObjectInfo.backBlockSet[i]
+                allBlockSet.current?.rightBlockSet[i]?.rotation.set(
+                  rightInfo.angle.x,
+                  rightInfo.angle.y,
+                  rightInfo.angle.z
+                );
+                const backInfo: objectInfo = worldObjectToRight(
+                  allObjectInfo[i + 15]
                 ).object;
                 allBlockSet.current?.backBlockSet[i]?.position.set(
-                  backPos.position.x,
-                  backPos.position.y,
-                  backPos.position.z
+                  backInfo.position.x,
+                  backInfo.position.y,
+                  backInfo.position.z
+                );
+                allBlockSet.current?.backBlockSet[i]?.rotation.set(
+                  backInfo.angle.x,
+                  backInfo.angle.y,
+                  backInfo.angle.z
                 );
               }
             }
@@ -552,37 +383,57 @@ const ARApp = () => {
           if (allBlockSet) {
             if (allObjectInfo) {
               for (let i = 0; i < 5; i++) {
-                const frontPos: objectInfo = worldObjectToBack(
-                  allObjectInfo.frontBlockSet[i]
+                const frontInfo: objectInfo = worldObjectToBack(
+                  allObjectInfo[i]
                 ).object;
                 allBlockSet.current?.frontBlockSet[i]?.position.set(
-                  frontPos.position.x,
-                  frontPos.position.y,
-                  frontPos.position.z
+                  frontInfo.position.x,
+                  frontInfo.position.y,
+                  frontInfo.position.z
                 );
-                const leftPos: objectInfo = worldObjectToBack(
-                  allObjectInfo.leftBlockSet[i]
+                allBlockSet.current?.frontBlockSet[i]?.rotation.set(
+                  frontInfo.angle.x,
+                  frontInfo.angle.y,
+                  frontInfo.angle.z
+                );
+                const leftInfo: objectInfo = worldObjectToBack(
+                  allObjectInfo[i + 5]
                 ).object;
                 allBlockSet.current?.leftBlockSet[i]?.position.set(
-                  leftPos.position.x,
-                  leftPos.position.y,
-                  leftPos.position.z
+                  leftInfo.position.x,
+                  leftInfo.position.y,
+                  leftInfo.position.z
                 );
-                const rightPos: objectInfo = worldObjectToBack(
-                  allObjectInfo.rightBlockSet[i]
+                allBlockSet.current?.leftBlockSet[i]?.rotation.set(
+                  leftInfo.angle.x,
+                  leftInfo.angle.y,
+                  leftInfo.angle.z
+                );
+                const rightInfo: objectInfo = worldObjectToBack(
+                  allObjectInfo[i + 10]
                 ).object;
                 allBlockSet.current?.rightBlockSet[i]?.position.set(
-                  rightPos.position.x,
-                  rightPos.position.y,
-                  rightPos.position.z
+                  rightInfo.position.x,
+                  rightInfo.position.y,
+                  rightInfo.position.z
                 );
-                const backPos: objectInfo = worldObjectToBack(
-                  allObjectInfo.backBlockSet[i]
+                allBlockSet.current?.rightBlockSet[i]?.rotation.set(
+                  rightInfo.angle.x,
+                  rightInfo.angle.y,
+                  rightInfo.angle.z
+                );
+                const backInfo: objectInfo = worldObjectToBack(
+                  allObjectInfo[i + 15]
                 ).object;
                 allBlockSet.current?.backBlockSet[i]?.position.set(
-                  backPos.position.x,
-                  backPos.position.y,
-                  backPos.position.z
+                  backInfo.position.x,
+                  backInfo.position.y,
+                  backInfo.position.z
+                );
+                allBlockSet.current?.backBlockSet[i]?.rotation.set(
+                  backInfo.angle.x,
+                  backInfo.angle.y,
+                  backInfo.angle.z
                 );
               }
             }
@@ -597,6 +448,8 @@ const ARApp = () => {
           sceneRef.current.visible = cameraRef.current.visible;
         }
       }
+
+      requestAnimationFrame(animate);
     };
     animate();
 
@@ -613,8 +466,6 @@ const ARApp = () => {
     allObjectInfo,
     position,
   ]);
-
-  //ハンドトラッキングゾーン
 
   return null;
 };

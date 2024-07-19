@@ -29,7 +29,7 @@ function worldToFront(
 ): { x: number; y: number; z: number } {
   const frontX = x;
   const frontY = y - 0.8;
-  const frontZ = -z - 0.8;
+  const frontZ = -z + 0.8;
   return {
     x: frontX,
     y: frontY,
@@ -44,37 +44,7 @@ function frontToWorld(
 ): { x: number; y: number; z: number } {
   const worldX = x;
   const worldY = y + 0.8;
-  const worldZ = -z + 0.8;
-  return {
-    x: worldX,
-    y: worldY,
-    z: worldZ,
-  };
-}
-
-function worldToLeft(
-  x: number,
-  y: number,
-  z: number
-): { x: number; y: number; z: number } {
-  const leftX = y;
-  const leftY = -x - 0.8;
-  const leftZ = -z - 0.8;
-  return {
-    x: leftX,
-    y: leftY,
-    z: leftZ,
-  };
-}
-
-function leftToWorld(
-  x: number,
-  y: number,
-  z: number
-): { x: number; y: number; z: number } {
-  const worldX = -y + 0.8;
-  const worldY = x;
-  const worldZ = -z + 0.8;
+  const worldZ = -z - 0.8;
   return {
     x: worldX,
     y: worldY,
@@ -87,9 +57,9 @@ function worldToRight(
   y: number,
   z: number
 ): { x: number; y: number; z: number } {
-  const rightX = -y;
-  const rightY = x - 0.8;
-  const rightZ = -z - 0.8;
+  const rightX = y;
+  const rightY = -x - 0.8;
+  const rightZ = -z + 0.8;
   return {
     x: rightX,
     y: rightY,
@@ -102,9 +72,39 @@ function rightToWorld(
   y: number,
   z: number
 ): { x: number; y: number; z: number } {
+  const worldX = -y + 0.8;
+  const worldY = x;
+  const worldZ = -z - 0.8;
+  return {
+    x: worldX,
+    y: worldY,
+    z: worldZ,
+  };
+}
+
+function worldToLeft(
+  x: number,
+  y: number,
+  z: number
+): { x: number; y: number; z: number } {
+  const leftX = -y;
+  const leftY = x - 0.8;
+  const leftZ = -z + 0.8;
+  return {
+    x: leftX,
+    y: leftY,
+    z: leftZ,
+  };
+}
+
+function leftToWorld(
+  x: number,
+  y: number,
+  z: number
+): { x: number; y: number; z: number } {
   const worldX = y + 0.8;
   const worldY = -x;
-  const worldZ = -z + 0.8;
+  const worldZ = -z - 0.8;
   return {
     x: worldX,
     y: worldY,
@@ -119,7 +119,7 @@ function worldToBack(
 ): { x: number; y: number; z: number } {
   const backX = -x;
   const backY = -y - 0.8;
-  const backZ = z - 0.8;
+  const backZ = z + 0.8;
   return {
     x: backX,
     y: backY,
@@ -134,7 +134,7 @@ function backToWorld(
 ): { x: number; y: number; z: number } {
   const worldX = -x;
   const worldY = -y + 0.8;
-  const worldZ = z + 0.8;
+  const worldZ = z - 0.8;
   return {
     x: worldX,
     y: worldY,
@@ -172,22 +172,22 @@ function frontToWorldAngle(
   };
 }
 
-function worldToLeftAngle(
+function worldToRightAngle(
   x: number,
   y: number,
   z: number
 ): { x: number; y: number; z: number } {
-  const leftX = y;
-  const leftY = -x;
-  const leftZ = -z;
+  const rightX = y;
+  const rightY = -x;
+  const rightZ = -z;
   return {
-    x: leftX,
-    y: leftY,
-    z: leftZ,
+    x: rightX,
+    y: rightY,
+    z: rightZ,
   };
 }
 
-function leftToWorldAngle(
+function rightToWorldAngle(
   x: number,
   y: number,
   z: number
@@ -202,22 +202,22 @@ function leftToWorldAngle(
   };
 }
 
-function worldToRightAngle(
+function worldToLeftAngle(
   x: number,
   y: number,
   z: number
 ): { x: number; y: number; z: number } {
-  const rightX = -y;
-  const rightY = x;
-  const rightZ = -z;
+  const leftX = -y;
+  const leftY = x;
+  const leftZ = -z;
   return {
-    x: rightX,
-    y: rightY,
-    z: rightZ,
+    x: leftX,
+    y: leftY,
+    z: leftZ,
   };
 }
 
-function rightToWorldAngle(
+function leftToWorldAngle(
   x: number,
   y: number,
   z: number

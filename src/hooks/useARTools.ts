@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import { THREEx } from "@ar-js-org/ar.js-threejs";
 import type { Camera, Scene } from "three";
 
