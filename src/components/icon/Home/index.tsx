@@ -1,6 +1,6 @@
 import clsx from "clsx";
 import type { FC, HTMLAttributes } from "react";
-import styles from "./home.module.css";
+import styles from "./index.module.css";
 type Props = HTMLAttributes<HTMLOrSVGElement> & {
 	variant?: {
 		color?: "blue" | "white";
