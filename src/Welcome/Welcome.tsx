@@ -8,9 +8,10 @@ import Tab from "../components/tab/Tab";
 interface WelcomeProps {
 	onLoginSubmit: (name: string, password: string) => void;
 	onSignupSubmit: (name: string, password: string) => void;
+	loginError: string | null;
 }
 
-const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit }) => {
+const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit, loginError }) => {
 	return (
 		<Layout>
 			<div className="welcome-body">
@@ -18,7 +19,7 @@ const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit }) => {
 				<Tab
 					labels={["ろぐいん", "とうろく"]}
 					contents={[
-						<Login key="login" onSubmit={onLoginSubmit} />,
+						<Login key="login" onSubmit={onLoginSubmit} loginError={loginError} />,
 						<Signup key="signup" onSubmit={onSignupSubmit} />,
 					]}
 					id={""}
