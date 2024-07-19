@@ -29,15 +29,15 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
           className={styles["cats-image-square"]}
           alt="四角ねこタワー"
           src="cats/catsTower-square.png"
-          width ="48px"
-          height= "64px"
+          width ="48"
+          height= "64"
         />
         <img
           className={styles["cats-image-circle"]}
           alt="丸ねこタワー"
           src="cats/catsTower-circle.png"
-          width="32px" 
-          height= "64px"
+          width="32" 
+          height= "64"
         />
       </div>
       {resultStatus.isNew && <p className={styles["modal-description"]}>⭐️自己ベスト更新⭐️</p>}
