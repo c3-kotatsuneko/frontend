@@ -1,3 +1,4 @@
+/* eslint-disable no-mixed-spaces-and-tabs */
 import { Route, Routes } from "react-router-dom";
 import Home from "./Home";
 import { LoadingPage } from "./Loading";
@@ -10,6 +11,25 @@ import Welcome from "./Welcome/Welcome";
 import { useState } from "react";
 
 const AppRoutes = () => {
+	const handleGuestLoginSubmit = async (name: string) => {
+		try {
+		  const response = await fetch('hogehogedayo', {
+			method: 'POST',
+			headers: {
+			  'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({ name }),
+		  });
+		  if (!response.ok) {
+			throw new Error('Network response was not ok');
+		  }
+		  const data = await response.json();
+		  console.log('Server response:', data);
+		} catch (error) {
+		  console.error('Error:', error);
+		}
+	  };
+
 	const [loginError, setLoginError] = useState<string | null>(null);
 
 	const handleLoginSubmit = async (name: string, password: string) => {
@@ -56,6 +76,7 @@ const AppRoutes = () => {
 			console.error('Error:', error);
 		}
 	};
+
 	return (
 		<>
 			<Routes>
@@ -66,12 +87,12 @@ const AppRoutes = () => {
 						<Welcome
 							onLoginSubmit={handleLoginSubmit}
 							onSignupSubmit={handleSignupSubmit}
-							loginError={loginError} 
+							loginError={loginError}
 						/>
 					}
 				/>
 				<Route path="/loading" element={<LoadingPage />} />
-				<Route path="/guest_login" element={<GuestLoginPage />} />
+				<Route path="/guest_login" element={<GuestLoginPage onSubmit={handleGuestLoginSubmit} />} />
 				<Route path="/mode_select" element={<ModeSelectPage />} />
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
 				<Route path="/ranking" element={<RankingPage />} />
