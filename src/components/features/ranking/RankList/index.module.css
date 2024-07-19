@@ -1,5 +1,5 @@
 .rank-list-container {
-  font-weight: 700;
+  font-weight: bold;
   font-size: 18px;
 
   & > :not(:last-child) {
@@ -9,15 +9,35 @@
 
 .rank-container {
   display: flex;
-  justify-content: start;
+  justify-content: space-between;
   align-items: flex-start;
   gap: 20px;
+}
+
+.rank-wrap {
+  display: flex;
+  gap: 20px;
+
+  & > div {
+    &[data-rank="1"] {
+      font-weight: 900;
+      color: var(--redorange);
+
+      /* -webkit-text-stroke: 1px var(--redorange); */
+    }
+
+    &[data-rank="2"] {
+      color: var(--brown);
+    }
+  }
 }
 
 .name-date-wrap {
   display: flex;
   flex-direction: column;
   gap: 2px;
+  max-width: 106px;
+  word-break: break-all;
 }
 
 .date-style {

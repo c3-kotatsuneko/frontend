@@ -62,7 +62,7 @@ footer {
 
 a {
   font-size: 12px;
-  background-color: var(--blue);
+  color: var(--blue);
 }
 
 ul,

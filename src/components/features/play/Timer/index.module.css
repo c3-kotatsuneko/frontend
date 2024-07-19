@@ -11,6 +11,6 @@
 .timer-text {
   padding-left: 4px;
   font-size: 16px;
-  font-weight: 700;
+  font-weight: bold;
   color: var(--blue);
 }

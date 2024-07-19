@@ -1,42 +1,49 @@
 import { DefaultButton } from "../../components/ui/Button";
-import {
-	type Rank,
-	RankList,
-} from "../../components/features/ranking/RankList";
+import { RankList } from "../../components/features/ranking/RankList";
+import { Modal } from "../../components/ui/Modal";
 import styles from "./index.module.css";
-
-const RANK_LIST: Rank[] = [
-	{
-		rank: 1,
-		name: "bob",
-		date: "2024/07/08/17:00",
-		time: "05:00",
-	},
-	{
-		rank: 2,
-		name: "alice",
-		date: "2024/07/08/17:00",
-		time: "05:00",
-	},
-	{
-		rank: 3,
-		name: "charlie",
-		date: "2024/07/08/17:00",
-		time: "05:00",
-	},
-];
+import { useRankingPage } from "./hooks";
+import { useState } from "react";
+import { ResultModalContent } from "../../components/features/ranking/ResultModalContent";
+import { useNavigate } from "react-router-dom";
 
 export const RankingPage = () => {
+	const {
+		rankList,
+		clearTime,
+		lastHighestTime,
+		resultStatus,
+		handleUpdateRanking,
+	} = useRankingPage();
+	const navigate = useNavigate();
+	const [isOpen, setIsOpen] = useState(true);
+	const updateRanking = (clearTime: number, limit: number) => {
+		handleUpdateRanking(clearTime, limit);
+		setIsOpen(false);
+	};
+
 	return (
 		<main className={styles.root}>
 			<img alt="crown" src="crown.png" width={120} height={120} />
 
 			<div className={styles["ranking-container"]}>
 				<span className={styles["title-text"]}>たいむあたっく</span>
-				<RankList rankList={RANK_LIST} />
+				<RankList rankList={rankList} />
 			</div>
 
-			<DefaultButton>おっけー</DefaultButton>
+			<DefaultButton onClick={() => navigate("/congratulation_share_sns")}>
+				おっけー
+			</DefaultButton>
+
+			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
+				<ResultModalContent
+					clearTime={clearTime}
+					setIsOpen={setIsOpen}
+					lastHighestTime={lastHighestTime}
+					resultStatus={resultStatus}
+					handleUpdateRanking={updateRanking}
+				/>
+			</Modal>
 
 			<img
 				className={styles.image}

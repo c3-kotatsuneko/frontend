@@ -1,11 +1,11 @@
 .button-style {
   border-width: 0;
-  
+
   &:disabled {
     cursor: not-allowed;
   }
 
-  &:hover{
+  &:hover {
     &:not([disabled]) {
       scale: 1.2;
     }
@@ -22,7 +22,7 @@
   &[data-size="md"] {
     padding: 4px 32px;
     font-size: 16px;
-    font-weight: 700;
+    font-weight: bold;
     border-radius: 8px;
   }
 
@@ -31,23 +31,23 @@
 
     /* --- color --- */
 
-    &[data-color="redorange"]{
+    &[data-color="redorange"] {
       background-color: var(--redorange);
     }
 
-    &[data-color="yellow"]{
+    &[data-color="yellow"] {
       background-color: var(--yellow);
     }
 
-    &[data-color="blue"]{
+    &[data-color="blue"] {
       background-color: var(--blue);
     }
 
-    &[data-color="green"]{
+    &[data-color="green"] {
       background-color: var(--green);
     }
 
-    &[data-color="brown"]{
+    &[data-color="brown"] {
       background-color: var(--brown);
     }
 
@@ -64,23 +64,23 @@
 
     /* --- color --- */
 
-    &[data-color="redorange"]{
+    &[data-color="redorange"] {
       border-color: var(--redorange);
     }
 
-    &[data-color="yellow"]{
+    &[data-color="yellow"] {
       border-color: var(--yellow);
     }
 
-    &[data-color="blue"]{
+    &[data-color="blue"] {
       border-color: var(--blue);
     }
 
-    &[data-color="green"]{
+    &[data-color="green"] {
       border-color: var(--green);
     }
 
-    &[data-color="brown"]{
+    &[data-color="brown"] {
       border-color: var(--brown);
     }
 
