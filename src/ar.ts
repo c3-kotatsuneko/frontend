@@ -79,15 +79,15 @@ if (url === "/ar") {
 }
 
 function enableCam() {
-  if (!handLandmarker) {
-    console.log("まだ映像が読み込めてないよ");
-    return;
-  }
-  // Activate the webcam stream.
-  navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-    video.srcObject = stream;
-    video.addEventListener("loadeddata", predictWebcam);
-  });
+	if (!handLandmarker) {
+		console.log("まだ映像が読み込めてないよ");
+		return;
+	}
+	// Activate the webcam stream.
+	navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+		video.srcObject = stream;
+		video.addEventListener("loadeddata", predictWebcam);
+	});
 }
 
 let lastVideoTime = -1;

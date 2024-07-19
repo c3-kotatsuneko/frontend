@@ -1,42 +1,53 @@
-import { Route, Routes } from "react-router-dom";
-import Home from "./Home";
-import { LoadingPage } from "./Loading";
-import { GuestLoginPage } from "./GuestLogin";
-import { ModeSelectPage } from "./ModeSelect";
-import "./App.css";
-import Welcome from "./Welcome/Welcome";
+import { Navigate, Route, Routes } from "react-router-dom";
+
+import { LoadingPage } from "./pages/Loading";
+import { GuestLoginPage } from "./pages/GuestLogin";
+import { ModeSelectPage } from "./pages/ModeSelect";
+import { SharePage } from "./pages/Share";
+import { RankingPage } from "./pages/Ranking";
+import { RankingPreviewPage } from "./pages/RankingPreview";
 import AR from "./AR";
-// import ARComponent from "./Test/Test";
+import Welcome from "./pages/Welcome";
 
 const AppRoutes = () => {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-          path="/welcome"
-          element={
-            <Welcome
-              onLoginSubmit={(name: string, password: string) => {
-                console.log(name, password);
-                throw new Error("Function not implemented.");
-              }}
-              onSignupSubmit={(name: string, password: string) => {
-                console.log(name, password);
-                throw new Error("Function not implemented.");
-              }}
-            />
-          }
-        />
-        {/* <Route path="/" element={<ARComponent />} /> */}
-        <Route path="/loading" element={<LoadingPage />} />
-        <Route path="/guest-login" element={<GuestLoginPage />} />
-        <Route path="/mode-select" element={<ModeSelectPage />} />
+	const handleGuestLoginSubmit = async (name: string) => {
+		try {
+			const response = await fetch("hogehogedayo", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({ name }),
+			});
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
+			const data = await response.json();
+			console.log("Server response:", data);
+		} catch (error) {
+			console.error("Error:", error);
+		}
+	};
+
+	return (
+		<>
+			<Routes>
+				<Route path="/" />
+				<Route index element={<Navigate to="/welcome" replace />} />
+				<Route path="/welcome" element={<Welcome />} />
+				<Route path="/loading" element={<LoadingPage />} />
+				<Route
+					path="/guest_login"
+					element={<GuestLoginPage onSubmit={handleGuestLoginSubmit} />}
+				/>
+				<Route path="/mode_select" element={<ModeSelectPage />} />
+				<Route path="/ranking_preview" element={<RankingPreviewPage />} />
+				<Route path="/ranking" element={<RankingPage />} />
         <Route path="/ar" element={<AR />} />
-        <Route path="*" element={<h1>Not Found</h1>} />
-      </Routes>
-    </>
-  );
+				<Route path="/congratulation_share_sns" element={<SharePage />} />
+			</Routes>
+		</>
+	);
 };
 
 export default AppRoutes;
