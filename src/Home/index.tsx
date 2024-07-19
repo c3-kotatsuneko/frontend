@@ -1,4 +1,5 @@
 import { lazy, Suspense } from "react";
+import ExitButton from "../ExitButton";
 import { Timer } from "../components/Timer";
 const Component = lazy(() => import("../SignupForm/Signup"));
 
@@ -11,6 +12,7 @@ function Home() {
 			<Suspense>
 				<Component onSubmit={() => {}} />
 			</Suspense>
+			<ExitButton/>
 		</div>
 	);
 }
