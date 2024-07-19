@@ -17,7 +17,6 @@ import {
 import type {
   angle, // オブジェクトの角度 x y z
   position, // オブジェクトの位置 x y z
-  scale, // オブジェクトの大きさ x y z
   objectInfo, // オブジェクトの情報 position angle scale
 } from "./arTransform";
 import "./index.css";
@@ -43,9 +42,9 @@ type handInfo = {
 };
 
 const useInitializeThreeJS = () => {
-  const rendererRef = useRef<THREE.WebGLRenderer | null>(null);
-  const sceneRef = useRef<THREE.Scene | null>(null);
-  const cameraRef = useRef<THREE.PerspectiveCamera | null>(null);
+  const rendererRef = useRef<THREE.WebGLRenderer>();
+  const sceneRef = useRef<THREE.Scene>();
+  const cameraRef = useRef<THREE.PerspectiveCamera>();
   const lightRef = useRef<THREE.DirectionalLight | null>(null);
   const allBlockSet = useRef<AllObject | null>(null); //積み木のオブジェクト
   const handBlock = useRef<THREE.Mesh | null>(null); //手のオブジェクト
@@ -161,14 +160,16 @@ const ARApp = () => {
   const param = new URLSearchParams(useLocation().search);
   //パラメーターからポジションを取得
   const position = param.get("position") as Position;
-  const [allObjectInfo, setallObjectInfo] = useState<objectInfo[] | null>(
-    testData
-  );
-  var handInfoData: handInfo = {
+  // const [allObjectInfo, setallObjectInfo] = useState<objectInfo[] | null>(
+  //   testData
+  // );
+  const allObjectInfo = testData;
+  let handInfoData: handInfo = {
     handStatus: "close",
     handPos: { x: 0, y: 0, z: 0 },
     handAngle: { x: 0, y: 0, z: 0 },
   };
+  console.log(handInfoData);
   const { rendererRef, sceneRef, cameraRef, allBlockSet, handBlock } =
     useInitializeThreeJS();
   let markerURL = "";
@@ -190,11 +191,13 @@ const ARApp = () => {
   }
 
   const { arToolkitContext, arToolkitSource } = useARToolkit({
-    camera: cameraRef.current!,
+    camera: cameraRef.current ?? new THREE.Camera(),
     cameraParaDatURL: cameraPara,
-    domElement: rendererRef.current!.domElement,
+    domElement: rendererRef.current
+      ? rendererRef.current.domElement
+      : undefined,
     markerPatternURL: markerURL,
-    scene: sceneRef.current!,
+    scene: sceneRef.current ? sceneRef.current : undefined,
   });
 
   const HandTrackingComponent = () => {
@@ -256,11 +259,12 @@ const ARApp = () => {
               const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
               const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
               const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
-              // const handAngle = {
-              //   x: angleX,
-              //   y: angleZ,
-              //   z: angleY,
-              // };
+              const handAngle = {
+                x: angleX,
+                y: angleZ,
+                z: angleY,
+              };
+              console.log(handAngle); //lint回避
               handBlock.current?.position.set(handPos.x, handPos.z, handPos.y);
               // クソ長処理ゾーン
               switch (position) {
@@ -271,6 +275,11 @@ const ARApp = () => {
                       angle: { x: 0, y: 0, z: 0 },
                       scale: { x: 0.1, y: 0.1, z: 0.1 },
                     }).object;
+                    handInfoData = {
+                      handStatus: status,
+                      handPos: handInfo.position,
+                      handAngle: handInfo.angle,
+                    };
                   }
                   break;
                 case "left":
@@ -337,11 +346,11 @@ const ARApp = () => {
       const targetNode = document.documentElement;
 
       // MutationObserverのコールバック関数を定義
-      const callback = function (mutationsList, observer) {
-        for (let mutation of mutationsList) {
+      const callback = (mutationsList: MutationRecord[]) => {
+        for (const mutation of mutationsList) {
           if (mutation.type === "childList") {
-            for (let node of mutation.addedNodes) {
-              if (node.id === "arjs-video") {
+            for (const node of mutation.addedNodes) {
+              if ((node as HTMLElement).id === "arjs-video") {
                 console.log('Element with id "hoge" has been added.');
                 // ここに対象要素が追加された際の処理を記述する
                 const arCamera = document.getElementById(
@@ -406,15 +415,17 @@ const ARApp = () => {
     }, [predictWebcam]);
 
     return (
-      <div>
+      <>
         <video
           ref={videoRef}
           id="video"
           style={{ display: "none" }}
           autoPlay
           muted
-        />
-      </div>
+        >
+          <track kind="captions" src="" label="No captions available" default />
+        </video>
+      </>
     );
   };
 

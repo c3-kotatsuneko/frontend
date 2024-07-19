@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { THREEx } from "@ar-js-org/ar.js-threejs";
-import { Camera, Scene } from "three";
+import type { Camera, Scene } from "three";
 
 export type ARToolkitInitOptions = {
-  domElement: HTMLCanvasElement;
+  domElement: HTMLCanvasElement | undefined;
   camera: Camera;
-  cameraParaDatURL: string;
+  cameraParaDatURL: string | undefined;
   markerPatternURL: string;
-  scene: Scene;
+  scene: Scene | undefined;
 };
 
 export const useARToolkit = ({
@@ -29,7 +29,7 @@ export const useARToolkit = ({
     });
 
     const arToolkitContextInstance = new THREEx.ArToolkitContext({
-      cameraParametersUrl: cameraParaDatURL,
+      cameraParametersUrl: cameraParaDatURL ?? "",
       detectionMode: "mono",
     });
 
@@ -102,9 +102,9 @@ export const useARToolkit = ({
 
         window.arToolkitContext = arToolkitContext;
       });
-
-      scene.visible = false;
-
+      if (scene) {
+        scene.visible = false;
+      }
       window.arMarkerControls = arMarkerControls;
     }
   };
