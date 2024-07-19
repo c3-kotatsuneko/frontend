@@ -18,9 +18,8 @@ const HandTrackingComponent = () => {
       if (!handLandmarkerRef.current) {
         console.log("まだ映像が読み込めてないよ");
         return;
-      } else {
-        console.log("映像読み込み完了", handLandmarkerRef);
       }
+      console.log("映像読み込み完了", handLandmarkerRef);
 
       navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
         if (videoRef.current) {
@@ -94,7 +93,7 @@ const HandTrackingComponent = () => {
                 handTopPos.z * handTopPos.z
             );
             console.log(dist);
-            let status;
+            let status = "";
             if (dist > 0.4) {
               status = "red";
             } else {

@@ -1,6 +1,4 @@
 import { lazy, Suspense } from "react";
-import ARApp from "../Test/Test";
-import HandTrackingComponent from "../Test/Hand";
 const Component = lazy(() => import("../SignupForm/Signup"));
 
 function Home() {

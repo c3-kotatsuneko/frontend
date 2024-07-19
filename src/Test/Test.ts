@@ -158,20 +158,242 @@ const useInitializeThreeJS = () => {
     };
   }
   console.log(rendererRef, sceneRef, cameraRef, lightRef, allBlockSet);
-  return { rendererRef, sceneRef, cameraRef, lightRef, allBlockSet, handBlock };
+  return {
+    rendererRef: useRef<THREE.WebGLRenderer | null>(null),
+    sceneRef: useRef<THREE.Scene | null>(null),
+    cameraRef: useRef<THREE.PerspectiveCamera | null>(null),
+    lightRef: useRef<THREE.DirectionalLight | null>(null),
+    allBlockSet: useRef<AllObject | null>(null),
+    handBlock: useRef<THREE.Mesh | null>(null),
+  };
+};
+
+const handTracking = (position: Position) => {
+  const [webcamRunning, setWebcamRunning] = useState(false);
+  const [handInfo, setHandInfo] = useState<handInfo | null>(null);
+  const [handPos, setHandPos] = useState<position | null>(null);
+  const [handAngle, setHandAngle] = useState<angle | null>(null);
+  const videoRef = useRef<HTMLVideoElement | null>(null);
+  const handLandmarkerRef = useRef<HandLandmarker | undefined>(undefined);
+  useEffect(() => {
+    const arCamera = document.getElementById("arjs-video") as HTMLVideoElement;
+    videoRef.current = arCamera;
+    console.log("videoRef", arCamera);
+  }, []);
+  useEffect(() => {
+    const arCamera = document.getElementById("arjs-video") as HTMLVideoElement;
+    videoRef.current = arCamera;
+    console.log("videoRef", arCamera);
+    const enableCam = () => {
+      if (!handLandmarkerRef.current) {
+        console.log("まだ映像が読み込めてないよ");
+        return;
+      }
+      console.log("映像読み込み完了", handLandmarkerRef);
+
+      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
+        if (videoRef.current) {
+          videoRef.current.srcObject = stream;
+          videoRef.current.addEventListener("loadeddata", predictWebcam);
+        }
+      });
+    };
+
+    const createHandLandmarker = async () => {
+      const vision = await FilesetResolver.forVisionTasks(
+        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
+      );
+      handLandmarkerRef.current = await HandLandmarker.createFromOptions(
+        vision,
+        {
+          baseOptions: {
+            modelAssetPath:
+              "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
+            delegate: "CPU",
+          },
+          runningMode: "VIDEO",
+          numHands: 1,
+        }
+      );
+      setWebcamRunning(true);
+      enableCam();
+    };
+
+    createHandLandmarker();
+  }, []);
+
+  const predictWebcam = async () => {
+    console.log("predictWebcam");
+    const video = videoRef.current;
+    if (!video) return;
+
+    let lastVideoTime = -1;
+    let detections = undefined;
+
+    const processFrame = async () => {
+      const startTimeMs = performance.now();
+      if (lastVideoTime !== video.currentTime) {
+        lastVideoTime = video.currentTime;
+        if (handLandmarkerRef.current) {
+          detections = handLandmarkerRef.current.detectForVideo(
+            video,
+            startTimeMs
+          );
+
+          if (detections.landmarks.length > 0) {
+            const handMidPos = {
+              x: detections.landmarks[0][9].x - detections.landmarks[0][0].x,
+              y: detections.landmarks[0][9].y - detections.landmarks[0][0].y,
+              z: detections.landmarks[0][9].z - detections.landmarks[0][0].z,
+            };
+            const handTopPos = {
+              x: detections.landmarks[0][12].x - detections.landmarks[0][0].x,
+              y: detections.landmarks[0][12].y - detections.landmarks[0][0].y,
+              z: detections.landmarks[0][12].z - detections.landmarks[0][0].z,
+            };
+            const handPos = {
+              x: (detections.landmarks[0][0].x - 0.5) * 5,
+              y: (detections.landmarks[0][0].y - 0.5) * 5,
+              z: detections.landmarks[0][0].z,
+            };
+            // console.log("x/y/z", handMidPos);
+            const dist = Math.sqrt(
+              handTopPos.x * handTopPos.x +
+                handTopPos.y * handTopPos.y +
+                handTopPos.z * handTopPos.z
+            );
+            console.log(dist);
+            let status = "";
+            if (dist > 0.4) {
+              status = "open";
+            } else {
+              status = "close";
+            }
+            const handDir = {
+              x: handMidPos.x - handTopPos.x,
+              y: handMidPos.y - handTopPos.y,
+              z: handMidPos.z - handTopPos.z,
+            };
+            const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
+            const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
+            const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
+            // front, left, right, backの場合に分けて手の座標をworld座標に変換
+            //以下クソ長処理ゾーン
+            const angle: angle = {
+              x: angleX,
+              y: angleY,
+              z: angleZ,
+            };
+            let handInfo: handInfo;
+            let handObject: objectInfo;
+            switch (position) {
+              case "front":
+                handObject = frontObjectToWorld({
+                  position: handPos,
+                  angle,
+                  scale: { x: 1, y: 1, z: 1 },
+                }).object;
+                handInfo = {
+                  handStatus: status,
+                  handPos: handObject.position,
+                  handAngle: handObject.angle,
+                };
+                setHandInfo(handInfo);
+                setHandPos(handPos);
+                setHandAngle(angle);
+                break;
+              case "left":
+                handObject = leftObjectToWorld({
+                  position: handPos,
+                  angle,
+                  scale: { x: 1, y: 1, z: 1 },
+                }).object;
+                handInfo = {
+                  handStatus: status,
+                  handPos: handObject.position,
+                  handAngle: handObject.angle,
+                };
+                setHandInfo(handInfo);
+                setHandPos(handPos);
+                setHandAngle(angle);
+                break;
+              case "right":
+                handObject = rightObjectToWorld({
+                  position: handPos,
+                  angle,
+                  scale: { x: 1, y: 1, z: 1 },
+                }).object;
+                handInfo = {
+                  handStatus: status,
+                  handPos: handObject.position,
+                  handAngle: handObject.angle,
+                };
+                setHandInfo(handInfo);
+                setHandPos(handPos);
+                setHandAngle(angle);
+                break;
+              case "back":
+                handObject = backObjectToWorld({
+                  position: handPos,
+                  angle,
+                  scale: { x: 1, y: 1, z: 1 },
+                }).object;
+                handInfo = {
+                  handStatus: status,
+                  handPos: handObject.position,
+                  handAngle: handObject.angle,
+                };
+                setHandInfo(handInfo);
+                setHandPos(handPos);
+                setHandAngle(angle);
+                break;
+            }
+          }
+        }
+      }
+
+      if (webcamRunning) {
+        requestAnimationFrame(processFrame);
+        console.log("processFrame");
+      }
+    };
+
+    processFrame();
+  };
+
+  return {
+    handInfo,
+    handPos,
+    handAngle,
+  };
 };
 
 const ARApp = () => {
   //three.jsゾーン
   const [position, setPosition] = useState<Position>("right");
   const [allObject, setAllObject] = useState<AllObject | null>(null);
-  const [allObjectInfo, setallObjectInfo] = useState<allObjectInfo | null>(
+  const [allObjectInfo, setallObjectInfo] = useState<AllObjectInfo | null>(
     null
   );
   const [handInfo, setHandInfo] = useState<handInfo | null>(null);
   const { rendererRef, sceneRef, cameraRef, allBlockSet, handBlock } =
     useInitializeThreeJS();
   let markerURL = "";
+
+  //ハンドトラッキング
+  const { handInfo: handInfoData, handPos, handAngle } = handTracking(position);
+  useEffect(() => {
+    if (handInfoData) {
+      setHandInfo(handInfoData);
+      if (handPos) {
+        handBlock?.current?.position.set(handPos.x, handPos.y, handPos.z);
+      }
+      if (handAngle) {
+        handBlock?.current?.rotation.set(handAngle.x, handAngle.y, handAngle.z);
+      }
+    }
+  }, [handInfoData, handPos, handAngle, handBlock]);
+
   //ポジションごとにマーカーのURLを変える
   switch (position) {
     case "front":
@@ -393,194 +615,6 @@ const ARApp = () => {
   ]);
 
   //ハンドトラッキングゾーン
-
-  const [webcamRunning, setWebcamRunning] = useState(false);
-  const videoRef = useRef<HTMLVideoElement | null>(null);
-  const handLandmarkerRef = useRef<HandLandmarker | undefined>(undefined);
-  useEffect(() => {
-    const arCamera = document.getElementById("arjs-video") as HTMLVideoElement;
-    videoRef.current = arCamera;
-    console.log("videoRef", arCamera);
-  }, []);
-  useEffect(() => {
-    const arCamera = document.getElementById("arjs-video") as HTMLVideoElement;
-    videoRef.current = arCamera;
-    console.log("videoRef", arCamera);
-    const enableCam = () => {
-      if (!handLandmarkerRef.current) {
-        console.log("まだ映像が読み込めてないよ");
-        return;
-      }
-      console.log("映像読み込み完了", handLandmarkerRef);
-
-      navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-          videoRef.current.addEventListener("loadeddata", predictWebcam);
-        }
-      });
-    };
-
-    const createHandLandmarker = async () => {
-      const vision = await FilesetResolver.forVisionTasks(
-        "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
-      );
-      handLandmarkerRef.current = await HandLandmarker.createFromOptions(
-        vision,
-        {
-          baseOptions: {
-            modelAssetPath:
-              "https://storage.googleapis.com/mediapipe-models/hand_landmarker/hand_landmarker/float16/1/hand_landmarker.task",
-            delegate: "CPU",
-          },
-          runningMode: "VIDEO",
-          numHands: 1,
-        }
-      );
-      setWebcamRunning(true);
-      enableCam();
-    };
-
-    createHandLandmarker();
-  }, []);
-
-  const predictWebcam = async () => {
-    console.log("predictWebcam");
-    const video = videoRef.current;
-    if (!video) return;
-
-    let lastVideoTime = -1;
-    let detections = undefined;
-
-    const processFrame = async () => {
-      const startTimeMs = performance.now();
-      if (lastVideoTime !== video.currentTime) {
-        lastVideoTime = video.currentTime;
-        if (handLandmarkerRef.current) {
-          detections = handLandmarkerRef.current.detectForVideo(
-            video,
-            startTimeMs
-          );
-
-          if (detections.landmarks.length > 0) {
-            const handMidPos = {
-              x: detections.landmarks[0][9].x - detections.landmarks[0][0].x,
-              y: detections.landmarks[0][9].y - detections.landmarks[0][0].y,
-              z: detections.landmarks[0][9].z - detections.landmarks[0][0].z,
-            };
-            const handTopPos = {
-              x: detections.landmarks[0][12].x - detections.landmarks[0][0].x,
-              y: detections.landmarks[0][12].y - detections.landmarks[0][0].y,
-              z: detections.landmarks[0][12].z - detections.landmarks[0][0].z,
-            };
-            const handPos = {
-              x: (detections.landmarks[0][0].x - 0.5) * 5,
-              y: (detections.landmarks[0][0].y - 0.5) * 5,
-              z: detections.landmarks[0][0].z,
-            };
-            // console.log("x/y/z", handMidPos);
-            const dist = Math.sqrt(
-              handTopPos.x * handTopPos.x +
-                handTopPos.y * handTopPos.y +
-                handTopPos.z * handTopPos.z
-            );
-            console.log(dist);
-            let status = "";
-            if (dist > 0.4) {
-              status = "open";
-            } else {
-              status = "close";
-            }
-            const handDir = {
-              x: handMidPos.x - handTopPos.x,
-              y: handMidPos.y - handTopPos.y,
-              z: handMidPos.z - handTopPos.z,
-            };
-            const angleX = Math.atan2(handDir.z, handDir.y) * (180 / Math.PI);
-            const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
-            const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
-            // 手をキューブに反映
-            if (handBlock.current) {
-              handBlock.current.position.set(handPos.x, handPos.y, handPos.z);
-              handBlock.current.rotation.set(angleX, angleY, angleZ);
-            }
-            // front, left, right, backの場合に分けて手の座標をworld座標に変換
-            //以下クソ長処理ゾーン
-            const angle: angle = {
-              x: angleX,
-              y: angleY,
-              z: angleZ,
-            };
-            let handInfo: handInfo;
-            let handObject: objectInfo;
-            switch (position) {
-              case "front":
-                handObject = frontObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                break;
-              case "left":
-                handObject = leftObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                break;
-              case "right":
-                handObject = rightObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                break;
-              case "back":
-                handObject = backObjectToWorld({
-                  position: handPos,
-                  angle,
-                  scale: { x: 1, y: 1, z: 1 },
-                }).object;
-                handInfo = {
-                  handStatus: status,
-                  handPos: handObject.position,
-                  handAngle: handObject.angle,
-                };
-                setHandInfo(handInfo);
-                break;
-            }
-            console.log(handPos);
-          }
-          //   console.log(detections);
-        }
-      }
-
-      if (webcamRunning) {
-        requestAnimationFrame(processFrame);
-        console.log("processFrame");
-      }
-    };
-
-    processFrame();
-  };
 
   return null;
 };
