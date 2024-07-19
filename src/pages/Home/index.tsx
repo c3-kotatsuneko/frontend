@@ -12,7 +12,15 @@ function Home() {
 			<h1>hello world!!!!!!!!!!!!!!!!!!!!!!!</h1>
 			<p>this is a react</p>
 			<Suspense>
-				<Component onSubmit={() => {}} />
+				<Component
+					onSubmit={() => {}}
+					userExistsMessage={null}
+					useDebounce={(value: string, delay: number) => {
+						console.log(value, delay);
+						return value;
+					}}
+					checkExistUserName={() => {}}
+				/>
 			</Suspense>
 			<ExitButton />
 		</div>
