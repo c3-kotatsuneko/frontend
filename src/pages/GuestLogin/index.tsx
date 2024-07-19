@@ -11,6 +11,7 @@ export const GuestLoginPage = () => {
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     localStorage.setItem("guestName", name);
+    navigate("/mode_select");
   };
   return (
     <main className={styles.root}>
@@ -21,11 +22,7 @@ export const GuestLoginPage = () => {
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
-        <DefaultButton
-          color="redorange"
-          type="submit"
-          onClick={() => navigate("/mode_select")}
-        >
+        <DefaultButton color="redorange" type="submit">
           あそびにいく
         </DefaultButton>
       </form>
