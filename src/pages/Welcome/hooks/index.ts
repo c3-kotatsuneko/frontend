@@ -1,16 +1,36 @@
-import { useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { baseUrl } from "../../../utils/baseUrl";
 
 type useWelcomeProps = {
-	onLoginSubmit: (userName: string, password: string) => void;
-	onSignupSubmit: (userName: string, omajinai: string) => void;
 	loginError: string | null;
+	onLoginSubmit: (userName: string, password: string) => void;
+	userExistsMessage: string | null;
+	useDebounce: (value: string, delay: number) => string;
+	checkExistUserName: (userName: string) => void;
+	onSignupSubmit: (userName: string, omajinai: string) => void;
 };
 
 export const useWelcome = (): useWelcomeProps => {
 	const [loginError, setLoginError] = useState<string | null>(null);
+	const [userExistsMessage, setUserExistsMessage] = useState("");
 
-	const handleLoginSubmit = async (userName: string, password: string) => {
+	const useDebounce = (value: string, delay: number) => {
+		const [debouncedValue, setDebouncedValue] = useState<string>(value);
+
+		useEffect(() => {
+			const timeoutID = setTimeout(() => {
+				setDebouncedValue(value);
+			}, delay);
+
+			return () => {
+				clearTimeout(timeoutID);
+			};
+		}, [value, delay]);
+
+		return debouncedValue;
+	};
+
+	const onLoginSubmit = async (userName: string, password: string) => {
 		const body = new URLSearchParams({
 			username: userName,
 			password: password,
@@ -39,7 +59,31 @@ export const useWelcome = (): useWelcomeProps => {
 		}
 	};
 
-	const handleSignupSubmit = async (userName: string, omajinai: string) => {
+	const checkExistUserName = useCallback(async (userName: string) => {
+		try {
+			const response = await fetch(
+				`${baseUrl}/users/username/exists?username=${userName}`,
+				{
+					headers: {
+						Accept: "application/json",
+					},
+				},
+			);
+			if (!response.ok) {
+				throw new Error("Network response was not ok");
+			}
+			const data = await response.json();
+			if (data.exists) {
+				setUserExistsMessage(`${userName}はもうつかわれているよ！`);
+			} else {
+				setUserExistsMessage("");
+			}
+		} catch (error) {
+			console.error("Check exist user error:", error);
+		}
+	}, []);
+
+	const onSignupSubmit = async (userName: string, omajinai: string) => {
 		try {
 			const response = await fetch(`${baseUrl}/signup`, {
 				method: "POST",
@@ -60,8 +104,11 @@ export const useWelcome = (): useWelcomeProps => {
 	};
 
 	return {
-		onLoginSubmit: handleLoginSubmit,
-		onSignupSubmit: handleSignupSubmit,
 		loginError,
+		onLoginSubmit,
+		userExistsMessage,
+		useDebounce,
+		checkExistUserName,
+		onSignupSubmit,
 	};
 };

@@ -17,7 +17,7 @@ const Login: React.FC<LoginProps> = ({ onSubmit, loginError }) => {
 	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
 		console.log(userName, password);
-		await onSubmit(userName, password);
+		onSubmit(userName, password);
 	};
 
 	return (
@@ -34,7 +34,12 @@ const Login: React.FC<LoginProps> = ({ onSubmit, loginError }) => {
 				onChange={(e) => setPassword(e.target.value)}
 			/>
 			<div>
-				<WelcomeButton color="brown">あそびにいく</WelcomeButton>
+				<WelcomeButton
+					color="brown"
+					disabled={userName === "" || password === ""}
+				>
+					あそびにいく
+				</WelcomeButton>
 				{loginError && <p className={styles.error}>{loginError}</p>}
 			</div>
 

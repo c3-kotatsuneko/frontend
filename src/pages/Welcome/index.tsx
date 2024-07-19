@@ -5,7 +5,14 @@ import Tab from "../../components/features/welcome/tab";
 import { useWelcome } from "./hooks";
 
 const Welcome = () => {
-	const { onLoginSubmit, onSignupSubmit, loginError } = useWelcome();
+	const {
+		loginError,
+		onLoginSubmit,
+		userExistsMessage,
+		useDebounce,
+		checkExistUserName,
+		onSignupSubmit,
+	} = useWelcome();
 
 	return (
 		<main className={styles["welcome-body"]}>
@@ -18,7 +25,13 @@ const Welcome = () => {
 						onSubmit={onLoginSubmit}
 						loginError={loginError}
 					/>,
-					<Signup key="signup" onSubmit={onSignupSubmit} />,
+					<Signup
+						key="signup"
+						userExistsMessage={userExistsMessage}
+						useDebounce={useDebounce}
+						checkExistUserName={checkExistUserName}
+						onSubmit={onSignupSubmit}
+					/>,
 				]}
 				id={""}
 			/>
