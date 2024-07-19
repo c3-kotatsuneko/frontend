@@ -1,14 +1,16 @@
-import type React from "react";
+import { PasswordInput } from "../../ui/PasswordInput";
+import { TextInput } from "../../ui/TextInput";
+import { WelcomeButton } from "../WelcomeButton";
 import { useState } from "react";
-import { TextInput } from "../components/ui/TextInput";
-import { PasswordInput } from "../components/ui/PasswordInput";
-import { WelcomeButton } from "../components/ui/WelcomeButton";
+import LoginAnonymous from "./LoginAnonimos";
+import styles from "./Login.module.css";
 
-interface SignupProps {
+interface LoginProps {
 	onSubmit: (name: string, password: string) => void;
+	loginError: string | null;
 }
 
-const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
+const Login: React.FC<LoginProps> = ({ onSubmit, loginError }) => {
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -25,17 +27,16 @@ const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 			/>
-
 			<PasswordInput
 				label={"おまじない"}
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
 			/>
-			<WelcomeButton type="submit" color="redorange">
-				とうろくする
-			</WelcomeButton>
+			<WelcomeButton color="brown">あそびにいく</WelcomeButton>
+			{loginError && <p className={styles.error}>{loginError}</p>}
+			<LoginAnonymous />
 		</form>
 	);
 };
 
-export default Signup;
+export default Login;

@@ -1,4 +1,4 @@
-import { DefaultButton } from "../components/ui/Button";
+import { DefaultButton } from "../../components/ui/Button";
 import { RankList } from "./items/Rank";
 import styles from "./index.module.css";
 

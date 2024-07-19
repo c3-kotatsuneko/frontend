@@ -1,9 +1,9 @@
 import type React from "react";
 import "./welcome.css";
-import Signup from "../SignupForm/Signup";
-import Layout from "../layout";
-import Login from "../LoginForm/Login";
-import Tab from "../components/tab/Tab";
+import Signup from "../../components/features/SignupForm/Signup";
+import Layout from "../../layout";
+import Login from "../../components/features/LoginForm/Login";
+import Tab from "../../components/features/tab/Tab";
 
 interface WelcomeProps {
 	onLoginSubmit: (name: string, password: string) => void;
@@ -11,7 +11,11 @@ interface WelcomeProps {
 	loginError: string | null;
 }
 
-const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit, loginError }) => {
+const Welcome: React.FC<WelcomeProps> = ({
+	onLoginSubmit,
+	onSignupSubmit,
+	loginError,
+}) => {
 	return (
 		<Layout>
 			<div className="welcome-body">
@@ -19,7 +23,11 @@ const Welcome: React.FC<WelcomeProps> = ({ onLoginSubmit, onSignupSubmit, loginE
 				<Tab
 					labels={["ろぐいん", "とうろく"]}
 					contents={[
-						<Login key="login" onSubmit={onLoginSubmit} loginError={loginError} />,
+						<Login
+							key="login"
+							onSubmit={onLoginSubmit}
+							loginError={loginError}
+						/>,
 						<Signup key="signup" onSubmit={onSignupSubmit} />,
 					]}
 					id={""}

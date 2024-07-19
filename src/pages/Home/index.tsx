@@ -1,7 +1,9 @@
 import { lazy, Suspense } from "react";
-import ExitButton from "../ExitButton";
-import { Timer } from "../components/Timer";
-const Component = lazy(() => import("../SignupForm/Signup"));
+import ExitButton from "../../components/features/ExitButton";
+import { Timer } from "../../components/features/Timer";
+const Component = lazy(
+	() => import("../../components/features/SignupForm/Signup"),
+);
 
 function Home() {
 	return (
@@ -12,7 +14,7 @@ function Home() {
 			<Suspense>
 				<Component onSubmit={() => {}} />
 			</Suspense>
-			<ExitButton/>
+			<ExitButton />
 		</div>
 	);
 }

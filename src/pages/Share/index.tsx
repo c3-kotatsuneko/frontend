@@ -1,9 +1,9 @@
 import clsx from "clsx";
 import { Link } from "react-router-dom";
 
-import { HomeIcon } from "../components/icon/Home";
-import { DefaultButton } from "../components/ui/Button";
-import buttonStyles from "../components/ui/Button/index.module.css";
+import { HomeIcon } from "../../components/icon/Home";
+import { DefaultButton } from "../../components/ui/Button";
+import buttonStyles from "../../components/ui/Button/index.module.css";
 import styles from "./index.module.css";
 
 const SAMPLE_RANK = 1;

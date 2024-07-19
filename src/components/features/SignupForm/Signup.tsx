@@ -1,16 +1,14 @@
-import { PasswordInput } from "../components/ui/PasswordInput";
-import { TextInput } from "../components/ui/TextInput";
-import { WelcomeButton } from "../components/ui/WelcomeButton";
+import type React from "react";
 import { useState } from "react";
-import LoginAnonymous from "./LoginAnonimos";
-import styles from "./Login.module.css"
+import { TextInput } from "../../ui/TextInput";
+import { PasswordInput } from "../../ui/PasswordInput";
+import { WelcomeButton } from "../WelcomeButton";
 
-interface LoginProps {
+interface SignupProps {
 	onSubmit: (name: string, password: string) => void;
-	loginError: string | null;
 }
 
-const Login: React.FC<LoginProps> = ({ onSubmit ,loginError}) => {
+const Signup: React.FC<SignupProps> = ({ onSubmit }) => {
 	const [name, setName] = useState("");
 	const [password, setPassword] = useState("");
 
@@ -27,16 +25,17 @@ const Login: React.FC<LoginProps> = ({ onSubmit ,loginError}) => {
 				value={name}
 				onChange={(e) => setName(e.target.value)}
 			/>
+
 			<PasswordInput
 				label={"おまじない"}
 				value={password}
 				onChange={(e) => setPassword(e.target.value)}
 			/>
-			<WelcomeButton color="brown">あそびにいく</WelcomeButton>
-			{loginError && <p className={styles.error}>{loginError}</p>}
-			<LoginAnonymous />
+			<WelcomeButton type="submit" color="redorange">
+				とうろくする
+			</WelcomeButton>
 		</form>
 	);
 };
 
-export default Login;
+export default Signup;

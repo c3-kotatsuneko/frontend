@@ -1,4 +1,4 @@
-import { TimerIcon } from "../icon/Timer";
+import { TimerIcon } from "../../icon/Timer";
 import styles from "./index.module.css";
 
 type TimerProps = {
