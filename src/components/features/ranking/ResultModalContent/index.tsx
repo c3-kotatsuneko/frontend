@@ -24,10 +24,28 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 }) => {
   return (
     <div className={styles["modal-wrapper"]}>
+      <div className={styles["cats-image-container"]}>
+        <img
+          className={styles["cats-image-square"]}
+          alt="四角ねこタワー"
+          src="cats/catsTower-square.png"
+          width ="48px"
+          height= "64px"
+        />
+        <img
+          className={styles["cats-image-circle"]}
+          alt="丸ねこタワー"
+          src="cats/catsTower-circle.png"
+          width="32px" 
+          height= "64px"
+        />
+      </div>
       {resultStatus.isNew && <p className={styles["modal-description"]}>⭐️自己ベスト更新⭐️</p>}
       <p className={styles["modal-description"]}>きろくは{formatTime(clearTime)}！</p>
       {!resultStatus.canRecord && (
-        <p className={styles["modal-description"]}>前回の最高記録は{formatTime(lastHighestTime)}！</p>
+        <div className={styles['modal-p']}>
+          <p className={styles["modal-description"]}>前回の最高記録は{formatTime(lastHighestTime)}！</p>
+        </div>
       )}
       {resultStatus.canRecord && (
         <div className={styles['modal-selection-wrapper']}>
