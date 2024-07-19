@@ -9,25 +9,6 @@ import { RankingPreviewPage } from "./pages/RankingPreview";
 import Welcome from "./pages/Welcome";
 
 const AppRoutes = () => {
-	const handleGuestLoginSubmit = async (name: string) => {
-		try {
-			const response = await fetch("hogehogedayo", {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({ name }),
-			});
-			if (!response.ok) {
-				throw new Error("Network response was not ok");
-			}
-			const data = await response.json();
-			console.log("Server response:", data);
-		} catch (error) {
-			console.error("Error:", error);
-		}
-	};
-
 	return (
 		<>
 			<Routes>
@@ -35,10 +16,7 @@ const AppRoutes = () => {
 				<Route index element={<Navigate to="/welcome" replace />} />
 				<Route path="/welcome" element={<Welcome />} />
 				<Route path="/loading" element={<LoadingPage />} />
-				<Route
-					path="/guest_login"
-					element={<GuestLoginPage onSubmit={handleGuestLoginSubmit} />}
-				/>
+				<Route path="/guest_login" element={<GuestLoginPage />} />
 				<Route path="/mode_select" element={<ModeSelectPage />} />
 				<Route path="/ranking_preview" element={<RankingPreviewPage />} />
 				<Route path="/ranking" element={<RankingPage />} />
