@@ -41,14 +41,16 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
         />
       </div>
       {resultStatus.isNew && (
-        <p className={styles["modal-description"]}>⭐️自己ベスト更新⭐️</p>
+        <p className={styles["modal-description"]} data-type="my-best">
+          ⭐️自己ベスト更新⭐️
+        </p>
       )}
-      <p className={styles["modal-description"]}>
+      <p className={styles["modal-description"]} data-type="record">
         きろくは{formatTime(clearTime)}！
       </p>
       {!resultStatus.canRecord && (
         <div className={styles["modal-p"]}>
-          <p className={styles["modal-description"]}>
+          <p className={styles["modal-description"]} data-type="highest">
             前回の最高記録は{formatTime(lastHighestTime)}！
           </p>
         </div>

@@ -1,40 +1,53 @@
 .modal-wrapper {
-    padding: 24px 0;
-    border-radius: 8px;
-    background-color: white;
-    min-width: 280px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    align-items: center;
-    position: relative;
-  }
-  
-  .modal-description {
-    font-size: 18px;
-    padding: 0 36px;
-    text-align: center;
+  padding: 24px 0;
+  border-radius: 8px;
+  background-color: white;
+  min-width: 280px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  align-items: center;
+  position: relative;
+}
+
+.modal-description {
+  padding: 0 36px;
+  text-align: center;
+
+  &[data-type="my-best"] {
+    font-size: 16px;
   }
 
-  .modal-p{
+  &[data-type="record"] {
+    font-size: 24px;
+  }
+
+  &[data-type="highest"] {
     font-size: 12px;
   }
-  
-  .modal-selection-wrapper {
-    display: flex;
-    width: 100%;
-    margin-top: 24px;
-    justify-content: center;
-  }
-  
-  .selection-button {
-    flex-grow: 1;
-  }
+}
 
-  .cats-image-container {
-    display: flex;
-    justify-content: space-between;
-    width: 110%;
-    position: absolute;
-    top: 36px; 
-  }
+.modal-p {
+  font-size: 12px;
+}
+
+.modal-selection-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+  margin-top: 24px;
+  justify-content: center;
+}
+
+.selection-button {
+  flex-grow: 1;
+}
+
+.cats-image-container {
+  display: flex;
+  justify-content: space-between;
+  width: 110%;
+  position: absolute;
+  top: 36px;
+}
