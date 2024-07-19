@@ -22,8 +22,10 @@
     &[data-rank="1"] {
       font-weight: 900;
       color: var(--redorange);
+
       /* -webkit-text-stroke: 1px var(--redorange); */
     }
+
     &[data-rank="2"] {
       color: var(--brown);
     }
