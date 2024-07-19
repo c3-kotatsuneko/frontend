@@ -6,17 +6,18 @@ import LoginAnonymous from "../LoginAnonimos";
 import styles from "./index.module.css";
 
 interface LoginProps {
-	onSubmit: (name: string, password: string) => void;
+	onSubmit: (userName: string, password: string) => void;
 	loginError: string | null;
 }
 
 const Login: React.FC<LoginProps> = ({ onSubmit, loginError }) => {
-	const [name, setName] = useState("");
+	const [userName, setUserName] = useState("");
 	const [password, setPassword] = useState("");
 
-	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+	const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		onSubmit(name, password);
+		console.log(userName, password);
+		onSubmit(userName, password);
 	};
 
 	return (
@@ -24,8 +25,8 @@ const Login: React.FC<LoginProps> = ({ onSubmit, loginError }) => {
 			<TextInput
 				label={"おなまえ"}
 				type="text"
-				value={name}
-				onChange={(e) => setName(e.target.value)}
+				value={userName}
+				onChange={(e) => setUserName(e.target.value)}
 			/>
 			<PasswordInput
 				label={"おまじない"}
@@ -33,7 +34,12 @@ const Login: React.FC<LoginProps> = ({ onSubmit, loginError }) => {
 				onChange={(e) => setPassword(e.target.value)}
 			/>
 			<div>
-				<WelcomeButton color="brown">あそびにいく</WelcomeButton>
+				<WelcomeButton
+					color="brown"
+					disabled={userName === "" || password === ""}
+				>
+					あそびにいく
+				</WelcomeButton>
 				{loginError && <p className={styles.error}>{loginError}</p>}
 			</div>
 

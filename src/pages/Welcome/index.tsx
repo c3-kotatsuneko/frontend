@@ -1,20 +1,19 @@
-import type React from "react";
 import styles from "./index.module.css";
 import Signup from "../../components/features/welcome/SignupForm";
 import Login from "../../components/features/welcome/LoginForm";
 import Tab from "../../components/features/welcome/tab";
+import { useWelcome } from "./hooks";
 
-interface WelcomeProps {
-	onLoginSubmit: (name: string, password: string) => void;
-	onSignupSubmit: (name: string, password: string) => void;
-	loginError: string | null;
-}
+const Welcome = () => {
+	const {
+		loginError,
+		onLoginSubmit,
+		userExistsMessage,
+		useDebounce,
+		checkExistUserName,
+		onSignupSubmit,
+	} = useWelcome();
 
-const Welcome: React.FC<WelcomeProps> = ({
-	onLoginSubmit,
-	onSignupSubmit,
-	loginError,
-}) => {
 	return (
 		<main className={styles["welcome-body"]}>
 			<h2>ばーちゃるぼっくす</h2>
@@ -26,7 +25,13 @@ const Welcome: React.FC<WelcomeProps> = ({
 						onSubmit={onLoginSubmit}
 						loginError={loginError}
 					/>,
-					<Signup key="signup" onSubmit={onSignupSubmit} />,
+					<Signup
+						key="signup"
+						userExistsMessage={userExistsMessage}
+						useDebounce={useDebounce}
+						checkExistUserName={checkExistUserName}
+						onSubmit={onSignupSubmit}
+					/>,
 				]}
 				id={""}
 			/>

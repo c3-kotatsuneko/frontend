@@ -16,7 +16,7 @@ const LoginAnonymous = () => {
 
 	return (
 		<>
-			<TextButton onClick={() => setIsOpen(true)} color="blue">
+			<TextButton type="button" onClick={() => setIsOpen(true)} color="blue">
 				ゲストとしてあそびにいく
 			</TextButton>
 			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
