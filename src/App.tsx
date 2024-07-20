@@ -43,7 +43,7 @@ const AppRoutes = () => {
 				<Route path="/mode_select" element={<ModeSelectPage />} />
 				<Route path="/ranking_preview" element={<RankingPreviewPage />} />
 				<Route path="/ranking" element={<RankingPage />} />
-        <Route path="/ar" element={<AR />} />
+				<Route path="/ar" element={<AR />} />
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
 			</Routes>
 		</>

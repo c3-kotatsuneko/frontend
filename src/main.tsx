@@ -6,11 +6,11 @@ import Layout from "./layout";
 
 const root = document.getElementById("root");
 if (root) {
-  ReactDOM.createRoot(root).render(
-    <BrowserRouter>
-      <Layout>
-        <AppRoutes />
-      </Layout>
-    </BrowserRouter>
-  );
+	ReactDOM.createRoot(root).render(
+		<BrowserRouter>
+			<Layout>
+				<AppRoutes />
+			</Layout>
+		</BrowserRouter>,
+	);
 }

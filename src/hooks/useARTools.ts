@@ -17,10 +17,14 @@ export const useARToolkit = ({
   markerPatternURL,
   scene,
 }: ARToolkitInitOptions) => {
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const [arToolkitSource, setArToolkitSource] = useState<any>(null);
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const [arToolkitContext, setArToolkitContext] = useState<any>(null);
+  // biome-ignore lint/suspicious/noExplicitAny: <explanation>
   const [arMarkerControls, setArMarkerControls] = useState<any>(null);
 
+  // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
   useEffect(() => {
     const arToolkitSourceInstance = new THREEx.ArToolkitSource({
       sourceType: "webcam",
