@@ -52,8 +52,10 @@ export const useWelcome = (): useWelcomeProps => {
 			}
 			const data = await response.json();
 			setLoginError(null);
-			localStorage.setItem("token", data.access_token);
 
+			localStorage.setItem("token", data.access_token);
+			localStorage.setItem("userName", userName);
+      
 			navigate("/mode_select");
 		} catch (error) {
 			console.error("Login error:", error);
@@ -98,7 +100,10 @@ export const useWelcome = (): useWelcomeProps => {
 				throw new Error("Network response was not ok");
 			}
 			const data = await response.json();
+
 			localStorage.setItem("token", data.access_token);
+			localStorage.setItem("userName", userName);
+
 			navigate("/mode_select");
 		} catch (error) {
 			console.error("SignUp error:", error);

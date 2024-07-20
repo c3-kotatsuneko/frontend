@@ -5,23 +5,55 @@ import { HomeIcon } from "../../components/icon/Home";
 import { DefaultButton } from "../../components/ui/Button";
 import buttonStyles from "../../components/ui/Button/index.module.css";
 import styles from "./index.module.css";
-
-const SAMPLE_RANK = 1;
-const SAMPLE_TIME = "02:10";
+import { useUserName } from "../../utils/setUserName";
+import { useEffect, useState } from "react";
+import type { ResultStatus } from "../Ranking/hooks";
+import { formatTime } from "../../utils/formatTime";
 
 export const SharePage = () => {
 	const navigate = useNavigate();
-	const rank = SAMPLE_RANK;
-	const time = SAMPLE_TIME;
+	const { userName } = useUserName();
+	const [userRank, setUserRank] = useState(0);
+	const [clearTime, setClearTime] = useState(0);
+	const [resultStatus, setResultStatus] = useState<ResultStatus>({
+		isNew: false,
+		canRecord: false,
+	});
 
-	const shareMessage = `ランキング${rank}位! タイム${time}!`;
+	useEffect(() => {
+		const getUserRank = Number(localStorage.getItem("userRank"));
+		const getClearTime = Number(localStorage.getItem("clearTime"));
+		const getResultStatus = localStorage.getItem("resultStatus");
+
+		if (getUserRank) {
+			setUserRank(getUserRank);
+		}
+		if (getClearTime) {
+			setClearTime(getClearTime);
+		}
+		if (getResultStatus) {
+			setResultStatus(JSON.parse(getResultStatus));
+		}
+
+		// userRankが-1の場合はランキングに登録されていない
+		if (getUserRank === -1) {
+			setUserRank(0);
+		}
+	}, []);
+
+	const shareMessage = resultStatus?.isNew
+		? `自己ベスト更新！%0aランキング${userRank}位! タイム${formatTime(clearTime)}!`
+		: userRank
+			? `ランキング${userRank}位！ タイム${formatTime(clearTime)}！`
+			: `タイムは${formatTime(clearTime)}！`;
+
 	const encodedLineShareMessage = encodeURIComponent(
 		`${shareMessage}\n\nばーちゃるぼっくすであそんだよ`,
 	);
 
 	return (
 		<main className={styles.root}>
-			<p className={styles["user-name"]}>ユーザー名</p>
+			<p className={styles["user-name"]}>{userName}</p>
 			<div className={styles["share-container"]}>
 				<div className={styles["share-text"]}>
 					<img
@@ -50,8 +82,7 @@ export const SharePage = () => {
 					LINE で結果をシェアする
 				</a>
 			</div>
-			{/* // TODO: 遷移先は仮 */}
-			<Link className={styles["return-game"]} to="/mode_select">
+			<Link className={styles["return-game"]} to="/guest_login">
 				もういちどあそびにいく
 			</Link>
 			<DefaultButton
