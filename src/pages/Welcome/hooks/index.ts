@@ -55,7 +55,7 @@ export const useWelcome = (): useWelcomeProps => {
 
 			localStorage.setItem("token", data.access_token);
 			localStorage.setItem("userName", userName);
-      
+
 			navigate("/mode_select");
 		} catch (error) {
 			console.error("Login error:", error);

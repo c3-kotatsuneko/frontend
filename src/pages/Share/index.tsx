@@ -82,6 +82,7 @@ export const SharePage = () => {
 					LINE で結果をシェアする
 				</a>
 			</div>
+
 			<Link className={styles["return-game"]} to="/guest_login">
 				もういちどあそびにいく
 			</Link>
