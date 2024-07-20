@@ -2,10 +2,15 @@ import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 import { useUserName } from "../../utils/setUserName";
+import { useEffect } from "react";
 
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { userName } = useUserName();
+
+	useEffect(() => {
+		document.getElementById("arjs-video")?.remove();
+	}, []);
 
 	return (
 		<main className={styles.root}>
@@ -14,7 +19,9 @@ export const ModeSelectPage = () => {
 			<p className={styles.title}>どこであそぶ？</p>
 
 			<div className={styles["button-wrap"]}>
-				<DefaultButton>たいむあたっく</DefaultButton>
+				<DefaultButton onClick={() => navigate("/ar")}>
+					たいむあたっく
+				</DefaultButton>
 
 				<DefaultButton color="redorange" disabled>
 					いっしょにたいせん

@@ -416,7 +416,8 @@ export const ARApp = () => {
 			createHandLandmarker();
 			return () => {
 				observer.disconnect();
-				document.body.style.background = "var(--gray)";
+				videoRef.current?.pause();
+				document.body.style.background = "var(--grey)";
 			};
 		}, [predictWebcam]);
 

@@ -16,6 +16,7 @@ const ExitButton = () => {
 	return (
 		<>
 			<DefaultButton
+				className={styles["button-style"]}
 				onClick={() => setIsOpen(true)}
 				color="blue"
 				variant="outlined"

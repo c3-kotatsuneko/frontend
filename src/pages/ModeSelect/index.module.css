@@ -5,6 +5,7 @@
   align-items: center;
   height: 100vh;
   color: var(--black);
+  background-color: var(--grey);
 }
 
 .user-name {

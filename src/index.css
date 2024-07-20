@@ -26,7 +26,8 @@ body {
   height: 100%;
   box-sizing: border-box;
   color: #080000;
-  background-color: var(--gray);
+
+  /* background-color: var(--grey); */
 }
 
 h1 {

@@ -1,11 +1,16 @@
 .timer-box {
   display: flex;
+  position: absolute;
+  top: 16px;
+  left: 16px;
   justify-content: center;
   max-width: 110px;
+  min-width: 70px;
   padding: 4px 12px;
   border: 1px solid var(--blue);
   border-radius: 4px;
   background-color: var(--white);
+  z-index: 10;
 }
 
 .timer-text {
