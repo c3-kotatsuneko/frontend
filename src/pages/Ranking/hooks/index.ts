@@ -51,7 +51,6 @@ export const useRankingPage = (): UseRankingPage => {
 	});
 
 	const getRanking = useCallback(async (clearTime: number, limit: number) => {
-
 		try {
 			const response = await fetch(
 				`${baseUrl}/record?clear_time=${clearTime}&limit=${limit}`,
@@ -88,7 +87,7 @@ export const useRankingPage = (): UseRankingPage => {
 			);
 			setRankList(transformedData);
 			setLastHighestTime(data.highest_clear_time);
-      
+
 			setResultStatus({
 				isNew: data.is_new,
 				canRecord: data.can_record,

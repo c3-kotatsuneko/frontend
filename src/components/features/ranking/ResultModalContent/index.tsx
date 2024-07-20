@@ -62,7 +62,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 					</p>
 				</div>
 			)}
-      
+
 			{!isGuest && resultStatus.canRecord && (
 				<div className={styles["modal-selection-wrapper"]}>
 					<DefaultButton
