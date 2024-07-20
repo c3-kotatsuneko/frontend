@@ -10,8 +10,6 @@ let video: HTMLVideoElement;
 let webcamRunning = false;
 
 const startSetup = () => {
-	webcamRunning = true;
-	enableCam();
 	startAR();
 };
 
@@ -28,48 +26,56 @@ const createHandLandmarker = async () => {
 		runningMode: "VIDEO",
 		numHands: 2,
 	});
+	webcamRunning = true;
+	enableCam();
 };
 createHandLandmarker();
 
 const hasGetUserMedia = () => !!navigator.mediaDevices?.getUserMedia;
 
 if (url === "/ar") {
-	document.addEventListener("DOMContentLoaded", () => {
-		//id="arButton"の要素を作成
-		const arButton = document.createElement("button");
-		arButton.textContent = "ARstart";
-		arButton.addEventListener("click", startSetup);
-		//id="video"の要素を作成
-		const handTrack = document.createElement("video");
-		handTrack.setAttribute("id", "video");
-		handTrack.setAttribute("autoplay", "");
-		handTrack.setAttribute("muted", "");
-		//styleを設定
-		handTrack.style.display = "none";
-		//body要素を取得
-		const body = document.querySelector("body");
-		//bodyの中に追加
-		if (body !== null) {
-			body.appendChild(arButton);
+	//body要素を取得
+	const body = document.querySelector("body");
+	//bodyの中身を削除
+	//bodyにa-sceneを追加
+	const scene = document.createElement("a-scene");
+	scene.setAttribute("embedded", "");
+	scene.setAttribute("arjs", "");
+	//bodyの中にsceneを追加
+	if (body !== null) {
+		body.appendChild(scene);
+	}
+
+	//id="arButton"の要素を作成
+	const arButton = document.createElement("button");
+	arButton.textContent = "ARstart";
+	arButton.addEventListener("click", startSetup);
+	//id="video"の要素を作成
+	const handTrack = document.createElement("video");
+	handTrack.setAttribute("id", "video");
+	handTrack.setAttribute("autoplay", "");
+	handTrack.setAttribute("muted", "");
+	//styleを設定
+	handTrack.style.display = "none";
+	//bodyの中に追加
+	if (body !== null) {
+		body.appendChild(handTrack);
+	}
+	enableWebcamButton = arButton;
+	video = handTrack;
+	if (hasGetUserMedia()) {
+		console.log("getUserMedia()が使えるよ");
+		//id="arButton"の要素を取得
+		if (enableWebcamButton === null) {
+			console.warn("enableWebcamButtonが存在しないよ");
 		}
-		if (body !== null) {
-			body.appendChild(handTrack);
-		}
-		enableWebcamButton = arButton;
-		video = handTrack;
-		if (hasGetUserMedia()) {
-			console.log("getUserMedia()が使えるよ");
-			//id="arButton"の要素を取得
-			if (enableWebcamButton === null) {
-				console.warn("enableWebcamButtonが存在しないよ");
-			}
-			enableWebcamButton.addEventListener("click", startSetup);
-		} else {
-			console.warn(
-				"getUserMedia()がこのブラウザでは対応してないよ、そんなブラウザ捨ててしまえ！",
-			);
-		}
-	});
+		enableWebcamButton.addEventListener("click", startSetup);
+	} else {
+		console.warn(
+			"getUserMedia()がこのブラウザでは対応してないよ、そんなブラウザ捨ててしまえ！",
+		);
+	}
+	startSetup();
 }
 
 function enableCam() {
@@ -133,7 +139,7 @@ async function predictWebcam() {
 				const angleY = Math.atan2(handDir.x, handDir.z) * (180 / Math.PI);
 				const angleZ = Math.atan2(handDir.y, handDir.x) * (180 / Math.PI);
 				//id="marker"にa-boxを追加
-				const marker = document.getElementById("marker");
+				const frontMarker = document.getElementById("frontMarker");
 				//id="box"が存在する場合は属性だけ変更
 				const box = document.getElementById("box");
 				if (box !== null) {
@@ -155,7 +161,7 @@ async function predictWebcam() {
 					box.setAttribute("height", "0.1");
 					box.setAttribute("depth", "0.1");
 					box.setAttribute("rotation", `${angleX} ${angleY} ${angleZ}`);
-					marker?.appendChild(box);
+					frontMarker?.appendChild(box);
 				}
 				console.log(handPos);
 			}
@@ -170,20 +176,37 @@ async function predictWebcam() {
 function startAR() {
 	//body要素を取得
 	const body = document.querySelector("body");
-	//bodyにa-sceneを追加
-	const scene = document.createElement("a-scene");
-	scene.setAttribute("embedded", "");
-	scene.setAttribute("arjs", "sourceType: webcam; debugUIEnabled: false");
+	//a-sceneを取得
+	const scene = document.querySelector("a-scene");
 	//a-sceneの中にa-marker-cameraを追加
-	const marker = document.createElement("a-marker-camera");
-	marker.setAttribute("type", "pattern");
-	marker.setAttribute("url", "/pattern-hackU.patt");
-	//idをmarkerに設定
-	marker.setAttribute("id", "marker");
-	scene.appendChild(marker);
+	const frontMarker = document.createElement("a-marker");
+	frontMarker.setAttribute("type", "pattern");
+	frontMarker.setAttribute("url", "/pattern-hackU.patt");
+	frontMarker.setAttribute("id", "frontMarker");
+	//sceneの中にfrontMarkerを追加
+	//frontMarkerにa-boxを追加
+	const box = document.createElement("a-box");
+	box.setAttribute("position", "0 0 0");
+	box.setAttribute("width", "0.5");
+	box.setAttribute("height", "0.5");
+	box.setAttribute("depth", "0.5");
+	const stage = document.createElement("a-box");
+
+	stage.setAttribute("position", "0 -0.7 1");
+	stage.setAttribute("width", "5");
+	stage.setAttribute("height", "2");
+	stage.setAttribute("depth", "0.5");
+	frontMarker.appendChild(box);
+
+	if (scene !== null) {
+		scene.appendChild(frontMarker);
+	}
+	//<a-entity camera></a-entity>を定義
+	const camera = document.createElement("a-entity");
+	camera.setAttribute("camera", "");
 	//bodyの中に追加
 	if (body !== null) {
-		body.appendChild(scene);
+		body.appendChild(camera);
 	}
 }
 

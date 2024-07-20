@@ -6,6 +6,7 @@ import { ModeSelectPage } from "./pages/ModeSelect";
 import { SharePage } from "./pages/Share";
 import { RankingPage } from "./pages/Ranking";
 import { RankingPreviewPage } from "./pages/RankingPreview";
+import AR from "./AR";
 import Welcome from "./pages/Welcome";
 
 const AppRoutes = () => {
@@ -20,6 +21,7 @@ const AppRoutes = () => {
 				<Route path="/mode_select" element={<ModeSelectPage />} />
 				<Route path="/ranking_preview" element={<RankingPreviewPage />} />
 				<Route path="/ranking" element={<RankingPage />} />
+				<Route path="/ar" element={<AR />} />
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
 			</Routes>
 		</>

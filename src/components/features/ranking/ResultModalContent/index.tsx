@@ -45,6 +45,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 					height="64"
 				/>
 			</div>
+
 			{!isGuest && resultStatus.isNew && (
 				<p className={styles["modal-description"]} data-type="my-best">
 					⭐️自己ベスト更新⭐️
@@ -53,6 +54,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 			<p className={styles["modal-description"]} data-type="record">
 				きろくは{formatTime(clearTime)}！
 			</p>
+
 			{!isGuest && !resultStatus.canRecord && lastHighestTime !== -1 && (
 				<div className={styles["modal-p"]}>
 					<p className={styles["modal-description"]} data-type="highest">
@@ -60,6 +62,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 					</p>
 				</div>
 			)}
+      
 			{!isGuest && resultStatus.canRecord && (
 				<div className={styles["modal-selection-wrapper"]}>
 					<DefaultButton
