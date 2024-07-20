@@ -4,17 +4,14 @@ import { DefaultButton } from "../../components/ui/Button";
 import { TextInput } from "../../components/ui/TextInput";
 import styles from "./index.module.css";
 
-interface GuestLoginProps {
-	onSubmit: (name: string) => void;
-}
-
-export const GuestLoginPage: React.FC<GuestLoginProps> = ({ onSubmit }) => {
+export const GuestLoginPage = () => {
 	const navigate = useNavigate();
 	const [name, setName] = useState("");
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		onSubmit(name);
+		localStorage.setItem("guestName", name);
+		navigate("/mode_select");
 	};
 	return (
 		<main className={styles.root}>
@@ -25,11 +22,7 @@ export const GuestLoginPage: React.FC<GuestLoginProps> = ({ onSubmit }) => {
 					value={name}
 					onChange={(e) => setName(e.target.value)}
 				/>
-				<DefaultButton
-					color="redorange"
-					type="submit"
-					onClick={() => navigate("/mode_select")}
-				>
+				<DefaultButton color="redorange" type="submit">
 					あそびにいく
 				</DefaultButton>
 			</form>

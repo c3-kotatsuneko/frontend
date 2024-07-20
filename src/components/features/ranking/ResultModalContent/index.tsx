@@ -1,8 +1,9 @@
 import type { ResultStatus } from "../../../../pages/Ranking/hooks";
 import { formatTime } from "../../../../utils/formatTime";
+import { useUserName } from "../../../../utils/setUserName";
 import { DefaultButton } from "../../../ui/Button";
 import { TextButton } from "../../../ui/TextButton";
-import styles from "../ResultModalContent/index.module.css";
+import styles from "./index.module.css";
 
 type ModalContentProps = {
 	clearTime: number;
@@ -22,11 +23,14 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 	setIsOpen,
 	handleUpdateRanking,
 }) => {
+	const { isGuest } = useUserName();
+
 	return (
 		<div className={styles["modal-wrapper"]}>
 			<div className={styles["cats-image-container"]}>
 				<img
 					className={styles["cats-image-square"]}
+					data-type={isGuest ? "guest" : "user"}
 					alt="四角ねこタワー"
 					src="cats/catsTower-square.png"
 					width="48"
@@ -34,13 +38,15 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 				/>
 				<img
 					className={styles["cats-image-circle"]}
+					data-type={isGuest ? "guest" : "user"}
 					alt="丸ねこタワー"
 					src="cats/catsTower-circle.png"
 					width="32"
 					height="64"
 				/>
 			</div>
-			{resultStatus.isNew && (
+
+			{!isGuest && resultStatus.isNew && (
 				<p className={styles["modal-description"]} data-type="my-best">
 					⭐️自己ベスト更新⭐️
 				</p>
@@ -48,14 +54,16 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 			<p className={styles["modal-description"]} data-type="record">
 				きろくは{formatTime(clearTime)}！
 			</p>
-			{!resultStatus.canRecord && (
+
+			{!isGuest && !resultStatus.canRecord && lastHighestTime !== -1 && (
 				<div className={styles["modal-p"]}>
 					<p className={styles["modal-description"]} data-type="highest">
 						前回の最高記録は{formatTime(lastHighestTime)}！
 					</p>
 				</div>
 			)}
-			{resultStatus.canRecord && (
+      
+			{!isGuest && resultStatus.canRecord && (
 				<div className={styles["modal-selection-wrapper"]}>
 					<DefaultButton
 						variant="contained"

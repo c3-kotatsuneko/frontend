@@ -6,9 +6,9 @@ import "./index.css";
 import Layout from "./layout";
 import { LoadingPage } from "./pages/Loading";
 
-// biome-ignore lint/style/noNonNullAssertion: <explanation>
-ReactDOM.createRoot(document.getElementById("root")!).render(
-	<React.StrictMode>
+const root = document.getElementById("root");
+if (root) {
+	ReactDOM.createRoot(root).render(
 		<BrowserRouter>
 			<Suspense fallback={<LoadingPage />}>
 				<Layout>

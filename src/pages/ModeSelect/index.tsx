@@ -1,13 +1,15 @@
 import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
+import { useUserName } from "../../utils/setUserName";
 
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
+	const { userName } = useUserName();
 
 	return (
 		<main className={styles.root}>
-			<p className={styles["user-name"]}>ユーザー名</p>
+			<p className={styles["user-name"]}>{userName}</p>
 
 			<p className={styles.title}>どこであそぶ？</p>
 
