@@ -87,7 +87,7 @@ const useInitializeThreeJS = () => {
     const frontBlockSet: THREE.Mesh[] = [];
     for (let i = 0; i < 5; i++) {
       const frontBlock = new THREE.Mesh(
-        new THREE.BoxGeometry(0.1, 0.1, 0.1),
+        new THREE.BoxGeometry(0.6, 0.6, 0.6),
         new THREE.MeshStandardMaterial({ color: 0xff0000 })
       );
       frontBlock.position.set(0, -0.8, 0);
@@ -120,7 +120,7 @@ const useInitializeThreeJS = () => {
     const backBlockSet: THREE.Mesh[] = [];
     for (let i = 0; i < 5; i++) {
       const backBlock = new THREE.Mesh(
-        new THREE.BoxGeometry(1, 1, 1),
+        new THREE.BoxGeometry(0.1, 0.1, 0.1),
         new THREE.MeshStandardMaterial({ color: 0xffff00 })
       );
       backBlock.position.set(0, -0.8, 0);
@@ -156,6 +156,9 @@ const useInitializeThreeJS = () => {
 };
 
 const ARApp = () => {
+  const [grabObjectIndex, setGrabObjectIndex] = useState<number>(0);
+  const [grabPos, setGrabPos] = useState<position>({ x: 0, y: 0, z: 0 });
+  const [isGrab, setIsGrab] = useState<boolean>(false);
   //three.jsゾーン
   const param = new URLSearchParams(useLocation().search);
   //パラメーターからポジションを取得
@@ -163,7 +166,9 @@ const ARApp = () => {
   // const [allObjectInfo, setallObjectInfo] = useState<objectInfo[] | null>(
   //   testData
   // );
-  const allObjectInfo = testData;
+  // biome-ignore lint/style/useConst: <explanation>
+  let allObjectInfo = testData;
+  // biome-ignore lint/style/useConst: <explanation>
   let handInfoData: handInfo = {
     handStatus: "close",
     handPos: { x: 0, y: 0, z: 0 },
@@ -204,6 +209,7 @@ const ARApp = () => {
     const [webcamRunning, setWebcamRunning] = useState(false);
     const videoRef = useRef<HTMLVideoElement | null>(null);
     const handLandmarkerRef = useRef<HandLandmarker | undefined>(undefined);
+
     // biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
     const predictWebcam = useCallback(async () => {
       console.log("predictWebcam");
@@ -235,9 +241,9 @@ const ARApp = () => {
                 z: detections.landmarks[0][12].z - detections.landmarks[0][0].z,
               };
               const handPos = {
-                x: (detections.landmarks[0][0].x - 0.5) * 5,
-                y: (detections.landmarks[0][0].y - 0.5) * 5,
-                z: detections.landmarks[0][0].z,
+                x: (detections.landmarks[0][0].x - 0.5) * 7,
+                y: (detections.landmarks[0][0].y - 0.5) * 10,
+                z: detections.landmarks[0][0].z - 0.5,
               };
               // console.log("x/y/z", handMidPos);
               const dist = Math.sqrt(
@@ -245,12 +251,10 @@ const ARApp = () => {
                   handTopPos.y * handTopPos.y +
                   handTopPos.z * handTopPos.z
               );
-              console.log(dist);
-              let status = "";
-              if (dist > 0.4) {
-                status = "open";
+              if (dist > 0.6) {
+                setIsGrab(false);
               } else {
-                status = "close";
+                setIsGrab(true);
               }
               const handDir = {
                 x: handMidPos.x - handTopPos.x,
@@ -276,11 +280,7 @@ const ARApp = () => {
                       angle: { x: 0, y: 0, z: 0 },
                       scale: { x: 0.1, y: 0.1, z: 0.1 },
                     }).object;
-                    handInfoData = {
-                      handStatus: status,
-                      handPos: handInfo.position,
-                      handAngle: handInfo.angle,
-                    };
+                    setGrabPos(handInfo.position);
                   }
                   break;
                 case "left":
@@ -290,11 +290,7 @@ const ARApp = () => {
                       angle: { x: 0, y: 0, z: 0 },
                       scale: { x: 0.1, y: 0.1, z: 0.1 },
                     }).object;
-                    handInfoData = {
-                      handStatus: status,
-                      handPos: handInfo.position,
-                      handAngle: handInfo.angle,
-                    };
+                    setGrabPos(handInfo.position);
                   }
                   break;
                 case "right":
@@ -304,11 +300,7 @@ const ARApp = () => {
                       angle: { x: 0, y: 0, z: 0 },
                       scale: { x: 0.1, y: 0.1, z: 0.1 },
                     }).object;
-                    handInfoData = {
-                      handStatus: status,
-                      handPos: handInfo.position,
-                      handAngle: handInfo.angle,
-                    };
+                    setGrabPos(handInfo.position);
                   }
                   break;
                 case "back":
@@ -318,11 +310,7 @@ const ARApp = () => {
                       angle: { x: 0, y: 0, z: 0 },
                       scale: { x: 0.1, y: 0.1, z: 0.1 },
                     }).object;
-                    handInfoData = {
-                      handStatus: status,
-                      handPos: handInfo.position,
-                      handAngle: handInfo.angle,
-                    };
+                    setGrabPos(handInfo.position);
                   }
                   break;
               }
@@ -385,12 +373,21 @@ const ARApp = () => {
         }
         console.log("映像読み込み完了", handLandmarkerRef);
 
-        navigator.mediaDevices.getUserMedia({ video: true }).then((stream) => {
-          if (videoRef.current) {
-            videoRef.current.srcObject = stream;
-            videoRef.current.addEventListener("loadeddata", predictWebcam);
-          }
-        });
+        navigator.mediaDevices
+          //映像のサイズを横640 縦480の外カメラにに設定
+          .getUserMedia({
+            video: {
+              width: 480,
+              height: 640,
+              facingMode: "environment",
+            },
+          })
+          .then((stream) => {
+            if (videoRef.current) {
+              videoRef.current.srcObject = stream;
+              videoRef.current.addEventListener("loadeddata", predictWebcam);
+            }
+          });
       };
 
       const createHandLandmarker = async () => {
@@ -406,7 +403,7 @@ const ARApp = () => {
               delegate: "GPU",
             },
             runningMode: "VIDEO",
-            numHands: 2,
+            numHands: 1,
           }
         );
         setWebcamRunning(true);
@@ -434,6 +431,38 @@ const ARApp = () => {
       </>
     );
   };
+
+  useEffect(() => {
+    if (isGrab) {
+      let minDist = 1000000;
+      for (let i = 0; i < 5; i++) {
+        const dist = Math.sqrt(
+          (allObjectInfo[i].position.x - grabPos.x) *
+            (allObjectInfo[i].position.x - grabPos.x) +
+            (allObjectInfo[i].position.y - grabPos.y) *
+              (allObjectInfo[i].position.y - grabPos.y) +
+            (allObjectInfo[i].position.z - grabPos.z) *
+              (allObjectInfo[i].position.z - grabPos.z)
+        );
+        if (dist < 2) {
+          if (dist < minDist) {
+            minDist = dist;
+            setGrabObjectIndex(i);
+          }
+        }
+      }
+      if (minDist !== 1000000) {
+        //AllObjectの情報を更新
+        console.log("更新");
+        allObjectInfo[grabObjectIndex].position = {
+          x: grabPos.x,
+          y: grabPos.y,
+          z: grabPos.z,
+        };
+        setIsGrab(false);
+      }
+    }
+  }, [isGrab, grabPos, allObjectInfo, grabObjectIndex]);
 
   useEffect(() => {
     const debugLog = (e: Event) => {
