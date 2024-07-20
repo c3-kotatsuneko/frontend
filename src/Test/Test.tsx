@@ -155,7 +155,7 @@ const useInitializeThreeJS = () => {
 	return { rendererRef, sceneRef, cameraRef, lightRef, allBlockSet, handBlock };
 };
 
-const ARApp = () => {
+export const ARApp = () => {
 	//three.jsゾーン
 	const param = new URLSearchParams(useLocation().search);
 	//パラメーターからポジションを取得
