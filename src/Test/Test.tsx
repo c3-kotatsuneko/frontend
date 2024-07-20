@@ -745,6 +745,7 @@ const ARApp = () => {
       <HandTrackingComponent />
     </>
   );
+
 };
 
 export default ARApp;

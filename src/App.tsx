@@ -6,8 +6,8 @@ import { ModeSelectPage } from "./pages/ModeSelect";
 import { SharePage } from "./pages/Share";
 import { RankingPage } from "./pages/Ranking";
 import { RankingPreviewPage } from "./pages/RankingPreview";
-import AR from "./AR";
 import Welcome from "./pages/Welcome";
+import { AR } from "./AR";
 
 const AppRoutes = () => {
 	return (
