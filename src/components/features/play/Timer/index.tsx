@@ -7,12 +7,12 @@ type TimerProps = {
 };
 
 // 半角英数字を全角に変換
-const toFullWidth = (input: string) => {
-	const str = input.replace(/[A-Za-z0-9]/g, (s) => {
-		return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
-	});
-	return str;
-};
+// const toFullWidth = (input: string) => {
+// 	const str = input.replace(/[A-Za-z0-9]/g, (s) => {
+// 		return String.fromCharCode(s.charCodeAt(0) + 0xfee0);
+// 	});
+// 	return str;
+// };
 
 export const Timer = ({ remainingTime }: TimerProps) => {
 	const formattedTime = formatTime(remainingTime);
@@ -20,7 +20,7 @@ export const Timer = ({ remainingTime }: TimerProps) => {
 	return (
 		<div className={styles["timer-box"]}>
 			<TimerIcon />
-			<span className={styles["timer-text"]}>{toFullWidth(formattedTime)}</span>
+			<span className={styles["timer-text"]}>{formattedTime}</span>
 		</div>
 	);
 };

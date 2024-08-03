@@ -3,7 +3,7 @@ import { RankList } from "../../components/features/ranking/RankList";
 import { Modal } from "../../components/ui/Modal";
 import styles from "./index.module.css";
 import { useRankingPage } from "./hooks";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ResultModalContent } from "../../components/features/ranking/ResultModalContent";
 import { useNavigate } from "react-router-dom";
 
@@ -21,6 +21,9 @@ export const RankingPage = () => {
 		handleUpdateRanking(clearTime, limit);
 		setIsOpen(false);
 	};
+	useEffect(() => {
+		document.getElementById("arjs-video")?.remove();
+	}, []);
 
 	return (
 		<main className={styles.root}>

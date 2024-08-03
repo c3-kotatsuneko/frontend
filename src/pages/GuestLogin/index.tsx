@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "../../components/ui/Button";
 import { TextInput } from "../../components/ui/TextInput";
@@ -7,6 +7,12 @@ import styles from "./index.module.css";
 export const GuestLoginPage = () => {
 	const navigate = useNavigate();
 	const [name, setName] = useState("");
+
+	useEffect(() => {
+		localStorage.removeItem("resultStatus");
+		localStorage.removeItem("userName");
+		localStorage.removeItem("userRank");
+	}, []);
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();

@@ -42,7 +42,7 @@ export const SharePage = () => {
 	}, []);
 
 	const shareMessage = resultStatus?.isNew
-		? `自己ベスト更新！%0aランキング${userRank}位! タイム${formatTime(clearTime)}!`
+		? `自己ベスト更新！タイム${formatTime(clearTime)}!`
 		: userRank
 			? `ランキング${userRank}位！ タイム${formatTime(clearTime)}！`
 			: `タイムは${formatTime(clearTime)}！`;
@@ -88,6 +88,7 @@ export const SharePage = () => {
 			</Link>
 			<DefaultButton
 				variant="outlined"
+				size="sm"
 				className={clsx(buttonStyles["button-style"], styles["return-home"])}
 				onClick={() => navigate("/mode_select")}
 			>
