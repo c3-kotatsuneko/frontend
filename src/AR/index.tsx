@@ -7,30 +7,31 @@ import ExitButton from "../components/features/play/ExitButton";
 import { useNavigate } from "react-router-dom";
 
 export const AR = () => {
-	const navigate = useNavigate();
-	const { userName } = useUserName();
-	const [time, setTime] = useState(10);
-	useEffect(() => {
-		setInterval(() => {
-			setTime(time - 1);
-		}, 1000);
-	}, [time]);
+  const navigate = useNavigate();
+  const { userName } = useUserName();
+  const [time, setTime] = useState(10);
 
-	// timeが0になったらrankingページへ遷移する
-	useEffect(() => {
-		localStorage.setItem("clearTime", "18");
+  useEffect(() => {
+    setInterval(() => {
+      setTime(time - 1);
+    }, 1000);
+  }, [time]);
 
-		if (time === 0) {
-			navigate("/ranking");
-		}
-	}, [navigate, time]);
+  // timeが0になったらrankingページへ遷移する
+  useEffect(() => {
+    localStorage.setItem("clearTime", "18");
 
-	return (
-		<main>
-			<Timer remainingTime={time} />
-			<p className={styles["user-name"]}>{userName}</p>
-			<ARApp />
-			<ExitButton />
-		</main>
-	);
+    if (time === 0) {
+      navigate("/ranking");
+    }
+  }, [navigate, time]);
+
+  return (
+    <main>
+      <Timer remainingTime={time} />
+      <p className={styles["user-name"]}>{userName}</p>
+      <ARApp />
+      <ExitButton />
+    </main>
+  );
 };
