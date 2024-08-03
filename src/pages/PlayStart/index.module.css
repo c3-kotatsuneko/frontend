@@ -1,0 +1,18 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  color: var(--black);
+}
+
+.start-message {
+  font-size: 24px;
+  padding-bottom: 40px;
+}
+
+.cats-image {
+  padding-top: 72px;
+  padding-left: 24px;
+}
