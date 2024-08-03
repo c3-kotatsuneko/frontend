@@ -12,7 +12,7 @@ export const GuestLoginPage = () => {
 		localStorage.removeItem("resultStatus");
 		localStorage.removeItem("userName");
 		localStorage.removeItem("userRank");
-	});
+	}, []);
 
 	const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
