@@ -7,6 +7,8 @@
 ```
 git clone git@github.com:Semi-koron/ba-tyarubokkusuFrontend.git
 ```
+```
+git clone git@github.com:c3-kotatsuneko/frontend.git
 
 ## ライブラリインストール
 
