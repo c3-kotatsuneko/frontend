@@ -5,7 +5,9 @@ export const PlayStart = () => {
 	return (
 		<main className={styles.root}>
 			<p className={styles["start-message"]}>じゅんびはできた？</p>
-			<DefaultButton color="redorange">げーむ すたーと！</DefaultButton>
+			<DefaultButton color="redorange" size="lg">
+				げーむ すたーと！
+			</DefaultButton>
 			<img
 				className={styles["cats-image"]}
 				alt="丸ねこタワー"
