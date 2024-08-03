@@ -32,7 +32,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 					className={styles["cats-image-square"]}
 					data-type={isGuest ? "guest" : "user"}
 					alt="四角ねこタワー"
-					src="cats/catsTower-square.png"
+					src="cats/catsTower-square.webp"
 					width="48"
 					height="64"
 				/>
@@ -40,7 +40,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 					className={styles["cats-image-circle"]}
 					data-type={isGuest ? "guest" : "user"}
 					alt="丸ねこタワー"
-					src="cats/catsTower-circle.png"
+					src="cats/catsTower-circle.webp"
 					width="32"
 					height="64"
 				/>

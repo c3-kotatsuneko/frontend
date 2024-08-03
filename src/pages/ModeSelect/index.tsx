@@ -39,7 +39,7 @@ export const ModeSelectPage = () => {
 					<img
 						className={styles["crown-image"]}
 						alt="crown"
-						src="crown.png?url"
+						src="crown.webp?url"
 						width={16}
 						height={16}
 					/>
@@ -50,7 +50,7 @@ export const ModeSelectPage = () => {
 			<img
 				className={styles["cats-image"]}
 				alt="のびねこ"
-				src="/cats/extendedMike.png?url"
+				src="/cats/extendedMike.webp?url"
 				width={216}
 				height={106}
 			/>

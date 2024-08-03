@@ -27,7 +27,7 @@ export const RankingPage = () => {
 
 	return (
 		<main className={styles.root}>
-			<img alt="crown" src="crown.png" width={120} height={120} />
+			<img alt="crown" src="crown.webp" width={120} height={120} />
 
 			<div className={styles["ranking-container"]}>
 				<span className={styles["title-text"]}>たいむあたっく</span>
@@ -51,7 +51,7 @@ export const RankingPage = () => {
 			<img
 				className={styles.image}
 				alt="猫たわー"
-				src="cats/catsTower-circle.png"
+				src="cats/catsTower-circle.webp"
 				width={70}
 				height={115}
 			/>
