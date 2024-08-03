@@ -1,38 +1,15 @@
-import styles from "./index.module.css";
-import Signup from "../../components/features/welcome/SignupForm";
-import Login from "../../components/features/welcome/LoginForm";
 import Tab from "../../components/features/welcome/tab";
-import { useWelcome } from "./hooks";
+import Signup from "./items/SignupForm";
+import Login from "./items/LoginForm";
+import styles from "./index.module.css";
 
 const Welcome = () => {
-	const {
-		loginError,
-		onLoginSubmit,
-		userExistsMessage,
-		useDebounce,
-		checkExistUserName,
-		onSignupSubmit,
-	} = useWelcome();
-
 	return (
 		<main className={styles["welcome-body"]}>
 			<h2>ばーちゃるぼっくす</h2>
 			<Tab
 				labels={["ろぐいん", "とうろく"]}
-				contents={[
-					<Login
-						key="login"
-						onSubmit={onLoginSubmit}
-						loginError={loginError}
-					/>,
-					<Signup
-						key="signup"
-						userExistsMessage={userExistsMessage}
-						useDebounce={useDebounce}
-						checkExistUserName={checkExistUserName}
-						onSubmit={onSignupSubmit}
-					/>,
-				]}
+				contents={[<Login key="login" />, <Signup key="signup" />]}
 				id={""}
 			/>
 			<img
