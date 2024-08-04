@@ -7,11 +7,16 @@
   color: var(--black);
 }
 
-.loading-message {
+.start-message {
   font-size: 24px;
-  padding-bottom: 48px;
+  padding-bottom: 40px;
+}
+
+.start-button {
+  padding: 8px 32px;
 }
 
 .cats-image {
+  padding-top: 72px;
   padding-left: 24px;
 }

@@ -19,11 +19,24 @@ export const ModeSelectPage = () => {
 			<p className={styles.title}>どこであそぶ？</p>
 
 			<div className={styles["button-wrap"]}>
-				<DefaultButton onClick={() => navigate("/ar")}>
+				<DefaultButton
+					onClick={() => {
+						localStorage.setItem("mode", "timeAttack");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
 					たいむあたっく
 				</DefaultButton>
 
-				<DefaultButton color="redorange" disabled>
+				<DefaultButton
+					color="redorange"
+					onClick={() => {
+						localStorage.setItem("mode", "battle");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
 					いっしょにたいせん
 				</DefaultButton>
 

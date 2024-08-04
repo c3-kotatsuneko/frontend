@@ -5,7 +5,7 @@ import clsx from "clsx";
 type ButtonProps = {
 	children: ReactNode;
 	variant?: "contained" | "outlined";
-	size?: "sm" | "md";
+	size?: "sm" | "md" | "lg";
 	color?: "redorange" | "yellow" | "blue" | "green" | "brown";
 } & ComponentPropsWithoutRef<"button">;
 
