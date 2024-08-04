@@ -1,4 +1,4 @@
-import { Rank } from "../../../components/features/ranking/RankList";
+import type { Rank } from "../../../components/features/ranking/RankList";
 import { baseUrl } from "../../../utils/baseUrl";
 import { formatTime } from "../../../utils/formatTime";
 
