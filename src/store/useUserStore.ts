@@ -8,9 +8,8 @@ type State = {
 };
 
 type Action = {
-	setToken: (token: State["token"]) => void;
-	setName: (name: State["name"]) => void;
-	setIsGuest: (isGuest: State["isGuest"]) => void;
+	setLoginUser: (token: State["token"], name: State["name"]) => void;
+	setGuestUser: (name: State["name"]) => void;
 };
 
 export const useUserStore = create<State & Action>()(
@@ -19,9 +18,9 @@ export const useUserStore = create<State & Action>()(
 			token: "",
 			name: "",
 			isGuest: false,
-			setToken: (token) => set(() => ({ token: token })),
-			setName: (name) => set(() => ({ name: name })),
-			setIsGuest: (isGuest) => set(() => ({ isGuest: isGuest })),
+			setLoginUser: (token, name) =>
+				set({ token: token, name: name, isGuest: false }),
+			setGuestUser: (name) => set({ token: "", name: name, isGuest: true }),
 		}),
 		{
 			name: "user-storage",

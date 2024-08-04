@@ -11,7 +11,7 @@ import { useDebounce } from "./useDebounce";
 
 export const useSignupForm = () => {
 	const navigate = useNavigate();
-	const { setName, setToken } = useUserStore();
+	const { setLoginUser } = useUserStore();
 	const [userName, setUserName] = useState("");
 	const [omajinai, setOmajinai] = useState("");
 	const [userExistsMessage, setUserExistsMessage] = useState("");
@@ -68,8 +68,7 @@ export const useSignupForm = () => {
 			}
 			const data = await response.json();
 
-			setName(userName);
-			setToken(data.access_token);
+			setLoginUser(data.access_token, userName);
 
 			navigate("/mode_select");
 		} catch (error) {

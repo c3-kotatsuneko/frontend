@@ -11,6 +11,7 @@ import { useTimeAttackStore } from "../../store/useTimeAttackStore";
 export const RankingPage = () => {
 	const { rankList, clearTime, lastHighestTime, handleUpdateRanking } =
 		useRankingPage();
+	const { setResultStatus, setRank } = useTimeAttackStore();
 	const navigate = useNavigate();
 	const resultStatus = useTimeAttackStore((state) => state.resultStatus);
 	const [isOpen, setIsOpen] = useState(true);
@@ -18,6 +19,11 @@ export const RankingPage = () => {
 		handleUpdateRanking(clearTime, limit);
 		setIsOpen(false);
 	};
+	useEffect(() => {
+		setResultStatus({ isNew: false, canRecord: false });
+		setRank(0);
+	}, [setRank, setResultStatus]);
+
 	useEffect(() => {
 		document.getElementById("arjs-video")?.remove();
 	}, []);

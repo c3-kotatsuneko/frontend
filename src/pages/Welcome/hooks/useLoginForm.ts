@@ -5,7 +5,7 @@ import { useUserStore } from "../../../store/useUserStore";
 
 export const useLoginForm = () => {
 	const navigate = useNavigate();
-	const { setName, setToken } = useUserStore();
+	const { setLoginUser } = useUserStore();
 	const [userName, setUserName] = useState("");
 	const [password, setPassword] = useState("");
 	const [loginError, setLoginError] = useState<string | null>(null);
@@ -29,10 +29,9 @@ export const useLoginForm = () => {
 				return;
 			}
 			const data = await response.json();
-			setLoginError(null);
 
-			setName(userName);
-			setToken(data.access_token);
+			setLoginError(null);
+			setLoginUser(data.access_token, userName);
 
 			navigate("/mode_select");
 		} catch (error) {
