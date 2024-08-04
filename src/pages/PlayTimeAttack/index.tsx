@@ -3,14 +3,14 @@ import { useTimeAttackStore } from "../../store/useTimeAttackStore";
 import { Timer } from "../../components/features/play/Timer";
 import ARApp from "../../Test/Test";
 import styles from "./index.module.css";
-import { useUserName } from "../../utils/setUserName";
 import ExitButton from "../../components/features/play/ExitButton";
 import { useNavigate } from "react-router-dom";
+import { useUserStore } from "../../store/useUserStore";
 
 export const PlayTimeAttack = () => {
   const navigate = useNavigate();
   const setClearTime = useTimeAttackStore((state) => state.setClearTime);
-  const { userName } = useUserName();
+  const { name: userName } = useUserStore();
   const [time, setTime] = useState(10);
 
   useEffect(() => {

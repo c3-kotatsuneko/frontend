@@ -2,8 +2,8 @@ import { useCallback, useEffect, useState } from "react";
 import type { Rank } from "../../../components/features/ranking/RankList";
 import { baseUrl } from "../../../utils/baseUrl";
 import { formatTime } from "../../../utils/formatTime";
-import { useUserName } from "../../../utils/setUserName";
 import { useTimeAttackStore } from "../../../store/useTimeAttackStore";
+import { useUserStore } from "../../../store/useUserStore";
 
 type RankingResponse = {
   highest_clear_time: number;
@@ -41,7 +41,7 @@ type UseRankingPage = {
 };
 
 export const useRankingPage = (): UseRankingPage => {
-  const { isGuest } = useUserName();
+  const { isGuest } = useUserStore();
   const { clearTime, setResultStatus, setRank } = useTimeAttackStore();
   //   const [clearTime, setClearTime] = useState(0);
   const [rankList, setRankList] = useState<Rank[]>([]);

@@ -5,17 +5,15 @@ import { HomeIcon } from "../../components/icon/Home";
 import { DefaultButton } from "../../components/ui/Button";
 import buttonStyles from "../../components/ui/Button/index.module.css";
 import styles from "./index.module.css";
-import { useUserName } from "../../utils/setUserName";
-import { useEffect } from "react";
+// import { useEffect } from "react";
 import { formatTime } from "../../utils/formatTime";
-import { useTimeAttack } from "../../store/useTimeAttackStore";
+import { useTimeAttackStore } from "../../store/useTimeAttackStore";
+import { useUserStore } from "../../store/useUserStore";
 
 export const SharePage = () => {
   const navigate = useNavigate();
-  const { userName } = useUserName();
-  const clearTime = useTimeAttack((state) => state.clearTime);
-  const resultStatus = useTimeAttack((state) => state.resultStatus);
-  const rank = useTimeAttack((state) => state.rank);
+  const { name: userName } = useUserStore();
+  const { clearTime, resultStatus, rank } = useTimeAttackStore();
   //   const [userRank, setUserRank] = useState(0);
   // const [clearTime, setClearTime] = useState(0);
   //   const [resultStatus, setResultStatus] = useState<ResultStatus>({
@@ -23,24 +21,24 @@ export const SharePage = () => {
   //     canRecord: false,
   //   });
 
-  useEffect(() => {
-    // const getUserRank = Number(localStorage.getItem("userRank"));
-    // const getClearTime = Number(localStorage.getItem("clearTime"));
-    // const getResultStatus = localStorage.getItem("resultStatus");
-    // if (getUserRank) {
-    //   setUserRank(getUserRank);
-    // }
-    // if (getClearTime) {
-    // 	setClearTime(getClearTime);
-    // }
-    // if (getResultStatus) {
-    //   setResultStatus(JSON.parse(getResultStatus));
-    // }
-    // userRankが-1の場合はランキングに登録されていない
-    // if (getUserRank === -1) {
-    //   setUserRank(0);
-    // }
-  }, []);
+  // useEffect(() => {
+  // const getUserRank = Number(localStorage.getItem("userRank"));
+  // const getClearTime = Number(localStorage.getItem("clearTime"));
+  // const getResultStatus = localStorage.getItem("resultStatus");
+  // if (getUserRank) {
+  //   setUserRank(getUserRank);
+  // }
+  // if (getClearTime) {
+  // 	setClearTime(getClearTime);
+  // }
+  // if (getResultStatus) {
+  //   setResultStatus(JSON.parse(getResultStatus));
+  // }
+  // userRankが-1の場合はランキングに登録されていない
+  // if (getUserRank === -1) {
+  //   setUserRank(0);
+  // }
+  // }, []);
 
   const shareMessage = resultStatus?.isNew
     ? `自己ベスト更新！タイム${formatTime(clearTime)}!`
