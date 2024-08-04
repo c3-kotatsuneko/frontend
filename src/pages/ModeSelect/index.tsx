@@ -3,10 +3,12 @@ import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 import { useEffect } from "react";
 import { useUserStore } from "../../store/useUserStore";
+import { useModeStore } from "../../store/useModeStore";
 
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
+	const { setMode } = useModeStore();
 
 	useEffect(() => {
 		document.getElementById("arjs-video")?.remove();
@@ -21,7 +23,7 @@ export const ModeSelectPage = () => {
 			<div className={styles["button-wrap"]}>
 				<DefaultButton
 					onClick={() => {
-						localStorage.setItem("mode", "timeAttack");
+						setMode("timeAttack");
 						// TODO: marker_scanページに遷移する
 						navigate("/play_timeAttack");
 					}}
@@ -32,7 +34,7 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					color="redorange"
 					onClick={() => {
-						localStorage.setItem("mode", "battle");
+						setMode("battle");
 						// TODO: marker_scanページに遷移する
 						navigate("/play_timeAttack");
 					}}
@@ -40,7 +42,15 @@ export const ModeSelectPage = () => {
 					いっしょにたいせん
 				</DefaultButton>
 
-				<DefaultButton color="green" disabled>
+				<DefaultButton
+					color="green"
+					disabled
+					onClick={() => {
+						setMode("brainTraining");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
 					つみきで脳トレ
 				</DefaultButton>
 

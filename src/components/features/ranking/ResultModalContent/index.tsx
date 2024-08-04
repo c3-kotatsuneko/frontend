@@ -8,7 +8,7 @@ import styles from "./index.module.css";
 type ModalContentProps = {
 	clearTime: number;
 	lastHighestTime: number;
-	resultStatus?: ResultStatus;
+	resultStatus: ResultStatus;
 	setIsOpen: (isOpen: boolean) => void;
 	handleUpdateRanking: (clearTime: number, limit: number) => void;
 };
@@ -77,17 +77,15 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 					</TextButton>
 				</div>
 			)}
-			{!resultStatus.canRecord && (
-				<div className={styles["modal-selection-wrapper"]}>
-					<DefaultButton
-						variant="contained"
-						size="md"
-						onClick={() => setIsOpen(false)}
-					>
-						らんきんぐへ
-					</DefaultButton>
-				</div>
-			)}
+			<div className={styles["modal-selection-wrapper"]}>
+				<DefaultButton
+					variant="contained"
+					size="md"
+					onClick={() => setIsOpen(false)}
+				>
+					らんきんぐへ
+				</DefaultButton>
+			</div>
 		</div>
 	);
 };
