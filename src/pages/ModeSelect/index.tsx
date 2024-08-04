@@ -19,11 +19,24 @@ export const ModeSelectPage = () => {
 			<p className={styles.title}>どこであそぶ？</p>
 
 			<div className={styles["button-wrap"]}>
-				<DefaultButton onClick={() => navigate("/ar")}>
+				<DefaultButton
+					onClick={() => {
+						localStorage.setItem("mode", "timeAttack");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
 					たいむあたっく
 				</DefaultButton>
 
-				<DefaultButton color="redorange" disabled>
+				<DefaultButton
+					color="redorange"
+					onClick={() => {
+						localStorage.setItem("mode", "battle");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
 					いっしょにたいせん
 				</DefaultButton>
 
@@ -39,7 +52,7 @@ export const ModeSelectPage = () => {
 					<img
 						className={styles["crown-image"]}
 						alt="crown"
-						src="crown.png?url"
+						src="crown.png"
 						width={16}
 						height={16}
 					/>
@@ -50,7 +63,7 @@ export const ModeSelectPage = () => {
 			<img
 				className={styles["cats-image"]}
 				alt="のびねこ"
-				src="/cats/extendedMike.png?url"
+				src="/cats/extendedMike.png"
 				width={216}
 				height={106}
 			/>
