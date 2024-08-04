@@ -6,10 +6,12 @@ import {
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/baseUrl";
+import { useUserStore } from "../../../store/useUserStore";
 import { useDebounce } from "./useDebounce";
 
 export const useSignupForm = () => {
 	const navigate = useNavigate();
+	const { setName, setToken } = useUserStore();
 	const [userName, setUserName] = useState("");
 	const [omajinai, setOmajinai] = useState("");
 	const [userExistsMessage, setUserExistsMessage] = useState("");
@@ -42,7 +44,6 @@ export const useSignupForm = () => {
 	}, []);
 
 	useEffect(() => {
-		console.log(`「${debouncedUserName}」 に対するAPIコール`);
 		checkExistUserName(debouncedUserName);
 	}, [debouncedUserName, checkExistUserName]);
 
@@ -67,8 +68,8 @@ export const useSignupForm = () => {
 			}
 			const data = await response.json();
 
-			localStorage.setItem("token", data.access_token);
-			localStorage.setItem("userName", userName);
+			setName(userName);
+			setToken(data.access_token);
 
 			navigate("/mode_select");
 		} catch (error) {
