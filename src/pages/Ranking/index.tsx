@@ -1,32 +1,22 @@
+import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "../../components/ui/Button";
 import { RankList } from "../../components/features/ranking/RankList";
 import { Modal } from "../../components/ui/Modal";
-import styles from "./index.module.css";
-import { useRankingPage } from "./hooks";
-import { useEffect, useState } from "react";
 import { ResultModalContent } from "../../components/features/ranking/ResultModalContent";
-import { useNavigate } from "react-router-dom";
-import { useTimeAttackStore } from "../../store/useTimeAttackStore";
+import { useRankingPage } from "./hooks";
+import styles from "./index.module.css";
 
 export const RankingPage = () => {
-	const { rankList, clearTime, lastHighestTime, handleUpdateRanking } =
-		useRankingPage();
-	const { setResultStatus, setRank } = useTimeAttackStore();
 	const navigate = useNavigate();
-	const resultStatus = useTimeAttackStore((state) => state.resultStatus);
-	const [isOpen, setIsOpen] = useState(true);
-	const updateRanking = (clearTime: number, limit: number) => {
-		handleUpdateRanking(clearTime, limit);
-		setIsOpen(false);
-	};
-	useEffect(() => {
-		setResultStatus({ isNew: false, canRecord: false });
-		setRank(0);
-	}, [setRank, setResultStatus]);
-
-	useEffect(() => {
-		document.getElementById("arjs-video")?.remove();
-	}, []);
+	const {
+		rankingList,
+		clearTime,
+		lastHighestTime,
+		isModalOpen,
+		setIsModalOpen,
+		resultStatus,
+		handleUpdateRanking,
+	} = useRankingPage();
 
 	return (
 		<main className={styles.root}>
@@ -34,20 +24,20 @@ export const RankingPage = () => {
 
 			<div className={styles["ranking-container"]}>
 				<span className={styles["title-text"]}>たいむあたっく</span>
-				<RankList rankList={rankList} />
+				<RankList rankList={rankingList} />
 			</div>
 
 			<DefaultButton onClick={() => navigate("/congratulation_share_sns")}>
 				おっけー
 			</DefaultButton>
 
-			<Modal open={isOpen} onClose={() => setIsOpen(false)}>
+			<Modal open={isModalOpen} onClose={() => setIsModalOpen(false)}>
 				<ResultModalContent
 					clearTime={clearTime}
-					setIsOpen={setIsOpen}
+					setIsOpen={setIsModalOpen}
 					lastHighestTime={lastHighestTime}
 					resultStatus={resultStatus}
-					handleUpdateRanking={updateRanking}
+					handleUpdateRanking={handleUpdateRanking}
 				/>
 			</Modal>
 
