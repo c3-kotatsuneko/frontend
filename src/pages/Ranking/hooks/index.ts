@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import type { Rank } from "../../../components/features/ranking/RankList";
 import { useTimeAttackStore } from "../../../store/useTimeAttackStore";
 import { useUserStore } from "../../../store/useUserStore";
@@ -34,21 +34,27 @@ export const useRankingPage = (): UseRankingPage => {
 		document.getElementById("arjs-video")?.remove();
 	}, []);
 
-	const handleGetRanking = async (clearTime: number, limit: number) => {
-		await getRanking(clearTime, limit).then((data) => {
-			if (!data) return;
-			setRankingList(data.rankingList);
-			setLastHighestTime(data.lastHighestTime);
-			setResultStatus(data.resultStatus);
-		});
-	};
+	const handleGetRanking = useCallback(
+		async (clearTime: number, limit: number) => {
+			await getRanking(clearTime, limit).then((data) => {
+				if (!data) return;
+				setRankingList(data.rankingList);
+				setLastHighestTime(data.lastHighestTime);
+				setResultStatus(data.resultStatus);
+			});
+		},
+		[getRanking, setResultStatus],
+	);
 
-	const handleGetGuestRanking = async (limit: number) => {
-		await getGuestRanking(limit).then((data) => {
-			if (!data) return;
-			setRankingList(data);
-		});
-	};
+	const handleGetGuestRanking = useCallback(
+		async (limit: number) => {
+			await getGuestRanking(limit).then((data) => {
+				if (!data) return;
+				setRankingList(data);
+			});
+		},
+		[getGuestRanking],
+	);
 
 	useEffect(() => {
 		if (isGuest) {
@@ -56,7 +62,7 @@ export const useRankingPage = (): UseRankingPage => {
 		} else {
 			handleGetRanking(clearTime, 3);
 		}
-	}, []);
+	}, [clearTime, handleGetGuestRanking, handleGetRanking, isGuest]);
 
 	const handleUpdateRanking = async (clearTime: number, limit: number) => {
 		await updateRanking(clearTime, limit).then((data) => {
