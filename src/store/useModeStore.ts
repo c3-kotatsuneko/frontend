@@ -1,7 +1,7 @@
 import { create } from "zustand";
 
 type State = {
-	mode: "timeAttack" | "battle" | "brainTraining";
+	mode: "timeAttack" | "multi" | "training";
 };
 
 type Action = {

@@ -34,7 +34,7 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					color="redorange"
 					onClick={() => {
-						setMode("battle");
+						setMode("multi");
 						// TODO: marker_scanページに遷移する
 						navigate("/play_timeAttack");
 					}}
@@ -46,7 +46,7 @@ export const ModeSelectPage = () => {
 					color="green"
 					disabled
 					onClick={() => {
-						setMode("brainTraining");
+						setMode("training");
 						// TODO: marker_scanページに遷移する
 						navigate("/play_timeAttack");
 					}}
