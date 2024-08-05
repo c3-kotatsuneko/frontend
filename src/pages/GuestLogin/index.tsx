@@ -35,7 +35,7 @@ export const GuestLoginPage = () => {
 			<img
 				className={styles["cats-image"]}
 				alt="丸ねこタワー"
-				src="cats/catsTower-circle.png"
+				src="cats/catsTower-circle.webp"
 				width={148}
 				height={242}
 			/>

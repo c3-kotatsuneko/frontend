@@ -58,7 +58,7 @@ export const SharePage = () => {
 				<div className={styles["share-text"]}>
 					<img
 						alt="おすわりねこ"
-						src="cats/sitDown.png"
+						src="cats/sitDown.webp"
 						width={64}
 						height={65}
 					/>

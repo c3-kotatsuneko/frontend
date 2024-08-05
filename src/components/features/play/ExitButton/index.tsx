@@ -49,7 +49,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
 				<p className={styles["modal-description"]}>あれ？かえっちゃうの？</p>
 				<img
 					alt="猫たわー"
-					src="cats/catsTower-circle.png"
+					src="cats/catsTower-circle.webp"
 					width={40}
 					height={70}
 				/>
