@@ -12,3 +12,8 @@
   top: 72%;
   right: 4%;
 }
+.download-button{
+  position: absolute;
+  top: 16px;
+  right: 16px;
+}
