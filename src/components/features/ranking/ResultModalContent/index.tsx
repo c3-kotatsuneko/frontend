@@ -30,7 +30,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 			<div className={styles["cats-image-container"]}>
 				<img
 					className={styles["cats-image-square"]}
-					data-type={isGuest ? "guest" : "user"}
+					data-type={isGuest ? "up" : !resultStatus.isNew ? "up" : "down"}
 					alt="四角ねこタワー"
 					src="cats/catsTower-square.png"
 					width="48"
@@ -38,7 +38,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 				/>
 				<img
 					className={styles["cats-image-circle"]}
-					data-type={isGuest ? "guest" : "user"}
+					data-type={isGuest ? "up" : !resultStatus.isNew ? "up" : "down"}
 					alt="丸ねこタワー"
 					src="cats/catsTower-circle.png"
 					width="32"
@@ -55,13 +55,16 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 				きろくは{formatTime(clearTime)}！
 			</p>
 
-			{!isGuest && !resultStatus.canRecord && lastHighestTime !== -1 && (
-				<div className={styles["modal-p"]}>
-					<p className={styles["modal-description"]} data-type="highest">
-						前回の最高記録は{formatTime(lastHighestTime)}！
-					</p>
-				</div>
-			)}
+			{!isGuest &&
+				resultStatus.isNew &&
+				!resultStatus.canRecord &&
+				lastHighestTime !== -1 && (
+					<div className={styles["modal-p"]}>
+						<p className={styles["modal-description"]} data-type="highest">
+							前回の最高記録は{formatTime(lastHighestTime)}！
+						</p>
+					</div>
+				)}
 
 			{!isGuest && resultStatus.canRecord && (
 				<div className={styles["modal-selection-wrapper"]}>

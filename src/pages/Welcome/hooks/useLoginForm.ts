@@ -42,7 +42,6 @@ export const useLoginForm = () => {
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log(userName, password);
 		login(userName, password);
 	};
 

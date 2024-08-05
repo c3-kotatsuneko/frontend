@@ -44,6 +44,7 @@ export const useSignupForm = () => {
 	}, []);
 
 	useEffect(() => {
+		if (debouncedUserName === "") return;
 		checkExistUserName(debouncedUserName);
 	}, [debouncedUserName, checkExistUserName]);
 
