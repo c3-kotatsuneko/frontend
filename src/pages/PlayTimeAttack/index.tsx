@@ -21,7 +21,6 @@ export const PlayTimeAttack = () => {
 
 	// timeが0になったらrankingページへ遷移する
 	useEffect(() => {
-		// localStorage.setItem("clearTime", "18");
 		setClearTime(18);
 
 		if (time === 0) {
