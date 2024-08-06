@@ -7,9 +7,8 @@ import { DownloadButton } from "../../components/features/welcome/DownloadButton
 const Welcome = () => {
 	return (
 		<main className={styles["welcome-body"]}>
-			<div className={styles['download-button']}>
-
-			<DownloadButton />
+			<div className={styles["download-button"]}>
+				<DownloadButton />
 			</div>
 			<h2>ばーちゃるぼっくす</h2>
 			<Tab

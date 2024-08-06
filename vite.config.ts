@@ -5,7 +5,7 @@ import react from "@vitejs/plugin-react-swc";
 export default defineConfig({
 	plugins: [react()],
 	build: {
-		chunkSizeWarningLimit: 3000, 
+		chunkSizeWarningLimit: 3000,
 	},
-	assetsInclude: ['**/*.pdf']
+	assetsInclude: ["**/*.pdf"],
 });
