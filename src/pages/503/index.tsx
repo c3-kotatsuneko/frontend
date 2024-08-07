@@ -1,7 +1,7 @@
 import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 
-export const maintenance = () => {
+export const Maintenance = () => {
 	return (
 		<main>
 			<p className={styles.message}>503 こうじちゅう</p>
