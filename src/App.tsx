@@ -9,6 +9,7 @@ import { RankingPreviewPage } from "./pages/RankingPreview";
 import Welcome from "./pages/Welcome";
 import { PlayTimeAttack } from "./pages/PlayTimeAttack";
 import { PlayStart } from "./pages/PlayStart";
+import { Maintenance } from "./pages/503";
 
 const AppRoutes = () => {
 	return (
@@ -24,7 +25,7 @@ const AppRoutes = () => {
 				<Route path="/ranking" element={<RankingPage />} />
 				<Route path="/play_timeAttack" element={<PlayTimeAttack />} />
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
-
+				<Route path="/503" element={<Maintenance />} />
 				<Route path="/play_start" element={<PlayStart />} />
 			</Routes>
 		</>
