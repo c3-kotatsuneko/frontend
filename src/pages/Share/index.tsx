@@ -1,50 +1,22 @@
 import clsx from "clsx";
 import { Link, useNavigate } from "react-router-dom";
-
 import { HomeIcon } from "../../components/icon/Home";
 import { DefaultButton } from "../../components/ui/Button";
 import buttonStyles from "../../components/ui/Button/index.module.css";
-import styles from "./index.module.css";
-import { useUserName } from "../../utils/setUserName";
-import { useEffect, useState } from "react";
-import type { ResultStatus } from "../Ranking/hooks";
 import { formatTime } from "../../utils/formatTime";
+import { useTimeAttackStore } from "../../store/useTimeAttackStore";
+import { useUserStore } from "../../store/useUserStore";
+import styles from "./index.module.css";
 
 export const SharePage = () => {
 	const navigate = useNavigate();
-	const { userName } = useUserName();
-	const [userRank, setUserRank] = useState(0);
-	const [clearTime, setClearTime] = useState(0);
-	const [resultStatus, setResultStatus] = useState<ResultStatus>({
-		isNew: false,
-		canRecord: false,
-	});
-
-	useEffect(() => {
-		const getUserRank = Number(localStorage.getItem("userRank"));
-		const getClearTime = Number(localStorage.getItem("clearTime"));
-		const getResultStatus = localStorage.getItem("resultStatus");
-
-		if (getUserRank) {
-			setUserRank(getUserRank);
-		}
-		if (getClearTime) {
-			setClearTime(getClearTime);
-		}
-		if (getResultStatus) {
-			setResultStatus(JSON.parse(getResultStatus));
-		}
-
-		// userRankが-1の場合はランキングに登録されていない
-		if (getUserRank === -1) {
-			setUserRank(0);
-		}
-	}, []);
+	const { name: userName } = useUserStore();
+	const { clearTime, resultStatus, rank } = useTimeAttackStore();
 
 	const shareMessage = resultStatus?.isNew
 		? `自己ベスト更新！タイム${formatTime(clearTime)}!`
-		: userRank
-			? `ランキング${userRank}位！ タイム${formatTime(clearTime)}！`
+		: rank
+			? `ランキング${rank}位！ タイム${formatTime(clearTime)}！`
 			: `タイムは${formatTime(clearTime)}！`;
 
 	const encodedLineShareMessage = encodeURIComponent(
@@ -58,7 +30,7 @@ export const SharePage = () => {
 				<div className={styles["share-text"]}>
 					<img
 						alt="おすわりねこ"
-						src="cats/sitDown.png"
+						src="cats/sitDown.webp"
 						width={64}
 						height={65}
 					/>
