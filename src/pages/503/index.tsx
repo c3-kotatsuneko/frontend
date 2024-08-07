@@ -3,18 +3,18 @@ import styles from "./index.module.css";
 
 export const Maintenance = () => {
 	return (
-		<main>
+		<main className={styles.root}>
 			<p className={styles.message}>503 こうじちゅう</p>
-			<DefaultButton color="redorange" size="lg">
-				おうちへ
-			</DefaultButton>
 			<img
 				className={styles["cats-image"]}
 				alt="丸ねこタワー"
-				src="/cats/catsTower-circle.png"
+				src="/cats/catsTower-circle.webp"
 				width={148}
 				height={242}
 			/>
+			<DefaultButton color="redorange" size="lg">
+				おうちへ
+			</DefaultButton>
 		</main>
 	);
 };
