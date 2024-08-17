@@ -6,6 +6,7 @@
   height: 100svh;
   color: var(--black);
 }
+
 .message {
   font-size: 24px;
   padding-bottom: 40px;
