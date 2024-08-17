@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { THREEx } from "@ar-js-org/ar.js-threejs";
+import type { ArToolkitSource } from "@ar-js-org/ar.js-threejs/types/ArToolkitSource";
+import type { ArToolkitContext } from "@ar-js-org/ar.js-threejs/types/ArToolkitContext";
+import type { ArMarkerControls } from "@ar-js-org/ar.js-threejs/types/ArMarkerControls";
 import type { Camera, Scene } from "three";
 
 export type ARToolkitInitOptions = {
@@ -17,14 +20,67 @@ export const useARToolkit = ({
 	markerPatternURL,
 	scene,
 }: ARToolkitInitOptions) => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const [arToolkitSource, setArToolkitSource] = useState<any>(null);
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const [arToolkitContext, setArToolkitContext] = useState<any>(null);
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const [arMarkerControls, setArMarkerControls] = useState<any>(null);
+	const [arToolkitSource, setArToolkitSource] =
+		useState<ArToolkitSource | null>(null);
+	const [arToolkitContext, setArToolkitContext] =
+		useState<ArToolkitContext | null>(null);
+	const [arMarkerControls, setArMarkerControls] =
+		useState<ArMarkerControls | null>(null);
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
+	const onResize = useCallback(() => {
+		if (arToolkitSource) {
+			arToolkitSource.onResizeElement();
+			arToolkitSource.copyElementSizeTo(domElement);
+			if (
+				window.arToolkitContext &&
+				window.arToolkitContext.arController !== null
+			) {
+				arToolkitSource.copyElementSizeTo(
+					window.arToolkitContext.arController.canvas,
+				);
+			}
+		}
+	}, [arToolkitSource, domElement]);
+
+	const getSourceOrientation = useCallback((): string => {
+		const a =
+			arToolkitSource &&
+			arToolkitSource.domElement.videoWidth >
+				arToolkitSource.domElement.videoHeight
+				? "landscape"
+				: "portrait";
+		console.log("getSourceOrientation", a);
+		return "landscape";
+	}, [arToolkitSource]);
+
+	const initARContext = useCallback(() => {
+		if (arToolkitContext) {
+			arToolkitContext.init(() => {
+				camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+
+				if (arToolkitContext.arController) {
+					arToolkitContext.arController.orientation = getSourceOrientation();
+					arToolkitContext.arController.options.orientation =
+						getSourceOrientation();
+				}
+
+				window.arToolkitContext = arToolkitContext;
+			});
+			if (scene) {
+				scene.visible = false;
+			}
+			if (arMarkerControls) {
+				window.arMarkerControls = arMarkerControls;
+			}
+		}
+	}, [
+		arMarkerControls,
+		arToolkitContext,
+		camera.projectionMatrix,
+		getSourceOrientation,
+		scene,
+	]);
+
 	useEffect(() => {
 		const arToolkitSourceInstance = new THREEx.ArToolkitSource({
 			sourceType: "webcam",
@@ -70,59 +126,13 @@ export const useARToolkit = ({
 		return () => {
 			window.removeEventListener("resize", onResize);
 		};
-	}, [camera, cameraParaDatURL, domElement, markerPatternURL, scene]);
+	}, [camera, cameraParaDatURL, initARContext, markerPatternURL, onResize]);
 
 	useEffect(() => {
 		if (arToolkitSource) {
 			initARContext();
 		}
-	}, [arToolkitSource]);
-
-	const onResize = () => {
-		if (arToolkitSource) {
-			arToolkitSource.onResizeElement();
-			arToolkitSource.copyElementSizeTo(domElement);
-			if (
-				window.arToolkitContext &&
-				window.arToolkitContext.arController !== null
-			) {
-				arToolkitSource.copyElementSizeTo(
-					window.arToolkitContext.arController.canvas,
-				);
-			}
-		}
-	};
-
-	const initARContext = () => {
-		if (arToolkitContext) {
-			arToolkitContext.init(() => {
-				camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
-
-				if (arToolkitContext.arController) {
-					arToolkitContext.arController.orientation = getSourceOrientation();
-					arToolkitContext.arController.options.orientation =
-						getSourceOrientation();
-				}
-
-				window.arToolkitContext = arToolkitContext;
-			});
-			if (scene) {
-				scene.visible = false;
-			}
-			window.arMarkerControls = arMarkerControls;
-		}
-	};
-
-	const getSourceOrientation = (): string => {
-		const a =
-			arToolkitSource &&
-			arToolkitSource.domElement.videoWidth >
-				arToolkitSource.domElement.videoHeight
-				? "landscape"
-				: "portrait";
-		console.log("getSourceOrientation", a);
-		return "landscape";
-	};
+	}, [arToolkitSource, initARContext]);
 
 	return {
 		arToolkitSource,

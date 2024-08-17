@@ -166,10 +166,8 @@ const ARApp = () => {
 	// const [allObjectInfo, setallObjectInfo] = useState<objectInfo[] | null>(
 	//   testData
 	// );
-	// biome-ignore lint/style/useConst: <explanation>
-	let allObjectInfo = testData;
-	// biome-ignore lint/style/useConst: <explanation>
-	let handInfoData: handInfo = {
+	const allObjectInfo = testData;
+	const handInfoData: handInfo = {
 		handStatus: "close",
 		handPos: { x: 0, y: 0, z: 0 },
 		handAngle: { x: 0, y: 0, z: 0 },
@@ -717,7 +715,7 @@ const ARApp = () => {
 			if (rendererRef.current && sceneRef.current && cameraRef.current) {
 				rendererRef.current.render(sceneRef.current, cameraRef.current);
 
-				if (arToolkitSource?.ready) {
+				if (arToolkitSource?.ready && arToolkitContext) {
 					arToolkitContext.update(arToolkitSource.domElement);
 					sceneRef.current.visible = cameraRef.current.visible;
 				}
