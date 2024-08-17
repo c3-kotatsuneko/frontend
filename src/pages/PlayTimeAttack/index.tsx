@@ -15,6 +15,34 @@ export const PlayTimeAttack = () => {
 	const [time, setTime] = useState(10);
 	useCountTimer(time, setTime);
 
+	useEffect(() => {
+		// コンポーネントがマウントされたときにすべての対象要素を削除する処理
+		const cleanUp = () => {
+			// すべてのvideo要素を削除
+			const videoElements = document.querySelectorAll("video");
+			for (const element of videoElements) {
+				element.remove();
+			}
+
+			// data-engineがthree.js r166のすべてのcanvas要素を削除
+			const canvasElements = document.querySelectorAll("canvas");
+			for (const element of canvasElements) {
+				element.remove();
+			}
+
+			// 外部スクリプトを削除
+			const scriptElements = document.querySelectorAll("script");
+			for (const element of scriptElements) {
+				element.remove();
+			}
+		};
+
+		// コンポーネントがアンマウントされるときにクリーンアップを実行
+		return () => {
+			cleanUp();
+		};
+	}, []);
+
 	// timeが0になったらrankingページへ遷移する
 	useEffect(() => {
 		// TODO: クリアタイムを取得する
