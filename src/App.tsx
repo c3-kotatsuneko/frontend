@@ -12,24 +12,24 @@ import { PlayStart } from "./pages/PlayStart";
 import { Maintenance } from "./pages/503";
 
 const AppRoutes = () => {
-  return (
-    <>
-      <Routes>
-        <Route path="/" />
-        <Route index element={<Navigate to="/503" replace />} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/loading" element={<LoadingPage />} />
-        <Route path="/guest_login" element={<GuestLoginPage />} />
-        <Route path="/mode_select" element={<ModeSelectPage />} />
-        <Route path="/ranking_preview" element={<RankingPreviewPage />} />
-        <Route path="/ranking" element={<RankingPage />} />
-        <Route path="/play_timeAttack" element={<PlayTimeAttack />} />
-        <Route path="/congratulation_share_sns" element={<SharePage />} />
-        <Route path="/503" element={<Maintenance />} />
-        <Route path="/play_start" element={<PlayStart />} />
-      </Routes>
-    </>
-  );
+	return (
+		<>
+			<Routes>
+				<Route path="/" />
+				<Route index element={<Navigate to="/503" replace />} />
+				<Route path="/welcome" element={<Welcome />} />
+				<Route path="/loading" element={<LoadingPage />} />
+				<Route path="/guest_login" element={<GuestLoginPage />} />
+				<Route path="/mode_select" element={<ModeSelectPage />} />
+				<Route path="/ranking_preview" element={<RankingPreviewPage />} />
+				<Route path="/ranking" element={<RankingPage />} />
+				<Route path="/play_timeAttack" element={<PlayTimeAttack />} />
+				<Route path="/congratulation_share_sns" element={<SharePage />} />
+				<Route path="/503" element={<Maintenance />} />
+				<Route path="/play_start" element={<PlayStart />} />
+			</Routes>
+		</>
+	);
 };
 
 export default AppRoutes;
