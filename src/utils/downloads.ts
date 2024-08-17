@@ -1,6 +1,6 @@
 const filesToDownload = [
 	{
-		blob: new URL("../../public/marker/marker_file.pdf", import.meta.url).href,
+		blob: new URL("/marker/marker_file.pdf", import.meta.url).href,
 		filename: "marker_file.pdf",
 	},
 ];

@@ -4,8 +4,8 @@
   }
   
 .icon {
-    width: 12px;
-    height: 12px;
+    width: 14px;
+    aspect-ratio: 1/1;
     margin-right: 4px;
   }
   
