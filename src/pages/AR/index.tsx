@@ -18,6 +18,8 @@ export const Test = () => {
     markerPatternURL: markerURL,
     scene: sceneRef.current ? sceneRef.current : undefined,
   });
+  console.log(arToolkitSource);
+  console.log(arToolkitContext);
 
   useEffect(() => {
     function animate() {

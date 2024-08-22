@@ -10,7 +10,6 @@ export const HandStatusDetect = (handTopPos: {
   );
   if (dist > 0.6) {
     return false;
-  } else {
-    return true;
   }
+  return true;
 };
