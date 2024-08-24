@@ -110,5 +110,6 @@ export const ThreeInit = () => {
     backBlockSet,
     stage: markerBox,
   };
+
   return { rendererRef, sceneRef, cameraRef, lightRef, allBlockSet, handBlock };
 };

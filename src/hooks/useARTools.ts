@@ -1,132 +1,95 @@
-import { useEffect, useState } from "react";
 import { THREEx } from "@ar-js-org/ar.js-threejs";
 import type { Camera, Scene } from "three";
 
 export type ARToolkitInitOptions = {
-	domElement: HTMLCanvasElement | undefined;
-	camera: Camera;
-	cameraParaDatURL: string | undefined;
-	markerPatternURL: string;
-	scene: Scene | undefined;
+  domElement: HTMLCanvasElement;
+  camera: Camera;
+  cameraParaDatURL: string;
+  markerPatternURL: string;
+  scene: Scene;
 };
 
 export const useARToolkit = ({
-	domElement,
-	camera,
-	cameraParaDatURL,
-	markerPatternURL,
-	scene,
+  domElement,
+  camera,
+  cameraParaDatURL,
+  markerPatternURL,
+  scene,
 }: ARToolkitInitOptions) => {
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const [arToolkitSource, setArToolkitSource] = useState<any>(null);
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const [arToolkitContext, setArToolkitContext] = useState<any>(null);
-	// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-	const [arMarkerControls, setArMarkerControls] = useState<any>(null);
+  const arToolkitSource = new THREEx.ArToolkitSource({
+    sourceType: "webcam",
+    sourceWidth: window.innerWidth > window.innerHeight ? 640 : 480,
+    sourceHeight: window.innerWidth > window.innerHeight ? 480 : 640,
+  });
 
-	// biome-ignore lint/correctness/useExhaustiveDependencies: <explanation>
-	useEffect(() => {
-		const arToolkitSourceInstance = new THREEx.ArToolkitSource({
-			sourceType: "webcam",
-			sourceWidth: window.innerWidth > window.innerHeight ? 640 : 480,
-			sourceHeight: window.innerWidth > window.innerHeight ? 480 : 640,
-		});
+  const arToolkitContext = new THREEx.ArToolkitContext({
+    cameraParametersUrl: cameraParaDatURL,
+    detectionMode: "mono",
+  });
 
-		const arToolkitContextInstance = new THREEx.ArToolkitContext({
-			cameraParametersUrl: cameraParaDatURL ?? "",
-			detectionMode: "mono",
-		});
+  const arMarkerControls = new THREEx.ArMarkerControls(
+    arToolkitContext,
+    camera,
+    {
+      type: "pattern",
+      patternUrl: markerPatternURL,
+      changeMatrixMode: "cameraTransformMatrix",
+    }
+  );
 
-		const arMarkerControlsInstance = new THREEx.ArMarkerControls(
-			arToolkitContextInstance,
-			camera,
-			{
-				type: "pattern",
-				patternUrl: markerPatternURL,
-				changeMatrixMode: "cameraTransformMatrix",
-				// minConfidence: 0.1,
-			},
-		);
+  arToolkitSource.init(
+    () => {
+      arToolkitSource.domElement.addEventListener("canplay", () => {
+        initARContext();
+      });
+      window.arToolkitSource = arToolkitSource;
+      setTimeout(() => {
+        onResize();
+      }, 2000);
+    },
+    () => {}
+  );
 
-		setArToolkitSource(arToolkitSourceInstance);
-		setArToolkitContext(arToolkitContextInstance);
-		setArMarkerControls(arMarkerControlsInstance);
+  window.addEventListener("resize", () => {
+    onResize();
+  });
 
-		arToolkitSourceInstance.init(
-			() => {
-				arToolkitSourceInstance.domElement.addEventListener("canplay", () => {
-					initARContext();
-				});
-				window.arToolkitSource = arToolkitSourceInstance;
-				setTimeout(() => {
-					onResize();
-				}, 2000);
-			},
-			() => {},
-		);
+  function onResize() {
+    arToolkitSource.onResizeElement();
+    arToolkitSource.copyElementSizeTo(domElement);
+    if (window.arToolkitContext.arController !== null) {
+      arToolkitSource.copyElementSizeTo(
+        window.arToolkitContext.arController.canvas
+      );
+    }
+  }
 
-		window.addEventListener("resize", onResize);
+  function initARContext() {
+    arToolkitContext.init(() => {
+      camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
 
-		return () => {
-			window.removeEventListener("resize", onResize);
-		};
-	}, [camera, cameraParaDatURL, domElement, markerPatternURL, scene]);
+      arToolkitContext.arController.orientatio = getSourceOrientation();
+      arToolkitContext.arController.options.orientation =
+        getSourceOrientation();
 
-	useEffect(() => {
-		if (arToolkitSource) {
-			initARContext();
-		}
-	}, [arToolkitSource]);
+      window.arToolkitContext = arToolkitContext;
+    });
 
-	const onResize = () => {
-		if (arToolkitSource) {
-			arToolkitSource.onResizeElement();
-			arToolkitSource.copyElementSizeTo(domElement);
-			if (
-				window.arToolkitContext &&
-				window.arToolkitContext.arController !== null
-			) {
-				arToolkitSource.copyElementSizeTo(
-					window.arToolkitContext.arController.canvas,
-				);
-			}
-		}
-	};
+    scene.visible = false;
 
-	const initARContext = () => {
-		if (arToolkitContext) {
-			arToolkitContext.init(() => {
-				camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
+    window.arMarkerControls = arMarkerControls;
+  }
 
-				if (arToolkitContext.arController) {
-					arToolkitContext.arController.orientation = getSourceOrientation();
-					arToolkitContext.arController.options.orientation =
-						getSourceOrientation();
-				}
+  function getSourceOrientation(): string {
+    return arToolkitSource.domElement.videoWidth >
+      arToolkitSource.domElement.videoHeight
+      ? "landscape"
+      : "portrait";
+  }
 
-				window.arToolkitContext = arToolkitContext;
-			});
-			if (scene) {
-				scene.visible = false;
-			}
-			window.arMarkerControls = arMarkerControls;
-		}
-	};
-
-	const getSourceOrientation = (): string => {
-		const a =
-			arToolkitSource &&
-			arToolkitSource.domElement.videoWidth >
-				arToolkitSource.domElement.videoHeight
-				? "landscape"
-				: "portrait";
-		console.log("getSourceOrientation", a);
-		return "landscape";
-	};
-
-	return {
-		arToolkitSource,
-		arToolkitContext,
-		arMarkerControls,
-	};
+  return {
+    arToolkitSource,
+    arToolkitContext,
+    arMarkerControls,
+  };
 };

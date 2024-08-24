@@ -1,42 +1,60 @@
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
-import { HandTracking } from "../../components/features/AR/HandTracking";
+import {
+  useCameraInit,
+  useHandInit,
+  usePredictWebcam,
+} from "../../components/features/AR/HandTracking/HandInit";
+import { HandDetect } from "../../components/features/AR/HandTracking/HandDetect";
 import { useARToolkit } from "../../hooks/useARTools";
 import cameraPara from "../../assets/camera_para.dat?url";
-import markerURL from "../../assets/marker.patt?url";
-import { useEffect } from "react";
+import markerURL from "../../../public/pattern-frontMarker.patt?url";
+import { useEffect, useRef, useState } from "react";
 import * as THREE from "three"; // Add this import statement
+import type {
+  HandLandmarker,
+  HandLandmarkerResult,
+} from "@mediapipe/tasks-vision";
 
 export const Test = () => {
+  const handCameraRef = useRef<HTMLVideoElement | null>(null);
+  const handLandMarkerRef = useRef<HandLandmarker | null>(null);
+  const handResultRef = useRef<HandLandmarkerResult | null>(null);
+  useEffect(() => {
+    useHandInit(handLandMarkerRef);
+    useCameraInit(handCameraRef);
+  }, []);
+  useEffect(() => {
+    usePredictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
+  }, [handLandMarkerRef, handCameraRef]);
   const { rendererRef, sceneRef, cameraRef, lightRef, allBlockSet, handBlock } =
     ThreeInit();
   const { arToolkitSource, arToolkitContext } = useARToolkit({
     camera: cameraRef.current ?? new THREE.Camera(),
     cameraParaDatURL: cameraPara,
-    domElement: rendererRef.current
-      ? rendererRef.current.domElement
-      : undefined,
+    domElement:
+      rendererRef.current?.domElement ?? document.createElement("canvas"),
     markerPatternURL: markerURL,
-    scene: sceneRef.current ? sceneRef.current : undefined,
+    scene: sceneRef.current ?? new THREE.Scene(),
   });
-  console.log(arToolkitSource);
-  console.log(arToolkitContext);
+
+  function animate() {
+    if (rendererRef.current && sceneRef.current && cameraRef.current) {
+      rendererRef.current.render(sceneRef.current, cameraRef.current);
+      if (arToolkitSource.ready) {
+        arToolkitContext.update(arToolkitSource.domElement);
+        sceneRef.current.visible = cameraRef.current.visible;
+      }
+    }
+    requestAnimationFrame(animate);
+  }
 
   useEffect(() => {
-    function animate() {
-      if (rendererRef.current && sceneRef.current && cameraRef.current) {
-        rendererRef.current.render(sceneRef.current, cameraRef.current);
-        console.log(arToolkitSource);
-        if (arToolkitSource?.ready) {
-          arToolkitContext.update(arToolkitSource.domElement);
-          sceneRef.current.visible = cameraRef.current.visible;
-        }
-      }
-      const detect = HandTracking(arToolkitSource.domElement);
-      console.log(detect);
-
-      requestAnimationFrame(animate);
-    }
     animate();
-  }, [arToolkitContext, arToolkitSource, rendererRef, sceneRef, cameraRef]);
-  return <h1>test Page</h1>;
+  }, [arToolkitSource, arToolkitContext]);
+
+  return (
+    <video ref={handCameraRef} id="video" autoPlay muted>
+      <track kind="captions" src="" label="No captions available" default />
+    </video>
+  );
 };
