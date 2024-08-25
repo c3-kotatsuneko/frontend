@@ -40,23 +40,28 @@ export const usePredictWebcam = async (
   handResultRef: React.RefObject<HandLandmarkerResult>
 ) => {
   let lastVideoTime = -1;
-  const startTimeMs = performance.now();
+
   async function predictWebcam() {
-    console.log("predictWebcam");
     if (handCameraRef.current) {
-      if (lastVideoTime !== handCameraRef.current.currentTime) {
-        lastVideoTime = handCameraRef.current.currentTime;
+      const currentTime = handCameraRef.current.currentTime;
+
+      if (lastVideoTime !== currentTime) {
+        lastVideoTime = currentTime;
         if (handLandMarkerRef.current) {
           const results = await handLandMarkerRef.current.detectForVideo(
             handCameraRef.current,
-            startTimeMs
+            performance.now()
           );
           handResultRef.current = results;
-          return handResultRef;
+          console.log(handResultRef.current);
+          console.log("predictWebcam");
         }
       }
     }
+
+    // フレームが処理されるたびに次のフレームをリクエスト
     requestAnimationFrame(predictWebcam);
   }
+
   predictWebcam();
 };
