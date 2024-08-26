@@ -2,7 +2,7 @@ import type { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 
 export const handInit = async (
-  handLandMarkerRef: React.RefObject<HandLandmarker>
+  handLandMarkerRef: React.MutableRefObject<HandLandmarker | null>
 ) => {
   const vision = await FilesetResolver.forVisionTasks(
     "https://cdn.jsdelivr.net/npm/@mediapipe/tasks-vision@0.10.0/wasm"
@@ -37,7 +37,7 @@ export const cameraInit = async (
 export const predictWebcam = async (
   handLandMarkerRef: React.RefObject<HandLandmarker>,
   handCameraRef: React.RefObject<HTMLVideoElement>,
-  handResultRef: React.RefObject<HandLandmarkerResult>
+  handResultRef: React.MutableRefObject<HandLandmarkerResult | null> // Change the type to MutableRefObject
 ) => {
   let lastVideoTime = -1;
 
