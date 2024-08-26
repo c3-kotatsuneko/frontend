@@ -8,7 +8,8 @@ export const HandStatusDetect = (handTopPos: {
       handTopPos.y * handTopPos.y +
       handTopPos.z * handTopPos.z
   );
-  if (dist > 0.6) {
+  console.log(dist);
+  if (dist > 0.9) {
     return false;
   }
   return true;

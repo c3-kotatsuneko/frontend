@@ -1,7 +1,7 @@
 import type { HandLandmarkerResult } from "@mediapipe/tasks-vision";
 import { FilesetResolver, HandLandmarker } from "@mediapipe/tasks-vision";
 
-export const useHandInit = async (
+export const handInit = async (
   handLandMarkerRef: React.RefObject<HandLandmarker>
 ) => {
   const vision = await FilesetResolver.forVisionTasks(
@@ -18,7 +18,7 @@ export const useHandInit = async (
   });
 };
 
-export const useCameraInit = async (
+export const cameraInit = async (
   handCameraRef: React.RefObject<HTMLVideoElement>
 ) => {
   const stream = await navigator.mediaDevices.getUserMedia({
@@ -34,7 +34,7 @@ export const useCameraInit = async (
   }
 };
 
-export const usePredictWebcam = async (
+export const predictWebcam = async (
   handLandMarkerRef: React.RefObject<HandLandmarker>,
   handCameraRef: React.RefObject<HTMLVideoElement>,
   handResultRef: React.RefObject<HandLandmarkerResult>
@@ -53,8 +53,6 @@ export const usePredictWebcam = async (
             performance.now()
           );
           handResultRef.current = results;
-          console.log(handResultRef.current);
-          console.log("predictWebcam");
         }
       }
     }
