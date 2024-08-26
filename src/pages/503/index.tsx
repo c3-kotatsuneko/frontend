@@ -10,6 +10,8 @@ export const Maintenance = () => {
           className={styles["cats-image"]}
           alt="メンテナンス中"
           src="/cats/503-cat.webp"
+          width="100" // Add the width attribute with the desired value
+          height="100" // Add the height attribute with the desired value
         />
       </div>
       <DefaultButton color="redorange" size="lg">

@@ -44,8 +44,12 @@ export const Test = () => {
   useEffect(() => {
     predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
   }, []);
-  const { rendererRef, sceneRef, cameraRef, lightRef, allBlockSet, handBlock } =
-    ThreeInit();
+  const {
+    rendererRef,
+    sceneRef,
+    cameraRef,
+    handBlock,
+  } = ThreeInit(); //lightRef, allBlockSet,をlint回避のため一度削除
   const { arToolkitSource, arToolkitContext } = useARToolkit({
     camera: cameraRef.current ?? new THREE.Camera(),
     cameraParaDatURL: cameraPara,
