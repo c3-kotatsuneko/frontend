@@ -1,0 +1,73 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100svh;
+  color: var(--black);
+}
+
+.user-name {
+  position: absolute;
+  top: 4%;
+  right: 4%;
+  font-size: 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 42px;
+}
+
+.ranking {
+  font-size: 16px;
+  font-weight: 400;
+  padding-left: 0;
+  margin-bottom: 40px;
+
+  & > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.image-crown {
+  position: absolute;
+  top: 0;
+  left: -36px;
+}
+
+.ranking-item {
+  position: relative;
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  max-width: 320px;
+}
+
+.name-wrap {
+  display: flex;
+  gap: 16px;
+  max-width: 120px;
+  word-break: break-all;
+}
+
+.ranking-time {
+  margin-left: auto;
+}
+
+.image {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+.return-home {
+  display: flex;
+  position: absolute;
+  right: 4%;
+  bottom: 6%;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}
