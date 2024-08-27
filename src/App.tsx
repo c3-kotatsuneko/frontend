@@ -31,7 +31,7 @@ const AppRoutes = () => {
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
 				<Route path="/503" element={<Maintenance />} />
 				<Route path="/play_start" element={<PlayStart />} />
-				<Route path="/multiplay_ranking" element={<MultiRankingPage />} />
+				<Route path="/ranking_multiplay" element={<MultiRankingPage />} />
 			</Routes>
 		</>
 	);
