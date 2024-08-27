@@ -24,7 +24,7 @@ export const PlayTimeAttack = () => {
 		setClearTime(18);
 
 		if (time === 0) {
-			navigate("/ranking");
+			navigate("/ranking_timeAttack");
 		}
 	}, [navigate, time, setClearTime]);
 

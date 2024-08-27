@@ -1,4 +1,4 @@
-import type { ResultStatus } from "../../../../pages/Ranking/hooks";
+import type { ResultStatus } from "../../../../pages/TimeAttackRanking/hooks";
 import { useUserStore } from "../../../../store/useUserStore";
 import { formatTime } from "../../../../utils/formatTime";
 import { DefaultButton } from "../../../ui/Button";

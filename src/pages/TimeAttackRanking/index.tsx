@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { DefaultButton } from "../../components/ui/Button";
-import { RankList } from "../../components/features/ranking/RankList";
+import { RankList } from "../../components/features/timeAttackRanking/RankList";
 import { Modal } from "../../components/ui/Modal";
-import { ResultModalContent } from "../../components/features/ranking/ResultModalContent";
+import { ResultModalContent } from "../../components/features/timeAttackRanking/ResultModalContent";
 import { useRankingPage } from "./hooks";
 import styles from "./index.module.css";
 
-export const RankingPage = () => {
+export const TimeAttackRankingPage = () => {
 	const navigate = useNavigate();
 	const {
 		rankingList,
