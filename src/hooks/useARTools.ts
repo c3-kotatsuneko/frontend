@@ -68,7 +68,7 @@ export const useARToolkit = ({
     arToolkitContext.init(() => {
       camera.projectionMatrix.copy(arToolkitContext.getProjectionMatrix());
 
-      arToolkitContext.arController.orientatio = getSourceOrientation();
+      arToolkitContext.arController.orientation = getSourceOrientation();
       arToolkitContext.arController.options.orientation =
         getSourceOrientation();
 
