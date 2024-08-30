@@ -1,0 +1,35 @@
+.ranking {
+  font-size: 16px;
+  font-weight: 400;
+  padding-left: 0;
+  margin-bottom: 40px;
+
+  & > :not(:last-child) {
+    margin-bottom: 16px;
+  }
+}
+
+.image-crown {
+  position: absolute;
+  top: 0;
+  left: -36px;
+}
+
+.ranking-item {
+  position: relative;
+  list-style: none;
+  display: flex;
+  gap: 24px;
+  max-width: 320px;
+}
+
+.name-wrap {
+  display: flex;
+  gap: 16px;
+  max-width: 120px;
+  word-break: break-all;
+}
+
+.ranking-time {
+  margin-left: auto;
+}

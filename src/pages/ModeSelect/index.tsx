@@ -57,7 +57,7 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					variant="outlined"
 					size="sm"
-					onClick={() => navigate("/ranking_preview")}
+					onClick={() => navigate("/ranking_TimeAttack_preview")}
 				>
 					<img
 						className={styles["crown-image"]}
