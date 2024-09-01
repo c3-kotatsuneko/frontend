@@ -1,0 +1,37 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100svh;
+  color: var(--black);
+}
+
+.user-name {
+  position: absolute;
+  top: 4%;
+  right: 4%;
+  font-size: 16px;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 400;
+  margin-bottom: 42px;
+}
+
+.image {
+  display: block;
+  margin: 0 auto;
+  margin-bottom: 40px;
+}
+
+.return-home {
+  display: flex;
+  position: absolute;
+  right: 4%;
+  bottom: 6%;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+}

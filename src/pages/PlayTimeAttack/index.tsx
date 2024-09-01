@@ -23,10 +23,10 @@ export const PlayTimeAttack = () => {
   useEffect(() => {
     setClearTime(18);
 
-    if (time === 0) {
-      navigate("/ranking");
-    }
-  }, [navigate, time, setClearTime]);
+		if (time === 0) {
+			navigate("/ranking_timeAttack");
+		}
+	}, [navigate, time, setClearTime]);
 
   return (
     <main>
