@@ -1,4 +1,5 @@
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
+import ARScanner from "../../components/features/scan";
 import {
   cameraInit,
   handInit,
@@ -59,9 +60,18 @@ export const ARfunction = () => {
       if (handResultRef.current) {
         if (handResultRef.current.landmarks.length > 0) {
           HandPosToDataConverter(position, handResultRef, handBlock);
+          console.log(handBlock);
+        }
+      }
+    } else {
+      if (handResultRef.current) {
+        if (handResultRef.current.landmarks.length > 0) {
+          HandPosToDataConverter("front", handResultRef, handBlock);
+          console.log(handBlock);
         }
       }
     }
+
     if (rendererRef.current && sceneRef.current && cameraRef.current) {
       rendererRef.current.render(sceneRef.current, cameraRef.current);
       if (arToolkitSource.ready) {
@@ -69,7 +79,6 @@ export const ARfunction = () => {
         sceneRef.current.visible = cameraRef.current.visible;
       }
     }
-    console.log(handResultRef.current);
     requestAnimationFrame(animate);
   }, [
     arToolkitContext,
@@ -86,8 +95,11 @@ export const ARfunction = () => {
   }, [animate]);
 
   return (
-    <video ref={handCameraRef} id="video" autoPlay muted>
-      <track kind="captions" src="" label="No captions available" default />
-    </video>
+    <>
+      <ARScanner />
+      <video ref={handCameraRef} id="video" autoPlay muted>
+        <track kind="captions" src="" label="No captions available" default />
+      </video>
+    </>
   );
 };

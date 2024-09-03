@@ -1,26 +1,8 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import styles from "./index.module.css";
 
-const ARScanner: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
+const ARScanner = () => {
   const [markerDetected, setMarkerDetected] = useState(false);
-
-  useEffect(() => {
-    const startCamera = async () => {
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({
-          video: { facingMode: "environment" },
-        });
-        if (videoRef.current) {
-          videoRef.current.srcObject = stream;
-        }
-      } catch (error) {
-        console.error("カメラのアクセスに失敗しました:", error);
-      }
-    };
-
-    startCamera();
-  }, []);
 
   useEffect(() => {
     const markerFoundHandler = () => {
@@ -31,6 +13,11 @@ const ARScanner: React.FC = () => {
     };
     window.addEventListener("markerFound", markerFoundHandler);
     window.addEventListener("markerLost", markerLostHandler);
+
+    return () => {
+      window.removeEventListener("markerFound", markerFoundHandler);
+      window.removeEventListener("markerLost", markerLostHandler);
+    };
   }, []);
 
   if (markerDetected) {
@@ -42,11 +29,7 @@ const ARScanner: React.FC = () => {
       <div className={styles.overlay}>
         <p className={styles.text}>すきゃん</p>
         <div className={styles.scanner}>
-          {/* biome-ignore lint/a11y/useMediaCaption: <explanation> */}
-          {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
-          <video ref={videoRef} autoPlay></video>
-          {/* biome-ignore lint/style/useSelfClosingElements: <explanation> */}
-          <div className={styles["marker-frame"]}></div>
+          <div className={styles["marker-frame"]} />
           <p className={styles.attention}>
             あそんでるあいだも
             <br />
