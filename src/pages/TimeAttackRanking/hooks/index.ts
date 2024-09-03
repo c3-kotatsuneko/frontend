@@ -1,15 +1,15 @@
 import { useCallback, useEffect, useState } from "react";
-import type { Rank } from "../../../components/features/ranking/RankList";
+import type { Rank } from "../../../components/features/timeAttackRanking/RankList";
 import { useTimeAttackStore } from "../../../store/useTimeAttackStore";
 import { useUserStore } from "../../../store/useUserStore";
-import { useRanking } from "./useRanking";
+import { useTimeAttackRanking } from "./useTimeAttackRanking";
 
 export type ResultStatus = {
 	isNew: boolean;
 	canRecord: boolean;
 };
 
-type UseRankingPage = {
+type UseTimeAttackRankingPage = {
 	rankingList: Rank[];
 	clearTime: number;
 	lastHighestTime: number;
@@ -19,9 +19,9 @@ type UseRankingPage = {
 	handleUpdateRanking: (clearTime: number, limit: number) => void;
 };
 
-export const useRankingPage = (): UseRankingPage => {
+export const useRankingPage = (): UseTimeAttackRankingPage => {
 	const { isGuest } = useUserStore();
-	const { getRanking, getGuestRanking, updateRanking } = useRanking();
+	const { getRanking, getGuestRanking, updateRanking } = useTimeAttackRanking();
 
 	const { clearTime, resultStatus, setResultStatus, setRank } =
 		useTimeAttackStore();

@@ -1,8 +1,8 @@
-import type { Rank } from "../../../components/features/ranking/RankList";
+import type { Rank } from "../../../components/features/timeAttackRanking/RankList";
 import { baseUrl } from "../../../utils/baseUrl";
 import { formatTime } from "../../../utils/formatTime";
 
-type RankingResponse = {
+type TimeAttackRankingResponse = {
 	highest_clear_time: number;
 	is_new: boolean;
 	can_record: boolean;
@@ -13,7 +13,7 @@ type RankingResponse = {
 	}[];
 };
 
-type UpdateRankingResponse = {
+type UpdateTimeAttackRankingResponse = {
 	rank: number;
 	is_new: false;
 	clear_time: number;
@@ -25,7 +25,9 @@ type UpdateRankingResponse = {
 	}[];
 };
 
-const transformResToRank = (data: RankingResponse["ranking_list"]) => {
+const transformResToRank = (
+	data: TimeAttackRankingResponse["ranking_list"],
+) => {
 	const transformedData: Rank[] = data.map(
 		(item: { username: string; clear_time: number; update_at: string }) => ({
 			userName: item.username,
@@ -42,7 +44,7 @@ const transformResToRank = (data: RankingResponse["ranking_list"]) => {
 	return transformedData;
 };
 
-export const useRanking = () => {
+export const useTimeAttackRanking = () => {
 	const getRanking = async (clearTime: number, limit: number) => {
 		try {
 			const response = await fetch(
@@ -59,7 +61,7 @@ export const useRanking = () => {
 				throw new Error("Network response was not ok");
 			}
 
-			const data: RankingResponse = await response.json();
+			const data: TimeAttackRankingResponse = await response.json();
 
 			const rankingList: Rank[] = transformResToRank(data.ranking_list);
 			const lastHighestTime = data.highest_clear_time;
@@ -85,7 +87,7 @@ export const useRanking = () => {
 			}
 
 			const data: Omit<
-				RankingResponse,
+				TimeAttackRankingResponse,
 				"highest_clear_time" | "is_new" | "can_record"
 			> = await response.json();
 
@@ -112,7 +114,7 @@ export const useRanking = () => {
 			if (!response.ok) {
 				throw new Error("Network response was not ok");
 			}
-			const data: UpdateRankingResponse = await response.json();
+			const data: UpdateTimeAttackRankingResponse = await response.json();
 
 			const rankingList: Rank[] = transformResToRank(data.ranking_list);
 			const rank = data.rank;
