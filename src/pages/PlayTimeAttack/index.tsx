@@ -23,17 +23,17 @@ export const PlayTimeAttack = () => {
   useEffect(() => {
     setClearTime(18);
 
-    if (time === 0) {
-      navigate("/ranking_timeAttack");
-    }
-  }, [navigate, time, setClearTime]);
+		if (time === 0) {
+			navigate("/ranking_timeAttack");
+		}
+	}, [navigate, time, setClearTime]);
 
-  return (
-    <main>
-      <Timer remainingTime={time} />
-      <p className={styles["user-name"]}>{userName}</p>
-      <ARfunction />
-      <ExitButton />
-    </main>
-  );
+	return (
+		<main>
+			<Timer remainingTime={time} />
+			<p className={styles["user-name"]}>{userName}</p>
+			<ARfunction />
+			<ExitButton />
+		</main>
+	);
 };
