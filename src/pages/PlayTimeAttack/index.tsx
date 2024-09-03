@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTimeAttackStore } from "../../store/useTimeAttackStore";
 import { Timer } from "../../components/features/play/Timer";
-import { Test } from "../AR";
+import { ARfunction } from "../AR";
 import styles from "./index.module.css";
 import ExitButton from "../../components/features/play/ExitButton";
 import { useNavigate } from "react-router-dom";
@@ -23,16 +23,16 @@ export const PlayTimeAttack = () => {
   useEffect(() => {
     setClearTime(18);
 
-		if (time === 0) {
-			navigate("/ranking_timeAttack");
-		}
-	}, [navigate, time, setClearTime]);
+    if (time === 0) {
+      navigate("/ranking_timeAttack");
+    }
+  }, [navigate, time, setClearTime]);
 
   return (
     <main>
       <Timer remainingTime={time} />
       <p className={styles["user-name"]}>{userName}</p>
-      <Test />
+      <ARfunction />
       <ExitButton />
     </main>
   );

@@ -15,7 +15,7 @@ import type {
 import { useLocation } from "react-router-dom";
 import { HandPosToDataConverter } from "../../components/features/AR/Converter";
 
-export const Test = () => {
+export const ARfunction = () => {
   const handCameraRef = useRef<HTMLVideoElement | null>(null);
   const handLandMarkerRef = useRef<HandLandmarker | null>(null);
   const handResultRef = useRef<HandLandmarkerResult | null>(null);
@@ -44,12 +44,7 @@ export const Test = () => {
   useEffect(() => {
     predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
   }, []);
-  const {
-    rendererRef,
-    sceneRef,
-    cameraRef,
-    handBlock,
-  } = ThreeInit(); //lightRef, allBlockSet,をlint回避のため一度削除
+  const { rendererRef, sceneRef, cameraRef, handBlock } = ThreeInit(); //lightRef, allBlockSet,をlint回避のため一度削除
   const { arToolkitSource, arToolkitContext } = useARToolkit({
     camera: cameraRef.current ?? new THREE.Camera(),
     cameraParaDatURL: cameraPara,
