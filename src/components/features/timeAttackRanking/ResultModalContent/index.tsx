@@ -1,6 +1,6 @@
-import type { ResultStatus } from "../../../../pages/Ranking/hooks";
+import type { ResultStatus } from "../../../../pages/TimeAttackRanking/hooks";
+import { useUserStore } from "../../../../store/useUserStore";
 import { formatTime } from "../../../../utils/formatTime";
-import { useUserName } from "../../../../utils/setUserName";
 import { DefaultButton } from "../../../ui/Button";
 import { TextButton } from "../../../ui/TextButton";
 import styles from "./index.module.css";
@@ -8,7 +8,7 @@ import styles from "./index.module.css";
 type ModalContentProps = {
 	clearTime: number;
 	lastHighestTime: number;
-	resultStatus?: ResultStatus;
+	resultStatus: ResultStatus;
 	setIsOpen: (isOpen: boolean) => void;
 	handleUpdateRanking: (clearTime: number, limit: number) => void;
 };
@@ -23,14 +23,14 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 	setIsOpen,
 	handleUpdateRanking,
 }) => {
-	const { isGuest } = useUserName();
+	const isGuest = useUserStore((state) => state.isGuest);
 
 	return (
 		<div className={styles["modal-wrapper"]}>
 			<div className={styles["cats-image-container"]}>
 				<img
 					className={styles["cats-image-square"]}
-					data-type={isGuest ? "guest" : "user"}
+					data-type={isGuest ? "up" : !resultStatus.isNew ? "up" : "down"}
 					alt="四角ねこタワー"
 					src="cats/catsTower-square.webp"
 					width="48"
@@ -38,7 +38,7 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 				/>
 				<img
 					className={styles["cats-image-circle"]}
-					data-type={isGuest ? "guest" : "user"}
+					data-type={isGuest ? "up" : !resultStatus.isNew ? "up" : "down"}
 					alt="丸ねこタワー"
 					src="cats/catsTower-circle.webp"
 					width="32"
@@ -55,13 +55,16 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 				きろくは{formatTime(clearTime)}！
 			</p>
 
-			{!isGuest && !resultStatus.canRecord && lastHighestTime !== -1 && (
-				<div className={styles["modal-p"]}>
-					<p className={styles["modal-description"]} data-type="highest">
-						前回の最高記録は{formatTime(lastHighestTime)}！
-					</p>
-				</div>
-			)}
+			{!isGuest &&
+				resultStatus.isNew &&
+				!resultStatus.canRecord &&
+				lastHighestTime !== -1 && (
+					<div className={styles["modal-p"]}>
+						<p className={styles["modal-description"]} data-type="highest">
+							前回の最高記録は{formatTime(lastHighestTime)}！
+						</p>
+					</div>
+				)}
 
 			{!isGuest && resultStatus.canRecord && (
 				<div className={styles["modal-selection-wrapper"]}>
@@ -77,17 +80,15 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 					</TextButton>
 				</div>
 			)}
-			{!resultStatus.canRecord && (
-				<div className={styles["modal-selection-wrapper"]}>
-					<DefaultButton
-						variant="contained"
-						size="md"
-						onClick={() => setIsOpen(false)}
-					>
-						らんきんぐへ
-					</DefaultButton>
-				</div>
-			)}
+			<div className={styles["modal-selection-wrapper"]}>
+				<DefaultButton
+					variant="contained"
+					size="md"
+					onClick={() => setIsOpen(false)}
+				>
+					らんきんぐへ
+				</DefaultButton>
+			</div>
 		</div>
 	);
 };

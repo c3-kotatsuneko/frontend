@@ -2,9 +2,9 @@ import { DefaultButton } from "../../components/ui/Button";
 import {
 	type Rank,
 	RankList,
-} from "../../components/features/ranking/RankList";
+} from "../../components/features/timeAttackRanking/RankList";
 import styles from "./index.module.css";
-import { useRankingPreviewPage } from "./hooks";
+import { useTimeAttackRankingPreviewPage } from "./hooks";
 import { useNavigate } from "react-router-dom";
 import { formatTime } from "../../utils/formatTime";
 
@@ -18,8 +18,8 @@ type RankingResponse = {
 
 let rankList: Rank[] | null = null;
 
-export const RankingPreviewPage = () => {
-	const { getRanking } = useRankingPreviewPage();
+export const TimeAttackRankingPreviewPage = () => {
+	const { getRanking } = useTimeAttackRankingPreviewPage();
 	const navigate = useNavigate();
 
 	if (rankList === null) {

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/baseUrl";
+import { useUserStore } from "../../../store/useUserStore";
 
 export const useLoginForm = () => {
 	const navigate = useNavigate();
+	const { setLoginUser } = useUserStore();
 	const [userName, setUserName] = useState("");
 	const [password, setPassword] = useState("");
 	const [loginError, setLoginError] = useState<string | null>(null);
@@ -27,10 +29,9 @@ export const useLoginForm = () => {
 				return;
 			}
 			const data = await response.json();
-			setLoginError(null);
 
-			localStorage.setItem("token", data.access_token);
-			localStorage.setItem("userName", userName);
+			setLoginError(null);
+			setLoginUser(data.access_token, userName);
 
 			navigate("/mode_select");
 		} catch (error) {
@@ -41,7 +42,6 @@ export const useLoginForm = () => {
 
 	const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
 		event.preventDefault();
-		console.log(userName, password);
 		login(userName, password);
 	};
 
