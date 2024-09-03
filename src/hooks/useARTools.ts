@@ -10,11 +10,11 @@ export type ARToolkitInitOptions = {
 };
 
 export const useARToolkit = ({
-	domElement,
-	camera,
-	cameraParaDatURL,
-	markerPatternURL,
-	scene,
+  domElement,
+  camera,
+  cameraParaDatURL,
+  markerPatternURL,
+  scene,
 }: ARToolkitInitOptions) => {
 	const arToolkitSource = new THREEx.ArToolkitSource({
 		sourceType: "webcam",
