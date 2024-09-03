@@ -8,32 +8,32 @@ import { useNavigate } from "react-router-dom";
 import { useUserStore } from "../../store/useUserStore";
 
 export const PlayTimeAttack = () => {
-  const navigate = useNavigate();
-  const setClearTime = useTimeAttackStore((state) => state.setClearTime);
-  const { name: userName } = useUserStore();
-  const [time, setTime] = useState(10);
+	const navigate = useNavigate();
+	const setClearTime = useTimeAttackStore((state) => state.setClearTime);
+	const { name: userName } = useUserStore();
+	const [time, setTime] = useState(10);
 
-  useEffect(() => {
-    setInterval(() => {
-      setTime(time - 1);
-    }, 1000);
-  }, [time]);
+	useEffect(() => {
+		setInterval(() => {
+			setTime(time - 1);
+		}, 1000);
+	}, [time]);
 
-  // timeが0になったらrankingページへ遷移する
-  useEffect(() => {
-    setClearTime(18);
+	// timeが0になったらrankingページへ遷移する
+	useEffect(() => {
+		setClearTime(18);
 
-    if (time === 0) {
-      navigate("/ranking_timeAttack");
-    }
-  }, [navigate, time, setClearTime]);
+		if (time === 0) {
+			navigate("/ranking_timeAttack");
+		}
+	}, [navigate, time, setClearTime]);
 
-  return (
-    <main>
-      <Timer remainingTime={time} />
-      <p className={styles["user-name"]}>{userName}</p>
-      <ARfunction />
-      <ExitButton />
-    </main>
-  );
+	return (
+		<main>
+			<Timer remainingTime={time} />
+			<p className={styles["user-name"]}>{userName}</p>
+			<ARfunction />
+			<ExitButton />
+		</main>
+	);
 };
