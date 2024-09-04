@@ -4,15 +4,21 @@ import styles from "./index.module.css";
 import { useEffect } from "react";
 import { useUserStore } from "../../store/useUserStore";
 import { useModeStore } from "../../store/useModeStore";
+import { useSocketRefStore } from "../../store/useSocketRefStore";
+import ReconnectingWebSocket from "reconnecting-websocket";
 
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
 	const { setMode } = useModeStore();
+	const { setEventRef } = useSocketRefStore();
 
 	useEffect(() => {
 		document.getElementById("arjs-video")?.remove();
-	}, []);
+		const ws = new ReconnectingWebSocket("ws://localhost:8081/ws/events");
+		ws.binaryType = "arraybuffer";
+		setEventRef({ current: ws });
+	}, [setEventRef]);
 
 	return (
 		<main className={styles.root}>
