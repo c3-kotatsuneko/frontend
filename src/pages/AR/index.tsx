@@ -1,22 +1,21 @@
+import { memo, useCallback, useEffect, useRef } from "react";
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
-import ARScanner from "../../components/features/AR/scan";
 import {
 	cameraInit,
 	handInit,
 	predictWebcam,
 } from "../../components/features/AR/HandTracking";
-import { useARToolkit } from "./hooks/useARTools";
 import cameraPara from "../../assets/camera_para.dat?url";
-import { useCallback, useEffect, useRef } from "react";
-import * as THREE from "three"; // Add this import statement
+import * as THREE from "three";
 import type {
 	HandLandmarker,
 	HandLandmarkerResult,
 } from "@mediapipe/tasks-vision";
 import { useLocation } from "react-router-dom";
 import { HandPosToDataConverter } from "../../components/features/AR/Converter";
+import { useARToolkit } from "./hooks/useARTools";
 
-export const ARfunction = () => {
+const Component = () => {
 	const handCameraRef = useRef<HTMLVideoElement | null>(null);
 	const handLandMarkerRef = useRef<HandLandmarker | null>(null);
 	const handResultRef = useRef<HandLandmarkerResult | null>(null);
@@ -60,18 +59,9 @@ export const ARfunction = () => {
 			if (handResultRef.current) {
 				if (handResultRef.current.landmarks.length > 0) {
 					HandPosToDataConverter(position, handResultRef, handBlock);
-					console.log(handBlock);
-				}
-			}
-		} else {
-			if (handResultRef.current) {
-				if (handResultRef.current.landmarks.length > 0) {
-					HandPosToDataConverter("front", handResultRef, handBlock);
-					console.log(handBlock);
 				}
 			}
 		}
-
 		if (rendererRef.current && sceneRef.current && cameraRef.current) {
 			rendererRef.current.render(sceneRef.current, cameraRef.current);
 			if (arToolkitSource.ready) {
@@ -79,6 +69,7 @@ export const ARfunction = () => {
 				sceneRef.current.visible = cameraRef.current.visible;
 			}
 		}
+		console.log(handResultRef.current);
 		requestAnimationFrame(animate);
 	}, [
 		arToolkitContext,
@@ -89,16 +80,15 @@ export const ARfunction = () => {
 		position,
 		handBlock,
 	]);
+
 	useEffect(() => {
 		animate();
 	}, [animate]);
 
 	return (
-		<>
-			<ARScanner />
-			<video ref={handCameraRef} id="video" autoPlay muted>
-				<track kind="captions" src="" label="No captions available" default />
-			</video>
-		</>
+		<video ref={handCameraRef} id="video" autoPlay muted>
+			<track kind="captions" src="" label="No captions available" default />
+		</video>
 	);
 };
+export const ARfunction = memo(Component);

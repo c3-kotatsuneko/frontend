@@ -6,11 +6,12 @@ export const useCountTimer = (initialTime: number) => {
 
 	useEffect(() => {
 		const countDownInterval = setInterval(() => {
-			if (time === 0) {
-				clearInterval(countDownInterval);
-			} else if (time > 0) {
-				setTime(time - 1);
-			}
+			//   if (time === 0) {
+			//     clearInterval(countDownInterval);
+			//   } else if (time > 0) {
+			//     setTime(time + 1);
+			//   }
+			setTime(time + 1);
 		}, 1000);
 		return () => {
 			clearInterval(countDownInterval);

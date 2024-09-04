@@ -2,7 +2,28 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
-  z-index: 100;
-  background-color: var(--gray);
+}
+
+.text {
+  font-weight: bold;
+
+  &[data-time="3"] {
+    font-size: 120px;
+    color: var(--blue);
+  }
+
+  &[data-time="2"] {
+    font-size: 120px;
+    color: var(--redorange);
+  }
+
+  &[data-time="1"] {
+    font-size: 120px;
+    color: var(--green);
+  }
+
+  &[data-time="0"] {
+    font-size: 64px;
+    color: var(--redorange);
+  }
 }
