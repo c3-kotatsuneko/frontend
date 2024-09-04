@@ -2,14 +2,13 @@ import type { MutableRefObject } from "react";
 import { create } from "zustand";
 import type ReconnectingWebSocket from "reconnecting-websocket";
 import {
-  GameStatusRequest,
   GameStatusRequestSchema,
   GameStatusResponseSchema,
   PhysicsRequest,
   PhysicsRequestSchema,
   PhysicsResponseSchema,
 } from "../proto/game/rpc/game_pb";
-import { Event, Mode, Player } from "../proto/game/resources/game_pb";
+import { Event, Hand, Mode, Player } from "../proto/game/resources/game_pb";
 import { create as toProto, toBinary, fromBinary } from "@bufbuild/protobuf";
 
 type EventState = {
@@ -18,6 +17,19 @@ type EventState = {
   mode: Mode;
   players: Player[];
   time: number;
+};
+
+export type SendEventSchema = {
+  roomId: string;
+  event: Event;
+  mode: Mode;
+  player?: Player;
+};
+
+export type SendPhysicsSchema = {
+  senderId: string;
+  roomId: string;
+  hands?: Hand[];
 };
 
 type State = {
@@ -40,7 +52,7 @@ type Action = {
   setPlayers: (players: Player[]) => void;
   addPlayer: (player: Player) => void;
   setTime: (time: number) => void;
-  eventSend: (req: GameStatusRequest) => void;
+  eventSend: (req: SendEventSchema) => void;
   physicsSend: (req: PhysicsRequest) => void;
 };
 
@@ -85,36 +97,32 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
   setEventRef: (ref) => {
     if (ref && ref.current) {
       ref.current.onopen = () => {
-        get().eventSend(
-          toProto(GameStatusRequestSchema, {
-            roomId: "88",
-            event: Event.ENTER_ROOM,
-            mode: Mode.MULTI,
-            player: {
-              playerId: "1",
-              name: "jubhio;hbn",
-              color: "red",
-              score: 0,
-              rank: 1,
-              time: 0,
-            } as Player,
-          })
-        );
-        get().eventSend(
-          toProto(GameStatusRequestSchema, {
-            roomId: "88",
-            event: Event.GAME_START,
-            mode: Mode.MULTI,
-            player: {
-              playerId: "1",
-              name: "jubhio;hbn",
-              color: "red",
-              score: 0,
-              rank: 1,
-              time: 0,
-            } as Player,
-          })
-        );
+        get().eventSend({
+          roomId: "88",
+          event: Event.ENTER_ROOM,
+          mode: Mode.MULTI,
+          player: {
+            playerId: "1",
+            name: "jubhio;hbn",
+            color: "red",
+            score: 0,
+            rank: 1,
+            time: 0,
+          } as Player,
+        });
+        get().eventSend({
+          roomId: "88",
+          event: Event.GAME_START,
+          mode: Mode.MULTI,
+          player: {
+            playerId: "1",
+            name: "jubhio;hbn",
+            color: "red",
+            score: 0,
+            rank: 1,
+            time: 0,
+          } as Player,
+        });
         console.log("connected");
       };
       ref.current.onmessage = (event) => {
@@ -232,13 +240,17 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
   eventSend: (req) => {
     const { socketEventRef } = get();
     if (socketEventRef?.current) {
-      socketEventRef.current.send(toBinary(GameStatusRequestSchema, req));
+      socketEventRef.current.send(
+        toBinary(GameStatusRequestSchema, toProto(GameStatusRequestSchema, req))
+      );
     }
   },
   physicsSend: (req) => {
     const { socketPhysicsRef } = get();
     if (socketPhysicsRef?.current) {
-      socketPhysicsRef.current.send(toBinary(PhysicsRequestSchema, req));
+      socketPhysicsRef.current.send(
+        toBinary(PhysicsRequestSchema, toProto(PhysicsRequestSchema, req))
+      );
     }
   },
 }));
