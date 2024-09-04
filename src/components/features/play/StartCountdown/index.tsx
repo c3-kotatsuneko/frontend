@@ -1,7 +1,9 @@
-export const StartCountdown = () => {
+import styles from "./index.module.css";
+
+export const StartCountdown = ({ startTime }: { startTime: number }) => {
 	return (
-		<div>
-			<h1>StartCountdown</h1>
+		<div className={styles.root}>
+			<p>{startTime}</p>
 		</div>
 	);
 };
