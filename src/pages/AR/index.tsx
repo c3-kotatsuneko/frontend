@@ -1,10 +1,11 @@
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
+import ARScanner from "../../components/features/AR/scan";
 import {
   cameraInit,
   handInit,
   predictWebcam,
 } from "../../components/features/AR/HandTracking";
-import { useARToolkit } from "../../hooks/useARTools";
+import { useARToolkit } from "./hooks/useARTools";
 import cameraPara from "../../assets/camera_para.dat?url";
 import { useCallback, useEffect, useRef } from "react";
 import * as THREE from "three"; // Add this import statement
@@ -59,9 +60,18 @@ export const ARfunction = () => {
       if (handResultRef.current) {
         if (handResultRef.current.landmarks.length > 0) {
           HandPosToDataConverter(position, handResultRef, handBlock);
+          console.log(handBlock);
+        }
+      }
+    } else {
+      if (handResultRef.current) {
+        if (handResultRef.current.landmarks.length > 0) {
+          HandPosToDataConverter("front", handResultRef, handBlock);
+          console.log(handBlock);
         }
       }
     }
+
     if (rendererRef.current && sceneRef.current && cameraRef.current) {
       rendererRef.current.render(sceneRef.current, cameraRef.current);
       if (arToolkitSource.ready) {
@@ -69,7 +79,6 @@ export const ARfunction = () => {
         sceneRef.current.visible = cameraRef.current.visible;
       }
     }
-    console.log(handResultRef.current);
     requestAnimationFrame(animate);
   }, [
     arToolkitContext,
@@ -80,14 +89,16 @@ export const ARfunction = () => {
     position,
     handBlock,
   ]);
-
   useEffect(() => {
     animate();
   }, [animate]);
 
   return (
-    <video ref={handCameraRef} id="video" autoPlay muted>
-      <track kind="captions" src="" label="No captions available" default />
-    </video>
+    <>
+      <ARScanner />
+      <video ref={handCameraRef} id="video" autoPlay muted>
+        <track kind="captions" src="" label="No captions available" default />
+      </video>
+    </>
   );
 };
