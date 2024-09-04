@@ -87,9 +87,9 @@ export const useARToolkit = ({
 			: "portrait";
 	}
 
-	return {
-		arToolkitSource,
-		arToolkitContext,
-		arMarkerControls,
-	};
+  return {
+    arToolkitSource,
+    arToolkitContext,
+    arMarkerControls,
+  };
 };
