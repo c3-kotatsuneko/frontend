@@ -228,7 +228,7 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 		return set(() => ({ socketEventRef: ref }));
 	},
 	setPhysicsRef: (ref) => {
-		if (ref && ref.current) {
+		if (ref?.current) {
 			ref.current.onopen = () => {
 				console.log("connected");
 			};
