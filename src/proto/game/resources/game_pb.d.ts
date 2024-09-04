@@ -2,7 +2,11 @@
 // @generated from file game/resources/game.proto (package game.resources, syntax proto3)
 /* eslint-disable */
 
-import type { GenEnum, GenFile, GenMessage } from "@bufbuild/protobuf/codegenv1";
+import type {
+	GenEnum,
+	GenFile,
+	GenMessage,
+} from "@bufbuild/protobuf/codegenv1";
 import type { Message } from "@bufbuild/protobuf";
 
 /**
@@ -14,20 +18,20 @@ export declare const file_game_resources_game: GenFile;
  * @generated from message game.resources.Vector3
  */
 export declare type Vector3 = Message<"game.resources.Vector3"> & {
-  /**
-   * @generated from field: double x = 1;
-   */
-  x: number;
+	/**
+	 * @generated from field: double x = 1;
+	 */
+	x: number;
 
-  /**
-   * @generated from field: double y = 2;
-   */
-  y: number;
+	/**
+	 * @generated from field: double y = 2;
+	 */
+	y: number;
 
-  /**
-   * @generated from field: double z = 3;
-   */
-  z: number;
+	/**
+	 * @generated from field: double z = 3;
+	 */
+	z: number;
 };
 
 /**
@@ -40,35 +44,35 @@ export declare const Vector3Schema: GenMessage<Vector3>;
  * @generated from message game.resources.Player
  */
 export declare type Player = Message<"game.resources.Player"> & {
-  /**
-   * @generated from field: string player_id = 1;
-   */
-  playerId: string;
+	/**
+	 * @generated from field: string player_id = 1;
+	 */
+	playerId: string;
 
-  /**
-   * @generated from field: string name = 2;
-   */
-  name: string;
+	/**
+	 * @generated from field: string name = 2;
+	 */
+	name: string;
 
-  /**
-   * @generated from field: string color = 3;
-   */
-  color: string;
+	/**
+	 * @generated from field: string color = 3;
+	 */
+	color: string;
 
-  /**
-   * @generated from field: int32 score = 4;
-   */
-  score: number;
+	/**
+	 * @generated from field: int32 score = 4;
+	 */
+	score: number;
 
-  /**
-   * @generated from field: int32 rank = 5;
-   */
-  rank: number;
+	/**
+	 * @generated from field: int32 rank = 5;
+	 */
+	rank: number;
 
-  /**
-   * @generated from field: int32 time = 6;
-   */
-  time: number;
+	/**
+	 * @generated from field: int32 time = 6;
+	 */
+	time: number;
 };
 
 /**
@@ -81,35 +85,35 @@ export declare const PlayerSchema: GenMessage<Player>;
  * @generated from message game.resources.Object
  */
 export declare type Object$ = Message<"game.resources.Object"> & {
-  /**
-   * @generated from field: string object_id = 1;
-   */
-  objectId: string;
+	/**
+	 * @generated from field: string object_id = 1;
+	 */
+	objectId: string;
 
-  /**
-   * @generated from field: int32 layer = 2;
-   */
-  layer: number;
+	/**
+	 * @generated from field: int32 layer = 2;
+	 */
+	layer: number;
 
-  /**
-   * @generated from field: game.resources.ObjectKind kinds = 3;
-   */
-  kinds: ObjectKind;
+	/**
+	 * @generated from field: game.resources.ObjectKind kinds = 3;
+	 */
+	kinds: ObjectKind;
 
-  /**
-   * @generated from field: game.resources.ObjectState state = 4;
-   */
-  state: ObjectState;
+	/**
+	 * @generated from field: game.resources.ObjectState state = 4;
+	 */
+	state: ObjectState;
 
-  /**
-   * @generated from field: game.resources.Vector3 position = 5;
-   */
-  position?: Vector3;
+	/**
+	 * @generated from field: game.resources.Vector3 position = 5;
+	 */
+	position?: Vector3;
 
-  /**
-   * @generated from field: game.resources.Vector3 size = 6;
-   */
-  size?: Vector3;
+	/**
+	 * @generated from field: game.resources.Vector3 size = 6;
+	 */
+	size?: Vector3;
 };
 
 /**
@@ -122,40 +126,40 @@ export declare const ObjectSchema: GenMessage<Object$>;
  * @generated from message game.resources.Stat
  */
 export declare type Stat = Message<"game.resources.Stat"> & {
-  /**
-   * @generated from field: string player_id = 1;
-   */
-  playerId: string;
+	/**
+	 * @generated from field: string player_id = 1;
+	 */
+	playerId: string;
 
-  /**
-   * @generated from field: int32 score = 2;
-   */
-  score: number;
+	/**
+	 * @generated from field: int32 score = 2;
+	 */
+	score: number;
 
-  /**
-   * @generated from field: int32 rank = 3;
-   */
-  rank: number;
+	/**
+	 * @generated from field: int32 rank = 3;
+	 */
+	rank: number;
 
-  /**
-   * @generated from field: int32 rank_score = 4;
-   */
-  rankScore: number;
+	/**
+	 * @generated from field: int32 rank_score = 4;
+	 */
+	rankScore: number;
 
-  /**
-   * @generated from field: int32 rank_score_diff = 5;
-   */
-  rankScoreDiff: number;
+	/**
+	 * @generated from field: int32 rank_score_diff = 5;
+	 */
+	rankScoreDiff: number;
 
-  /**
-   * @generated from field: int32 rank_score_diff_rate = 6;
-   */
-  rankScoreDiffRate: number;
+	/**
+	 * @generated from field: int32 rank_score_diff_rate = 6;
+	 */
+	rankScoreDiffRate: number;
 
-  /**
-   * @generated from field: int32 rank_score_diff_rate_rank = 7;
-   */
-  rankScoreDiffRateRank: number;
+	/**
+	 * @generated from field: int32 rank_score_diff_rate_rank = 7;
+	 */
+	rankScoreDiffRateRank: number;
 };
 
 /**
@@ -168,25 +172,25 @@ export declare const StatSchema: GenMessage<Stat>;
  * @generated from message game.resources.Hand
  */
 export declare type Hand = Message<"game.resources.Hand"> & {
-  /**
-   * @generated from field: string user_id = 1;
-   */
-  userId: string;
+	/**
+	 * @generated from field: string user_id = 1;
+	 */
+	userId: string;
 
-  /**
-   * @generated from field: game.resources.HandState state = 2;
-   */
-  state: HandState;
+	/**
+	 * @generated from field: game.resources.HandState state = 2;
+	 */
+	state: HandState;
 
-  /**
-   * @generated from field: game.resources.Vector3 center_position = 3;
-   */
-  centerPosition?: Vector3;
+	/**
+	 * @generated from field: game.resources.Vector3 center_position = 3;
+	 */
+	centerPosition?: Vector3;
 
-  /**
-   * @generated from field: game.resources.Vector3 action_position = 4;
-   */
-  actionPosition?: Vector3;
+	/**
+	 * @generated from field: game.resources.Vector3 action_position = 4;
+	 */
+	actionPosition?: Vector3;
 };
 
 /**
@@ -199,35 +203,35 @@ export declare const HandSchema: GenMessage<Hand>;
  * @generated from enum game.resources.GameState
  */
 export enum GameState {
-  /**
-   * @generated from enum value: GAME_STATE_UNKNOWN = 0;
-   */
-  UNKNOWN = 0,
+	/**
+	 * @generated from enum value: GAME_STATE_UNKNOWN = 0;
+	 */
+	UNKNOWN = 0,
 
-  /**
-   * @generated from enum value: GAME_STATE_WAIT = 1;
-   */
-  WAIT = 1,
+	/**
+	 * @generated from enum value: GAME_STATE_WAIT = 1;
+	 */
+	WAIT = 1,
 
-  /**
-   * @generated from enum value: GAME_STATE_PLAY = 2;
-   */
-  PLAY = 2,
+	/**
+	 * @generated from enum value: GAME_STATE_PLAY = 2;
+	 */
+	PLAY = 2,
 
-  /**
-   * @generated from enum value: GAME_STATE_EXIT = 3;
-   */
-  EXIT = 3,
+	/**
+	 * @generated from enum value: GAME_STATE_EXIT = 3;
+	 */
+	EXIT = 3,
 
-  /**
-   * @generated from enum value: GAME_STATE_FINISH = 4;
-   */
-  FINISH = 4,
+	/**
+	 * @generated from enum value: GAME_STATE_FINISH = 4;
+	 */
+	FINISH = 4,
 
-  /**
-   * @generated from enum value: GAME_STATE_RESULT = 5;
-   */
-  RESULT = 5,
+	/**
+	 * @generated from enum value: GAME_STATE_RESULT = 5;
+	 */
+	RESULT = 5,
 }
 
 /**
@@ -239,40 +243,40 @@ export declare const GameStateSchema: GenEnum<GameState>;
  * @generated from enum game.resources.Event
  */
 export enum Event {
-  /**
-   * @generated from enum value: EVENT_UNKNOWN = 0;
-   */
-  UNKNOWN = 0,
+	/**
+	 * @generated from enum value: EVENT_UNKNOWN = 0;
+	 */
+	UNKNOWN = 0,
 
-  /**
-   * @generated from enum value: EVENT_ENTER_ROOM = 1;
-   */
-  ENTER_ROOM = 1,
+	/**
+	 * @generated from enum value: EVENT_ENTER_ROOM = 1;
+	 */
+	ENTER_ROOM = 1,
 
-  /**
-   * @generated from enum value: EVENT_GAME_START = 2;
-   */
-  GAME_START = 2,
+	/**
+	 * @generated from enum value: EVENT_GAME_START = 2;
+	 */
+	GAME_START = 2,
 
-  /**
-   * @generated from enum value: EVENT_TIMER = 3;
-   */
-  TIMER = 3,
+	/**
+	 * @generated from enum value: EVENT_TIMER = 3;
+	 */
+	TIMER = 3,
 
-  /**
-   * @generated from enum value: EVENT_STATS = 4;
-   */
-  STATS = 4,
+	/**
+	 * @generated from enum value: EVENT_STATS = 4;
+	 */
+	STATS = 4,
 
-  /**
-   * @generated from enum value: EVENT_RESULT = 5;
-   */
-  RESULT = 5,
+	/**
+	 * @generated from enum value: EVENT_RESULT = 5;
+	 */
+	RESULT = 5,
 
-  /**
-   * @generated from enum value: EVENT_EXIT_ROOM = 6;
-   */
-  EXIT_ROOM = 6,
+	/**
+	 * @generated from enum value: EVENT_EXIT_ROOM = 6;
+	 */
+	EXIT_ROOM = 6,
 }
 
 /**
@@ -284,20 +288,20 @@ export declare const EventSchema: GenEnum<Event>;
  * @generated from enum game.resources.HandState
  */
 export enum HandState {
-  /**
-   * @generated from enum value: HAND_STATE_UNKNOWN = 0;
-   */
-  UNKNOWN = 0,
+	/**
+	 * @generated from enum value: HAND_STATE_UNKNOWN = 0;
+	 */
+	UNKNOWN = 0,
 
-  /**
-   * @generated from enum value: HAND_STATE_HOLDING = 1;
-   */
-  HOLDING = 1,
+	/**
+	 * @generated from enum value: HAND_STATE_HOLDING = 1;
+	 */
+	HOLDING = 1,
 
-  /**
-   * @generated from enum value: HAND_STATE_OPENING = 2;
-   */
-  OPENING = 2,
+	/**
+	 * @generated from enum value: HAND_STATE_OPENING = 2;
+	 */
+	OPENING = 2,
 }
 
 /**
@@ -309,25 +313,25 @@ export declare const HandStateSchema: GenEnum<HandState>;
  * @generated from enum game.resources.ObjectState
  */
 export enum ObjectState {
-  /**
-   * @generated from enum value: OBJECT_STATE_UNKNOWN = 0;
-   */
-  UNKNOWN = 0,
+	/**
+	 * @generated from enum value: OBJECT_STATE_UNKNOWN = 0;
+	 */
+	UNKNOWN = 0,
 
-  /**
-   * @generated from enum value: OBJECT_STATE_STAYING = 1;
-   */
-  STAYING = 1,
+	/**
+	 * @generated from enum value: OBJECT_STATE_STAYING = 1;
+	 */
+	STAYING = 1,
 
-  /**
-   * @generated from enum value: OBJECT_STATE_MOVING = 2;
-   */
-  MOVING = 2,
+	/**
+	 * @generated from enum value: OBJECT_STATE_MOVING = 2;
+	 */
+	MOVING = 2,
 
-  /**
-   * @generated from enum value: OBJECT_STATE_FORCING = 3;
-   */
-  FORCING = 3,
+	/**
+	 * @generated from enum value: OBJECT_STATE_FORCING = 3;
+	 */
+	FORCING = 3,
 }
 
 /**
@@ -339,15 +343,15 @@ export declare const ObjectStateSchema: GenEnum<ObjectState>;
  * @generated from enum game.resources.ObjectKind
  */
 export enum ObjectKind {
-  /**
-   * @generated from enum value: OBJECT_KIND_UNKNOWN = 0;
-   */
-  UNKNOWN = 0,
+	/**
+	 * @generated from enum value: OBJECT_KIND_UNKNOWN = 0;
+	 */
+	UNKNOWN = 0,
 
-  /**
-   * @generated from enum value: OBJECT_KIND_RECTANGULAR = 1;
-   */
-  RECTANGULAR = 1,
+	/**
+	 * @generated from enum value: OBJECT_KIND_RECTANGULAR = 1;
+	 */
+	RECTANGULAR = 1,
 }
 
 /**
@@ -359,29 +363,28 @@ export declare const ObjectKindSchema: GenEnum<ObjectKind>;
  * @generated from enum game.resources.Mode
  */
 export enum Mode {
-  /**
-   * @generated from enum value: MODE_UNKNOWN = 0;
-   */
-  UNKNOWN = 0,
+	/**
+	 * @generated from enum value: MODE_UNKNOWN = 0;
+	 */
+	UNKNOWN = 0,
 
-  /**
-   * @generated from enum value: MODE_TIME_ATTACK = 1;
-   */
-  TIME_ATTACK = 1,
+	/**
+	 * @generated from enum value: MODE_TIME_ATTACK = 1;
+	 */
+	TIME_ATTACK = 1,
 
-  /**
-   * @generated from enum value: MODE_MULTI = 2;
-   */
-  MULTI = 2,
+	/**
+	 * @generated from enum value: MODE_MULTI = 2;
+	 */
+	MULTI = 2,
 
-  /**
-   * @generated from enum value: MODE_TRAINING = 3;
-   */
-  TRAINING = 3,
+	/**
+	 * @generated from enum value: MODE_TRAINING = 3;
+	 */
+	TRAINING = 3,
 }
 
 /**
  * Describes the enum game.resources.Mode.
  */
 export declare const ModeSchema: GenEnum<Mode>;
-

@@ -8,81 +8,81 @@ import { useSocketRefStore } from "../../store/useSocketRefStore";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
 export const ModeSelectPage = () => {
-  const navigate = useNavigate();
-  const { name: userName } = useUserStore();
-  const { setMode } = useModeStore();
-  const { setEventRef } = useSocketRefStore();
+	const navigate = useNavigate();
+	const { name: userName } = useUserStore();
+	const { setMode } = useModeStore();
+	const { setEventRef } = useSocketRefStore();
 
-  useEffect(() => {
-    document.getElementById("arjs-video")?.remove();
-    const ws = new ReconnectingWebSocket("ws://localhost:8081/ws/events");
-    ws.binaryType = "arraybuffer";
-    setEventRef({ current: ws });
-  }, [setEventRef]);
+	useEffect(() => {
+		document.getElementById("arjs-video")?.remove();
+		const ws = new ReconnectingWebSocket("ws://localhost:8081/ws/events");
+		ws.binaryType = "arraybuffer";
+		setEventRef({ current: ws });
+	}, [setEventRef]);
 
-  return (
-    <main className={styles.root}>
-      <p className={styles["user-name"]}>{userName}</p>
+	return (
+		<main className={styles.root}>
+			<p className={styles["user-name"]}>{userName}</p>
 
-      <p className={styles.title}>どこであそぶ？</p>
+			<p className={styles.title}>どこであそぶ？</p>
 
-      <div className={styles["button-wrap"]}>
-        <DefaultButton
-          onClick={() => {
-            setMode("timeAttack");
-            // TODO: marker_scanページに遷移する
-            navigate("/play_timeAttack");
-          }}
-        >
-          たいむあたっく
-        </DefaultButton>
+			<div className={styles["button-wrap"]}>
+				<DefaultButton
+					onClick={() => {
+						setMode("timeAttack");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
+					たいむあたっく
+				</DefaultButton>
 
-        <DefaultButton
-          color="redorange"
-          onClick={() => {
-            setMode("multi");
-            // TODO: marker_scanページに遷移する
-            navigate("/play_timeAttack");
-          }}
-        >
-          いっしょにたいせん
-        </DefaultButton>
+				<DefaultButton
+					color="redorange"
+					onClick={() => {
+						setMode("multi");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
+					いっしょにたいせん
+				</DefaultButton>
 
-        <DefaultButton
-          color="green"
-          disabled
-          onClick={() => {
-            setMode("training");
-            // TODO: marker_scanページに遷移する
-            navigate("/play_timeAttack");
-          }}
-        >
-          つみきで脳トレ
-        </DefaultButton>
+				<DefaultButton
+					color="green"
+					disabled
+					onClick={() => {
+						setMode("training");
+						// TODO: marker_scanページに遷移する
+						navigate("/play_timeAttack");
+					}}
+				>
+					つみきで脳トレ
+				</DefaultButton>
 
-        <DefaultButton
-          variant="outlined"
-          size="sm"
-          onClick={() => navigate("/ranking_TimeAttack_preview")}
-        >
-          <img
-            className={styles["crown-image"]}
-            alt="crown"
-            src="crown.webp"
-            width={16}
-            height={16}
-          />
-          ランキング
-        </DefaultButton>
-      </div>
+				<DefaultButton
+					variant="outlined"
+					size="sm"
+					onClick={() => navigate("/ranking_TimeAttack_preview")}
+				>
+					<img
+						className={styles["crown-image"]}
+						alt="crown"
+						src="crown.webp"
+						width={16}
+						height={16}
+					/>
+					ランキング
+				</DefaultButton>
+			</div>
 
-      <img
-        className={styles["cats-image"]}
-        alt="のびねこ"
-        src="/cats/extendedMike.webp"
-        width={216}
-        height={106}
-      />
-    </main>
-  );
+			<img
+				className={styles["cats-image"]}
+				alt="のびねこ"
+				src="/cats/extendedMike.webp"
+				width={216}
+				height={106}
+			/>
+		</main>
+	);
 };
