@@ -25,17 +25,15 @@ const ARScanner = () => {
   }
 
   return (
-    <div>
-      <div className={styles.overlay}>
-        <p className={styles.text}>すきゃん</p>
-        <div className={styles.scanner}>
-          <div className={styles["marker-frame"]} />
-          <p className={styles.attention}>
-            あそんでるあいだも
-            <br />
-            マーカーは画面内に写してね
-          </p>
-        </div>
+    <div className={styles.overlay}>
+      <p className={styles.text}>すきゃん</p>
+      <div className={styles.scanner}>
+        <div className={styles["marker-frame"]} />
+        <p className={styles.attention}>
+          あそんでるあいだも
+          <br />
+          マーカーは画面内に写してね
+        </p>
       </div>
     </div>
   );
