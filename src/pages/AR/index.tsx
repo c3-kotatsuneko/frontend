@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useRef } from "react";
+import ARScanner from "../../components/features/AR/scan";
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
 import {
 	cameraInit,
@@ -59,6 +60,14 @@ const Component = () => {
 			if (handResultRef.current) {
 				if (handResultRef.current.landmarks.length > 0) {
 					HandPosToDataConverter(position, handResultRef, handBlock);
+					console.log(handBlock);
+				}
+			}
+		} else {
+			if (handResultRef.current) {
+				if (handResultRef.current.landmarks.length > 0) {
+					HandPosToDataConverter("front", handResultRef, handBlock);
+					console.log(handBlock);
 				}
 			}
 		}
@@ -86,9 +95,12 @@ const Component = () => {
 	}, [animate]);
 
 	return (
-		<video ref={handCameraRef} id="video" autoPlay muted>
-			<track kind="captions" src="" label="No captions available" default />
-		</video>
+		<>
+			<ARScanner />
+			<video ref={handCameraRef} id="video" autoPlay muted>
+				<track kind="captions" src="" label="No captions available" default />
+			</video>
+		</>
 	);
 };
 export const ARfunction = memo(Component);
