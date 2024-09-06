@@ -30,7 +30,6 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					onClick={() => {
 						setMode("timeAttack");
-						// TODO: marker_scanページに遷移する
 						navigate("/play_timeAttack");
 					}}
 				>
@@ -42,7 +41,7 @@ export const ModeSelectPage = () => {
 					onClick={() => {
 						setMode("multi");
 						// TODO: marker_scanページに遷移する
-						navigate("/play_timeAttack");
+						navigate("/multi_Entrance");
 					}}
 				>
 					いっしょにたいせん
