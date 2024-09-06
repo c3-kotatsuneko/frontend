@@ -12,6 +12,7 @@ import { PlayStart } from "./pages/PlayStart";
 import { Maintenance } from "./pages/503";
 import { MultiRankingPage } from "./pages/MultiRanking";
 import { ARfunction } from "./pages/AR";
+import { MultiWaitingPage } from "./pages/MultiWaiting";
 
 const AppRoutes = () => {
 	return (
@@ -32,6 +33,7 @@ const AppRoutes = () => {
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
 				<Route path="/503" element={<Maintenance />} />
 				<Route path="/play_start" element={<PlayStart />} />
+				<Route path="/multi_waiting" element={<MultiWaitingPage />} />
 				<Route path="/ranking_multiplay" element={<MultiRankingPage />} />
 				<Route path="/ARpage" element={<ARfunction />} />
 			</Routes>

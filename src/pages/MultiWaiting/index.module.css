@@ -1,0 +1,41 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100svh;
+  color: var(--black);
+}
+
+.user-name {
+  position: absolute;
+  top: 4%;
+  right: 4%;
+  font-size: 16px;
+}
+
+.result {
+  font-size: 24px;
+  padding-bottom: 16px;
+}
+
+.result-time {
+  font-size: 30px;
+  font-weight: bold;
+  color: var(--blue);
+  letter-spacing: 5px;
+  margin-bottom: 28px;
+}
+
+.message {
+  text-align: center;
+  overflow-wrap: break-word;
+  max-width: 210px;
+  font-size: 16px;
+  margin-bottom: 16px;
+}
+
+.cats-image {
+  padding-top: 40px;
+  padding-left: 24px;
+}
