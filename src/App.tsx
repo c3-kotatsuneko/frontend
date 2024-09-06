@@ -13,6 +13,8 @@ import { Maintenance } from "./pages/503";
 import { MultiRankingPage } from "./pages/MultiRanking";
 import { ARfunction } from "./pages/AR";
 import { MultiWaitingPage } from "./pages/MultiWaiting";
+import { MultiModePage } from "./pages/MultiMode";
+import ARScanner from "./components/features/AR/scan";
 
 const AppRoutes = () => {
 	return (
@@ -33,6 +35,8 @@ const AppRoutes = () => {
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
 				<Route path="/503" element={<Maintenance />} />
 				<Route path="/play_start" element={<PlayStart />} />
+				<Route path="/multiMode" element={<MultiModePage />} />
+				<Route path="/marker_scan" element={<ARScanner />} />
 				<Route path="/multi_waiting" element={<MultiWaitingPage />} />
 				<Route path="/ranking_multiplay" element={<MultiRankingPage />} />
 				<Route path="/ARpage" element={<ARfunction />} />
