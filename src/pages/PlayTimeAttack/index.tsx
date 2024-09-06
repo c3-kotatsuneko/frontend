@@ -5,8 +5,6 @@ import { StartCountdown } from "../../components/features/play/StartCountdown";
 import { usePlayTimeAttack } from "./hooks";
 import styles from "./index.module.css";
 
-const gameDuration = 11;
-
 export const PlayTimeAttack = () => {
 	const { time, userName } = usePlayTimeAttack();
 
@@ -16,7 +14,7 @@ export const PlayTimeAttack = () => {
 				<StartCountdown startTime={-time} />
 			) : (
 				<>
-					<Timer remainingTime={gameDuration - time} />
+					<Timer remainingTime={time} />
 					<p className={styles["user-name"]}>{userName}</p>
 					<ARfunction />
 					<ExitButton />

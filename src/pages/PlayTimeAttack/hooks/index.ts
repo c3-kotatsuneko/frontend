@@ -9,8 +9,6 @@ import {
 } from "../../../proto/game/resources/game_pb";
 // import { useNavigate } from "react-router-dom";
 
-// const gameDuration = 11;
-
 export const usePlayTimeAttack = () => {
 	//   const navigate = useNavigate();
 	const setClearTime = useTimeAttackStore((state) => state.setClearTime);
