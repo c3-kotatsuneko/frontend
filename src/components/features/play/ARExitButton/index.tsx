@@ -11,10 +11,9 @@ const ExitButton = () => {
   const handleExitButtonClick = () => {
     setIsOpen(false);
     //canvasを全て削除する
-    let canvas = document.querySelector("canvas");
-    while (canvas) {
+    const canvases = document.querySelectorAll("canvas");
+    for (const canvas of canvases) {
       canvas.remove();
-      canvas = document.querySelector("canvas");
     }
     //type="module"のscriptタグ以外全て削除する
     const scripts = document.querySelectorAll("script");
