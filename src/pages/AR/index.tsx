@@ -13,31 +13,24 @@ import type {
 	HandLandmarkerResult,
 } from "@mediapipe/tasks-vision";
 import { useLocation } from "react-router-dom";
-import { HandPosToDataConverter } from "../../components/features/AR/Converter";
+import {
+	HandPosToDataConverter,
+	DataToPosConverter,
+} from "../../components/features/AR/Converter";
 import { useARToolkit } from "./hooks/useARTools";
+import testData from "../../Test/testData";
+
+type Position = "front" | "left" | "right" | "back";
 
 const Component = () => {
 	const handCameraRef = useRef<HTMLVideoElement | null>(null);
 	const handLandMarkerRef = useRef<HandLandmarker | null>(null);
 	const handResultRef = useRef<HandLandmarkerResult | null>(null);
 	const param = new URLSearchParams(useLocation().search);
-	const position = param.get("position") as "front" | "left" | "right" | "back";
+	const position = (param.get("position") ?? "front") as Position;
 	console.log(position);
-	let marker = "../../../public/pattern-frontMarker.patt";
-	switch (position) {
-		case "front":
-			marker = "../../../public/pattern-frontMarker.patt";
-			break;
-		case "left":
-			marker = "../../../public/pattern-leftMarker.patt";
-			break;
-		case "right":
-			marker = "../../../public/pattern-rightMarker.patt";
-			break;
-		case "back":
-			marker = "../../../public/pattern-backMarker.patt";
-			break;
-	}
+	const marker = `/pattern-${position}Marker.patt`;
+
 	useEffect(() => {
 		handInit(handLandMarkerRef);
 		cameraInit(handCameraRef);
@@ -45,7 +38,8 @@ const Component = () => {
 	useEffect(() => {
 		predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
 	}, []);
-	const { rendererRef, sceneRef, cameraRef, handBlock } = ThreeInit(); //lightRef, allBlockSet,をlint回避のため一度削除
+	const { rendererRef, sceneRef, cameraRef, handBlock, allBlockSet } =
+		ThreeInit(); //lightRef, allBlockSet,をlint回避のため一度削除
 	const { arToolkitSource, arToolkitContext } = useARToolkit({
 		camera: cameraRef.current ?? new THREE.Camera(),
 		cameraParaDatURL: cameraPara,
@@ -54,7 +48,7 @@ const Component = () => {
 		markerPatternURL: marker,
 		scene: sceneRef.current ?? new THREE.Scene(),
 	});
-
+	DataToPosConverter(position, testData, allBlockSet);
 	const animate = useCallback(() => {
 		if (position !== null) {
 			if (handResultRef.current) {

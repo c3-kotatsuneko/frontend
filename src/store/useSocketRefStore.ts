@@ -12,6 +12,7 @@ import {
 	Event,
 	type Hand,
 	Mode,
+	Object$,
 	type Player,
 } from "../proto/game/resources/game_pb";
 import { create as toProto, toBinary, fromBinary } from "@bufbuild/protobuf";
@@ -22,6 +23,7 @@ type EventState = {
 	mode: Mode;
 	players: Player[];
 	time: number;
+	objetcts: Object$[];
 };
 
 export type SendEventSchema = {
@@ -57,6 +59,7 @@ type Action = {
 	setPlayers: (players: Player[]) => void;
 	addPlayer: (player: Player) => void;
 	setTime: (time: number) => void;
+	setObjects: (objects: Object$[]) => void;
 	eventSend: (req: SendEventSchema) => void;
 	physicsSend: (req: PhysicsRequest) => void;
 };
@@ -70,6 +73,7 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 		mode: Mode.UNKNOWN,
 		players: [],
 		time: 0,
+		objetcts: [],
 	},
 	setEventState: (state) => set(() => ({ eventState: state })),
 	setRoomId: (roomId) =>
@@ -99,35 +103,13 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 		set((state) => ({
 			eventState: { ...state.eventState, time: time },
 		})),
+	setObjects: (objects) =>
+		set((state) => ({
+			eventState: { ...state.eventState, objetcts: objects },
+		})),
 	setEventRef: (ref) => {
 		if (ref?.current) {
 			ref.current.onopen = () => {
-				// get().eventSend({
-				// 	roomId: "88",
-				// 	event: Event.ENTER_ROOM,
-				// 	mode: Mode.MULTI,
-				// 	player: {
-				// 		playerId: "1",
-				// 		name: "jubhio;hbn",
-				// 		color: "red",
-				// 		score: 0,
-				// 		rank: 1,
-				// 		time: 0,
-				// 	} as Player,
-				// });
-				// get().eventSend({
-				// 	roomId: "88",
-				// 	event: Event.GAME_START,
-				// 	mode: Mode.MULTI,
-				// 	player: {
-				// 		playerId: "1",
-				// 		name: "jubhio;hbn",
-				// 		color: "red",
-				// 		score: 0,
-				// 		rank: 1,
-				// 		time: 0,
-				// 	} as Player,
-				// });
 				console.log("connected");
 			};
 			ref.current.onmessage = (event) => {
@@ -234,6 +216,7 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 			};
 			ref.current.onmessage = (event) => {
 				const res = fromBinary(PhysicsResponseSchema, event.data);
+				get().setObjects(res.objects);
 				console.log(res);
 			};
 			ref.current.onclose = () => {

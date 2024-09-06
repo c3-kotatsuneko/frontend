@@ -7,6 +7,7 @@ import {
 	Mode,
 	type Player,
 } from "../../../proto/game/resources/game_pb";
+import ReconnectingWebSocket from "reconnecting-websocket";
 // import { useNavigate } from "react-router-dom";
 
 // const gameDuration = 11;
@@ -15,8 +16,9 @@ export const usePlayTimeAttack = () => {
 	//   const navigate = useNavigate();
 	const setClearTime = useTimeAttackStore((state) => state.setClearTime);
 	const { name: userName } = useUserStore();
-	const { eventSend } = useSocketRefStore();
+	const eventSend = useSocketRefStore((state) => state.eventSend);
 	const time = useSocketRefStore((state) => state.eventState.time);
+	const setPhysicsRef = useSocketRefStore((state) => state.setPhysicsRef);
 
 	//   timeが0になったらrankingページへ遷移する
 	useEffect(() => {
@@ -38,6 +40,11 @@ export const usePlayTimeAttack = () => {
 		setClearTime(18);
 		// }
 	}, [eventSend, setClearTime]);
+	useEffect(() => {
+		const ws = new ReconnectingWebSocket("ws://localhost:8080/ws/events");
+		ws.binaryType = "arraybuffer";
+		setPhysicsRef({ current: ws });
+	}, [setPhysicsRef]);
 
 	return { time, userName };
 };
