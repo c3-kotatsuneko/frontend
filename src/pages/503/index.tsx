@@ -1,4 +1,4 @@
-import { DefaultButton } from "../../components/ui/Button";
+// import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 
 export const Maintenance = () => {
@@ -14,9 +14,9 @@ export const Maintenance = () => {
 					height={400}
 				/>
 			</div>
-			<DefaultButton color="redorange" size="lg">
+			{/* <DefaultButton color="redorange" size="lg">
 				おうちへ
-			</DefaultButton>
+			</DefaultButton> */}
 		</main>
 	);
 };
