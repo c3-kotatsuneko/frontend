@@ -28,13 +28,6 @@ const Component = () => {
   console.log(position);
   const marker = `/pattern-${position}Marker.patt`;
 
-  useEffect(() => {
-    handInit(handLandMarkerRef);
-    cameraInit(handCameraRef);
-  }, []);
-  useEffect(() => {
-    predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
-  }, []);
   const { rendererRef, sceneRef, cameraRef, handBlock, allBlockSet } =
     ThreeInit(); //lightRef, allBlockSet,をlint回避のため一度削除
   const tt = document.createElement("canvas");
@@ -47,6 +40,14 @@ const Component = () => {
     markerPatternURL: marker,
     scene: sceneRef.current ?? new THREE.Scene(),
   });
+
+  useEffect(() => {
+    handInit(handLandMarkerRef);
+  }, []);
+  useEffect(() => {
+    handCameraRef.current = arToolkitSource.domElement;
+    predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
+  }, [arToolkitSource]);
 
   const animate = useCallback(() => {
     if (position !== null) {
@@ -91,9 +92,6 @@ const Component = () => {
     <>
       <ARScanner />
       <ObjectSetting position={position} allBlockSet={allBlockSet} />
-      <video ref={handCameraRef} id="video" autoPlay muted>
-        <track kind="captions" src="" label="No captions available" default />
-      </video>
     </>
   );
 };
