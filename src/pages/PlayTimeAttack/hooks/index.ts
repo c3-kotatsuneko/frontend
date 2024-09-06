@@ -15,7 +15,7 @@ export const usePlayTimeAttack = () => {
 	//   const navigate = useNavigate();
 	const setClearTime = useTimeAttackStore((state) => state.setClearTime);
 	const { name: userName } = useUserStore();
-	const { eventSend } = useSocketRefStore();
+	const eventSend = useSocketRefStore((state) => state.eventSend);
 	const time = useSocketRefStore((state) => state.eventState.time);
 
 	//   timeが0になったらrankingページへ遷移する
