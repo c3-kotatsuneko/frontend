@@ -1,6 +1,6 @@
-import * as THREE from "three";
+import type * as THREE from "three";
 import { DataToPosConverter } from "../../components/features/AR/Converter";
-import { FC, memo } from "react";
+import { type FC, memo } from "react";
 import { useSocketRefStore } from "../../store/useSocketRefStore";
 
 type Position = "front" | "left" | "right" | "back";

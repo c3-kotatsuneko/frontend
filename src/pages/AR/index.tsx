@@ -2,7 +2,6 @@ import { memo, useCallback, useEffect, useRef } from "react";
 import ARScanner from "../../components/features/AR/scan";
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
 import {
-  cameraInit,
   handInit,
   predictWebcam,
 } from "../../components/features/AR/HandTracking";
