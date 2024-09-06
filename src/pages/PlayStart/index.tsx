@@ -4,7 +4,7 @@ import styles from "./index.module.css";
 export const PlayStart = () => {
 	return (
 		<main className={styles.root}>
-			<p className={styles["start-message"]}>じゅんびはできた？</p>
+			<p className={styles["start-message"]}>みんなあつまったかな？</p>
 			<DefaultButton color="redorange" size="lg">
 				げーむ すたーと！
 			</DefaultButton>
