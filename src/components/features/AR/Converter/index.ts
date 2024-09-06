@@ -35,20 +35,20 @@ export const HandPosToDataConverter = (
   handBlockRef: React.RefObject<THREE.Mesh>
 ) => {
   if (handResultRef.current) {
-    const handMidPos = {
-      x:
-        handResultRef.current.landmarks[0][9].x -
-        handResultRef.current.landmarks[0][0].x -
-        0.5,
-      y:
-        handResultRef.current.landmarks[0][9].y -
-        handResultRef.current.landmarks[0][0].y -
-        0.5,
-      z:
-        handResultRef.current.landmarks[0][9].z -
-        handResultRef.current.landmarks[0][0].z -
-        0.5,
-    };
+    // const handMidPos = {
+    //   x:
+    //     handResultRef.current.landmarks[0][9].x -
+    //     handResultRef.current.landmarks[0][0].x -
+    //     0.5,
+    //   y:
+    //     handResultRef.current.landmarks[0][9].y -
+    //     handResultRef.current.landmarks[0][0].y -
+    //     0.5,
+    //   z:
+    //     handResultRef.current.landmarks[0][9].z -
+    //     handResultRef.current.landmarks[0][0].z -
+    //     0.5,
+    // };
     const handTopPos = {
       x:
         handResultRef.current.landmarks[0][12].x -
