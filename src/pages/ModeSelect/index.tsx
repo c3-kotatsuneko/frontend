@@ -21,7 +21,9 @@ export const ModeSelectPage = () => {
 
   useEffect(() => {
     document.getElementById("arjs-video")?.remove();
-    const ws = new ReconnectingWebSocket("ws://localhost:8080/ws/events");
+    const ws = new ReconnectingWebSocket(
+      "wss://websocket-440907433892.asia-northeast1.run.app/ws/events"
+    );
     ws.binaryType = "arraybuffer";
     setEventRef({ current: ws });
   }, [setEventRef]);
