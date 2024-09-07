@@ -18,22 +18,6 @@ export const handInit = async (
   });
 };
 
-export const cameraInit = async (
-  handCameraRef: React.RefObject<HTMLVideoElement>
-) => {
-  const stream = await navigator.mediaDevices.getUserMedia({
-    video: {
-      width: window.innerWidth,
-      height: window.innerHeight,
-      facingMode: "environment",
-    },
-  });
-  if (handCameraRef.current) {
-    handCameraRef.current.srcObject = stream;
-    console.log(handCameraRef.current.srcObject);
-  }
-};
-
 export const predictWebcam = async (
   handLandMarkerRef: React.RefObject<HandLandmarker>,
   handCameraRef: React.RefObject<HTMLVideoElement>,
