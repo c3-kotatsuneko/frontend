@@ -166,6 +166,7 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
                 console.log("finished");
                 break;
               case Event.RESULT:
+                get().setPlayers(res.players);
                 console.log("finished");
                 break;
               case Event.STATS:
