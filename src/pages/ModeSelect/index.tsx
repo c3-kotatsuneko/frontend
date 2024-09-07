@@ -7,6 +7,8 @@ import { useModeStore } from "../../store/useModeStore";
 import { useSocketRefStore } from "../../store/useSocketRefStore";
 import ReconnectingWebSocket from "reconnecting-websocket";
 
+const position = "front";
+
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
@@ -41,7 +43,7 @@ export const ModeSelectPage = () => {
 					onClick={() => {
 						setMode("multi");
 						// TODO: marker_scanページに遷移する
-						navigate("/multi_Entrance");
+						navigate(`/multiMode?position=${position}`);
 					}}
 				>
 					いっしょにたいせん
