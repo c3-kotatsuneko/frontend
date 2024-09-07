@@ -16,6 +16,8 @@ export const ModeSelectPage = () => {
   const { setMode } = useModeStore();
   const { setEventRef, eventSend } = useSocketRefStore();
   const position = useSocketRefStore((state) => state.eventState.direction);
+  const roomId = useSocketRefStore((state) => state.eventState.roomId);
+  const name = useUserStore((state) => state.name);
 
   useEffect(() => {
     document.getElementById("arjs-video")?.remove();
@@ -35,12 +37,12 @@ export const ModeSelectPage = () => {
           onClick={() => {
             setMode("timeAttack");
             eventSend({
-              roomId: "88",
+              roomId: roomId,
               event: Event.ENTER_ROOM,
               mode: Mode.TIME_ATTACK,
               player: {
-                playerId: "1",
-                name: "jubhio;hbn",
+                playerId: name,
+                name: name,
                 color: "red",
                 score: 0,
                 rank: 1,
@@ -57,14 +59,13 @@ export const ModeSelectPage = () => {
           color="redorange"
           onClick={() => {
             setMode("multi");
-            navigate(`/multiMode?position=${position}`);
             eventSend({
-              roomId: "88",
+              roomId: roomId,
               event: Event.ENTER_ROOM,
               mode: Mode.MULTI,
               player: {
-                playerId: "1",
-                name: "jubhio;hbn",
+                playerId: name,
+                name: name,
                 color: "red",
                 score: 0,
                 rank: 1,
@@ -83,12 +84,12 @@ export const ModeSelectPage = () => {
           onClick={() => {
             setMode("training");
             eventSend({
-              roomId: "88",
+              roomId: roomId,
               event: Event.ENTER_ROOM,
               mode: Mode.TRAINING,
               player: {
-                playerId: "1",
-                name: "jubhio;hbn",
+                playerId: name,
+                name: name,
                 color: "red",
                 score: 0,
                 rank: 1,
