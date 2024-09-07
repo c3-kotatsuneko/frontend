@@ -24,7 +24,7 @@ const Welcome = () => {
       <div className={styles["download-button"]}>
         <DownloadButton />
       </div>
-      <h2>デバッグするよ~</h2>
+      <h2>デバッグするよ~いえ〜〜い</h2>
       <Tab
         labels={["ろぐいん", "とうろく"]}
         contents={[<Login key="login" />, <Signup key="signup" />]}
