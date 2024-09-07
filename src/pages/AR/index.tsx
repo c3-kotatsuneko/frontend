@@ -19,6 +19,12 @@ import {
 } from "../../components/features/AR/Converter";
 import { handBlockCatch } from "../../components/features/AR/BackendlessSystem";
 import testData from "./testData";
+import { tumikiSystem } from "../../components/features/AR/tumikiSystem";
+
+export type Tumiki = {
+  overlapedBlockIndex: number[];
+  isOverlap: boolean[];
+};
 
 export const ARfunction = () => {
   const handCameraRef = useRef<HTMLVideoElement | null>(null);
@@ -26,6 +32,10 @@ export const ARfunction = () => {
   const handResultRef = useRef<HandLandmarkerResult | null>(null);
   const param = new URLSearchParams(useLocation().search);
   const position = param.get("position") as "front" | "left" | "right" | "back";
+  const tumiki = useRef<Tumiki>({
+    overlapedBlockIndex: [2],
+    isOverlap: [false, false, true, false, false],
+  });
   console.log(position);
   let marker = "../../../public/pattern-frontMarker.patt";
   switch (position) {
@@ -78,7 +88,13 @@ export const ARfunction = () => {
             handBlock
           );
           if (worldHandInfo) {
-            handBlockCatch(position, handResultRef, allBlockSet, worldHandInfo);
+            handBlockCatch(
+              position,
+              handResultRef,
+              allBlockSet,
+              tumiki,
+              worldHandInfo
+            );
           }
         }
       }
@@ -95,7 +111,13 @@ export const ARfunction = () => {
             handBlock
           );
           if (worldHandInfo) {
-            handBlockCatch("front", handResultRef, allBlockSet, worldHandInfo);
+            handBlockCatch(
+              "front",
+              handResultRef,
+              allBlockSet,
+              tumiki,
+              worldHandInfo
+            );
           }
         }
       }
@@ -107,6 +129,10 @@ export const ARfunction = () => {
         arToolkitContext.update(arToolkitSource.domElement);
         sceneRef.current.visible = cameraRef.current.visible;
       }
+    }
+
+    if (allBlockSet.current && tumiki.current) {
+      tumikiSystem(position, tumiki, allBlockSet);
     }
     requestAnimationFrame(animate);
   }, [

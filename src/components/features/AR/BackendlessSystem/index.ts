@@ -1,11 +1,12 @@
 import type { HandLandmarkerResult } from "@mediapipe/tasks-vision";
-import type { HandInfo } from "../Converter";
-import type { AllObject } from "../Converter";
+import type { HandInfo, AllObject } from "../Converter";
+import type { Tumiki } from "../../../../pages/AR";
 
 export const handBlockCatch = (
   status: "front" | "left" | "right" | "back",
   handResultRef: React.RefObject<HandLandmarkerResult>,
   allBlockSet: React.RefObject<AllObject>,
+  tumikiRef: React.RefObject<Tumiki>,
   worldHandInfo: HandInfo
 ) => {
   const catchDist = 1;
@@ -27,17 +28,21 @@ export const handBlockCatch = (
       switch (status) {
         case "front":
           for (let i = 0; i < 5; i++) {
-            const block = allBlockSet.current?.frontBlockSet[i];
-            const blockPos = block.position;
-            const blockDistance = Math.sqrt(
-              (handPos.x - blockPos.x) ** 2 +
-                (handPos.y - blockPos.y) ** 2 +
-                (handPos.z - blockPos.z) ** 2
-            );
-            console.log(`${blockDistance}です`);
-            if (blockDistance <= distance) {
-              distance = blockDistance;
-              blockIndex = i;
+            if (i !== 2) {
+              if (tumikiRef.current?.isOverlap[i]) {
+                continue;
+              }
+              const block = allBlockSet.current?.frontBlockSet[i];
+              const blockPos = block.position;
+              const blockDistance = Math.sqrt(
+                (handPos.x - blockPos.x) ** 2 +
+                  (handPos.y - blockPos.y) ** 2 +
+                  (handPos.z - blockPos.z) ** 2
+              );
+              if (blockDistance <= distance) {
+                distance = blockDistance;
+                blockIndex = i;
+              }
             }
           }
           break;
@@ -87,9 +92,7 @@ export const handBlockCatch = (
           }
           break;
       }
-      console.log(distance, blockIndex);
       if (blockIndex !== null) {
-        console.log("catch", status, blockIndex);
         switch (status) {
           case "front":
             allBlockSet.current.frontBlockSet[blockIndex].position.set(
