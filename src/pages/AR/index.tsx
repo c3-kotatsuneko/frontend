@@ -1,22 +1,22 @@
-import { ThreeInit } from "../../components/features/AR/ThreeInit";
+import { memo, useCallback, useEffect, useRef } from "react";
 import ARScanner from "../../components/features/AR/scan";
+import { ThreeInit } from "../../components/features/AR/ThreeInit";
 import {
 	cameraInit,
 	handInit,
 	predictWebcam,
 } from "../../components/features/AR/HandTracking";
-import { useARToolkit } from "./hooks/useARTools";
 import cameraPara from "../../assets/camera_para.dat?url";
-import { useCallback, useEffect, useRef } from "react";
-import * as THREE from "three"; // Add this import statement
+import * as THREE from "three";
 import type {
 	HandLandmarker,
 	HandLandmarkerResult,
 } from "@mediapipe/tasks-vision";
 import { useLocation } from "react-router-dom";
 import { HandPosToDataConverter } from "../../components/features/AR/Converter";
+import { useARToolkit } from "./hooks/useARTools";
 
-export const ARfunction = () => {
+const Component = () => {
 	const handCameraRef = useRef<HTMLVideoElement | null>(null);
 	const handLandMarkerRef = useRef<HandLandmarker | null>(null);
 	const handResultRef = useRef<HandLandmarkerResult | null>(null);
@@ -71,7 +71,6 @@ export const ARfunction = () => {
 				}
 			}
 		}
-
 		if (rendererRef.current && sceneRef.current && cameraRef.current) {
 			rendererRef.current.render(sceneRef.current, cameraRef.current);
 			if (arToolkitSource.ready) {
@@ -79,6 +78,7 @@ export const ARfunction = () => {
 				sceneRef.current.visible = cameraRef.current.visible;
 			}
 		}
+		console.log(handResultRef.current);
 		requestAnimationFrame(animate);
 	}, [
 		arToolkitContext,
@@ -89,6 +89,7 @@ export const ARfunction = () => {
 		position,
 		handBlock,
 	]);
+
 	useEffect(() => {
 		animate();
 	}, [animate]);
@@ -102,3 +103,4 @@ export const ARfunction = () => {
 		</>
 	);
 };
+export const ARfunction = memo(Component);

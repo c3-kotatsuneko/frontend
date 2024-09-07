@@ -21,6 +21,7 @@ const AppRoutes = () => {
 			<Routes>
 				<Route path="/" element={<Welcome />} />
 				<Route path="/loading" element={<LoadingPage />} />
+				<Route path="/welcome" element={<Welcome />} />
 				<Route path="/guest_login" element={<GuestLoginPage />} />
 				<Route path="/mode_select" element={<ModeSelectPage />} />
 				<Route

@@ -1,1 +1,1 @@
-export const baseUrl = "https://kotatsuneko-rest-jrl6gvjhsq-an.a.run.app/api";
+export const baseUrl = "https://api-440907433892.asia-northeast1.run.app/api";

@@ -102,32 +102,6 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 	setEventRef: (ref) => {
 		if (ref?.current) {
 			ref.current.onopen = () => {
-				get().eventSend({
-					roomId: "88",
-					event: Event.ENTER_ROOM,
-					mode: Mode.MULTI,
-					player: {
-						playerId: "1",
-						name: "jubhio;hbn",
-						color: "red",
-						score: 0,
-						rank: 1,
-						time: 0,
-					} as Player,
-				});
-				get().eventSend({
-					roomId: "88",
-					event: Event.GAME_START,
-					mode: Mode.MULTI,
-					player: {
-						playerId: "1",
-						name: "jubhio;hbn",
-						color: "red",
-						score: 0,
-						rank: 1,
-						time: 0,
-					} as Player,
-				});
 				console.log("connected");
 			};
 			ref.current.onmessage = (event) => {
