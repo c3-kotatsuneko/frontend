@@ -6,16 +6,24 @@ import { useUserStore } from "../../store/useUserStore";
 import { useModeStore } from "../../store/useModeStore";
 import { useSocketRefStore } from "../../store/useSocketRefStore";
 import ReconnectingWebSocket from "reconnecting-websocket";
+import { Event, Mode, type Player } from "../../proto/game/resources/game_pb";
+
+// const position = "front";
 
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
 	const { setMode } = useModeStore();
-	const { setEventRef } = useSocketRefStore();
+	const { setEventRef, eventSend } = useSocketRefStore();
+	const position = useSocketRefStore((state) => state.eventState.direction);
+	const roomId = useSocketRefStore((state) => state.eventState.roomId);
+	const name = useUserStore((state) => state.name);
 
 	useEffect(() => {
 		document.getElementById("arjs-video")?.remove();
-		const ws = new ReconnectingWebSocket("ws://localhost:8081/ws/events");
+		const ws = new ReconnectingWebSocket(
+			"wss://websocket-440907433892.asia-northeast1.run.app/ws/events",
+		);
 		ws.binaryType = "arraybuffer";
 		setEventRef({ current: ws });
 	}, [setEventRef]);
@@ -30,7 +38,19 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					onClick={() => {
 						setMode("timeAttack");
-						// TODO: marker_scanページに遷移する
+						eventSend({
+							roomId: roomId,
+							event: Event.ENTER_ROOM,
+							mode: Mode.TIME_ATTACK,
+							player: {
+								playerId: name,
+								name: name,
+								color: "red",
+								score: 0,
+								rank: 1,
+								time: 0,
+							} as Player,
+						});
 						navigate("/play_timeAttack");
 					}}
 				>
@@ -41,8 +61,20 @@ export const ModeSelectPage = () => {
 					color="redorange"
 					onClick={() => {
 						setMode("multi");
-						// TODO: marker_scanページに遷移する
-						navigate("/play_timeAttack");
+						eventSend({
+							roomId: roomId,
+							event: Event.ENTER_ROOM,
+							mode: Mode.MULTI,
+							player: {
+								playerId: name,
+								name: name,
+								color: "red",
+								score: 0,
+								rank: 1,
+								time: 0,
+							} as Player,
+						});
+						navigate(`/multiMode?position=${position}`);
 					}}
 				>
 					いっしょにたいせん
@@ -53,8 +85,20 @@ export const ModeSelectPage = () => {
 					disabled
 					onClick={() => {
 						setMode("training");
-						// TODO: marker_scanページに遷移する
-						navigate("/play_timeAttack");
+						eventSend({
+							roomId: roomId,
+							event: Event.ENTER_ROOM,
+							mode: Mode.TRAINING,
+							player: {
+								playerId: name,
+								name: name,
+								color: "red",
+								score: 0,
+								rank: 1,
+								time: 0,
+							} as Player,
+						});
+						navigate("/play_training");
 					}}
 				>
 					つみきで脳トレ

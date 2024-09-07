@@ -1,0 +1,30 @@
+.root {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.text {
+  font-weight: bold;
+  text-shadow: 0 4px 4px rgb(0 0 0 / 25%);
+
+  &[data-time="3"] {
+    font-size: 120px;
+    color: var(--blue);
+  }
+
+  &[data-time="2"] {
+    font-size: 120px;
+    color: var(--redorange);
+  }
+
+  &[data-time="1"] {
+    font-size: 120px;
+    color: var(--green);
+  }
+
+  &[data-time="0"] {
+    font-size: 64px;
+    color: var(--redorange);
+  }
+}
