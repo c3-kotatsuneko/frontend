@@ -8,10 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/baseUrl";
 import { useUserStore } from "../../../store/useUserStore";
 import { useDebounce } from "./useDebounce";
+import { useSocketRefStore } from "../../../store/useSocketRefStore";
 
 export const useSignupForm = () => {
 	const navigate = useNavigate();
 	const { setLoginUser } = useUserStore();
+	const setMyId = useSocketRefStore((state) => state.setMyId);
 	const [userName, setUserName] = useState("");
 	const [omajinai, setOmajinai] = useState("");
 	const [userExistsMessage, setUserExistsMessage] = useState("");
@@ -70,6 +72,7 @@ export const useSignupForm = () => {
 			const data = await response.json();
 
 			setLoginUser(data.access_token, userName);
+			setMyId(userName);
 
 			navigate("/mode_select");
 		} catch (error) {

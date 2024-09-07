@@ -15,16 +15,18 @@ export const usePlayTimeAttack = () => {
 	const { name: userName } = useUserStore();
 	const eventSend = useSocketRefStore((state) => state.eventSend);
 	const time = useSocketRefStore((state) => state.eventState.time);
+	const roomId = useSocketRefStore((state) => state.eventState.roomId);
+	const name = useUserStore((state) => state.name);
 
 	//   timeが0になったらrankingページへ遷移する
 	useEffect(() => {
 		eventSend({
-			roomId: "88",
+			roomId: roomId,
 			event: Event.GAME_START,
 			mode: Mode.MULTI,
 			player: {
-				playerId: "1",
-				name: "jubhio;hbn",
+				playerId: name,
+				name: name,
 				color: "red",
 				score: 0,
 				rank: 1,

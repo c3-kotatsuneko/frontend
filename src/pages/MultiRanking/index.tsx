@@ -6,18 +6,17 @@ import buttonStyles from "../../components/ui/Button/index.module.css";
 import { RankList } from "../../components/features/multipyayRanking/RankList";
 import { useUserStore } from "../../store/useUserStore";
 import styles from "./index.module.css";
-
-// TODO: 本来はAPIから取得する
-const RANKING_LIST = [
-	{ name: "たろう", time: "04:11" },
-	{ name: "じろう", time: "04:11" },
-	{ name: "ユーザー4", time: "04:11" },
-	{ name: "しろう", time: "04:11" },
-];
+import { useSocketRefStore } from "../../store/useSocketRefStore";
+import { formatTime } from "../../utils/formatTime";
 
 export const MultiRankingPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
+	const players = useSocketRefStore((state) => state.eventState.players);
+	const result = players.map((player) => ({
+		name: player.name,
+		time: formatTime(player.time),
+	}));
 
 	return (
 		<main className={styles.root}>
@@ -26,7 +25,7 @@ export const MultiRankingPage = () => {
 			<p className={styles.title}>けっかはっぴょう</p>
 
 			<div>
-				<RankList rankList={RANKING_LIST} />
+				<RankList rankList={result} />
 				<img
 					className={styles.image}
 					alt="猫たわー"
