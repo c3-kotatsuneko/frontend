@@ -6,16 +6,17 @@ import { useUserStore } from "../../store/useUserStore";
 import { useModeStore } from "../../store/useModeStore";
 import { useSocketRefStore } from "../../store/useSocketRefStore";
 import ReconnectingWebSocket from "reconnecting-websocket";
+import { Event, Mode, type Player } from "../../proto/game/resources/game_pb";
 
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
 	const { setMode } = useModeStore();
-	const { setEventRef } = useSocketRefStore();
+	const { setEventRef, eventSend } = useSocketRefStore();
 
 	useEffect(() => {
 		document.getElementById("arjs-video")?.remove();
-		const ws = new ReconnectingWebSocket("ws://localhost:8081/ws/events");
+		const ws = new ReconnectingWebSocket("ws://localhost:8080/ws/events");
 		ws.binaryType = "arraybuffer";
 		setEventRef({ current: ws });
 	}, [setEventRef]);
@@ -30,6 +31,19 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					onClick={() => {
 						setMode("timeAttack");
+						eventSend({
+							roomId: "88",
+							event: Event.ENTER_ROOM,
+							mode: Mode.TIME_ATTACK,
+							player: {
+								playerId: "1",
+								name: "jubhio;hbn",
+								color: "red",
+								score: 0,
+								rank: 1,
+								time: 0,
+							} as Player,
+						});
 						navigate("/play_timeAttack");
 					}}
 				>
@@ -40,8 +54,20 @@ export const ModeSelectPage = () => {
 					color="redorange"
 					onClick={() => {
 						setMode("multi");
-						// TODO: marker_scanページに遷移する
-						navigate("/multi_Entrance");
+						eventSend({
+							roomId: "88",
+							event: Event.ENTER_ROOM,
+							mode: Mode.MULTI,
+							player: {
+								playerId: "1",
+								name: "jubhio;hbn",
+								color: "red",
+								score: 0,
+								rank: 1,
+								time: 0,
+							} as Player,
+						});
+						navigate("/play_multi");
 					}}
 				>
 					いっしょにたいせん
@@ -52,8 +78,20 @@ export const ModeSelectPage = () => {
 					disabled
 					onClick={() => {
 						setMode("training");
-						// TODO: marker_scanページに遷移する
-						navigate("/play_timeAttack");
+						eventSend({
+							roomId: "88",
+							event: Event.ENTER_ROOM,
+							mode: Mode.TRAINING,
+							player: {
+								playerId: "1",
+								name: "jubhio;hbn",
+								color: "red",
+								score: 0,
+								rank: 1,
+								time: 0,
+							} as Player,
+						});
+						navigate("/play_training");
 					}}
 				>
 					つみきで脳トレ

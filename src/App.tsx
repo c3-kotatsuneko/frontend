@@ -11,7 +11,7 @@ import { Maintenance } from "./pages/501";
 import { MultiRankingPage } from "./pages/MultiRanking";
 import { ARfunction } from "./pages/AR";
 import { MultiWaitingPage } from "./pages/MultiWaiting";
-import {PlayMultiMode} from "./pages/PlayMultiMode";
+import { PlayMultiMode } from "./pages/PlayMultiMode";
 
 const AppRoutes = () => {
 	return (
@@ -19,6 +19,7 @@ const AppRoutes = () => {
 			<Routes>
 				<Route path="/" element={<Welcome />} />
 				<Route path="/loading" element={<LoadingPage />} />
+				<Route path="/welcome" element={<Welcome />} />
 				<Route path="/guest_login" element={<GuestLoginPage />} />
 				<Route path="/mode_select" element={<ModeSelectPage />} />
 				<Route
