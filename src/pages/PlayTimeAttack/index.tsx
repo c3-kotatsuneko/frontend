@@ -1,25 +1,32 @@
-import { Timer } from "../../components/features/play/Timer";
+import { useEffect } from "react";
+import { useTimeAttackStore } from "../../store/useTimeAttackStore";
+import { ARTimer } from "../../components/features/play/ARTimer";
 import { ARfunction } from "../AR";
-import ExitButton from "../../components/features/play/ExitButton";
-import { StartCountdown } from "../../components/features/play/StartCountdown";
-import { usePlayTimeAttack } from "./hooks";
 import styles from "./index.module.css";
+import ExitButton from "../../components/features/play/ARExitButton";
+import { useUserStore } from "../../store/useUserStore";
+import { useSocketRefStore } from "../../store/useSocketRefStore";
 
 export const PlayTimeAttack = () => {
-	const { time, userName } = usePlayTimeAttack();
+  const setClearTime = useTimeAttackStore((state) => state.setClearTime);
+  const { name: userName } = useUserStore();
+  const time = useSocketRefStore((state) => state.eventState.time);
 
-	return (
-		<main>
-			{time <= 0 ? (
-				<StartCountdown startTime={-time} />
-			) : (
-				<>
-					<Timer remainingTime={time} />
-					<p className={styles["user-name"]}>{userName}</p>
-					<ARfunction />
-					<ExitButton />
-				</>
-			)}
-		</main>
-	);
+  // timeが0になったらrankingページへ遷移する
+  useEffect(() => {
+    setClearTime(18);
+
+    // if (time === 0) {
+    //   navigate("/ranking_timeAttack");
+    // }
+  }, [setClearTime]);
+
+  return (
+    <main>
+      <ARTimer remainingTime={time} />
+      <p className={styles["user-name"]}>{userName}</p>
+      <ARfunction />
+      <ExitButton />
+    </main>
+  );
 };
