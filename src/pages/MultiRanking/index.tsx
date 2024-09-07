@@ -10,46 +10,46 @@ import { useSocketRefStore } from "../../store/useSocketRefStore";
 import { formatTime } from "../../utils/formatTime";
 
 export const MultiRankingPage = () => {
-  const navigate = useNavigate();
-  const { name: userName } = useUserStore();
-  const players = useSocketRefStore((state) => state.eventState.players);
-  const result = players.map((player) => ({
-    name: player.name,
-    time: formatTime(player.time),
-  }));
+	const navigate = useNavigate();
+	const { name: userName } = useUserStore();
+	const players = useSocketRefStore((state) => state.eventState.players);
+	const result = players.map((player) => ({
+		name: player.name,
+		time: formatTime(player.time),
+	}));
 
-  return (
-    <main className={styles.root}>
-      <p className={styles["user-name"]}>{userName}</p>
+	return (
+		<main className={styles.root}>
+			<p className={styles["user-name"]}>{userName}</p>
 
-      <p className={styles.title}>けっかはっぴょう</p>
+			<p className={styles.title}>けっかはっぴょう</p>
 
-      <div>
-        <RankList rankList={result} />
-        <img
-          className={styles.image}
-          alt="猫たわー"
-          src="cats/catsTower-circle.webp"
-          width={44}
-          height={73}
-        />
-      </div>
+			<div>
+				<RankList rankList={result} />
+				<img
+					className={styles.image}
+					alt="猫たわー"
+					src="cats/catsTower-circle.webp"
+					width={44}
+					height={73}
+				/>
+			</div>
 
-      <DefaultButton color="redorange" onClick={() => navigate("/guest_login")}>
-        もういちどあそぶ
-      </DefaultButton>
-      <DefaultButton
-        variant="outlined"
-        size="sm"
-        className={clsx(buttonStyles["button-style"], styles["return-home"])}
-        onClick={() => navigate("/mode_select")}
-      >
-        <HomeIcon
-          variant={{ color: "blue" }}
-          style={{ width: "24px", height: "24px" }}
-        />
-        おうちへ
-      </DefaultButton>
-    </main>
-  );
+			<DefaultButton color="redorange" onClick={() => navigate("/guest_login")}>
+				もういちどあそぶ
+			</DefaultButton>
+			<DefaultButton
+				variant="outlined"
+				size="sm"
+				className={clsx(buttonStyles["button-style"], styles["return-home"])}
+				onClick={() => navigate("/mode_select")}
+			>
+				<HomeIcon
+					variant={{ color: "blue" }}
+					style={{ width: "24px", height: "24px" }}
+				/>
+				おうちへ
+			</DefaultButton>
+		</main>
+	);
 };
