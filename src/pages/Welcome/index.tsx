@@ -1,10 +1,24 @@
+import { useEffect } from "react";
+import { useSearchParams } from "react-router-dom";
 import Tab from "../../components/features/welcome/tab";
 import Signup from "./items/SignupForm";
 import Login from "./items/LoginForm";
 import styles from "./index.module.css";
 import { DownloadButton } from "../../components/features/welcome/DownloadButton";
+import { useSocketRefStore } from "../../store/useSocketRefStore";
 
 const Welcome = () => {
+	const [searchParams] = useSearchParams();
+	const setRoomId = useSocketRefStore((state) => state.setRoomId);
+
+	useEffect(() => {
+		const roomIdParam = searchParams.get("roomId");
+		if (roomIdParam) {
+			setRoomId(roomIdParam);
+			console.log("Room ID 取得", roomIdParam);
+		}
+	}, [searchParams, setRoomId]);
+
 	return (
 		<main className={styles["welcome-body"]}>
 			<div className={styles["download-button"]}>
