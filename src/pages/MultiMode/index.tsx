@@ -22,7 +22,7 @@ export const MultiModePage = () => {
 			/>
 			<DefaultButton
 				color="redorange"
-				onClick={() => navigate(`/marker_scan?position=${position}`)}
+				onClick={() => navigate(`//multi_Entrance?position=${position}`)}
 			>
 				いどう、したよ！
 			</DefaultButton>

@@ -1,7 +1,12 @@
+import { useEffect } from "react";
 import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 
 export const PlayStart = () => {
+	useEffect(() => {
+		document.getElementById("arjs-video")?.remove();
+	}, []);
+
 	return (
 		<main className={styles.root}>
 			<p className={styles["start-message"]}>みんなあつまったかな？</p>
