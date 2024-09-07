@@ -14,30 +14,30 @@ import { MultiWaitingPage } from "./pages/MultiWaiting";
 import { PlayMultiMode } from "./pages/PlayMultiMode";
 
 const AppRoutes = () => {
-  return (
-    <>
-      <Routes>
-        <Route path="/" element={<Welcome />} />
-        <Route path="/loading" element={<LoadingPage />} />
-        <Route path="/welcome" element={<Welcome />} />
-        <Route path="/guest_login" element={<GuestLoginPage />} />
-        <Route path="/mode_select" element={<ModeSelectPage />} />
-        <Route
-          path="/ranking_TimeAttack_preview"
-          element={<TimeAttackRankingPreviewPage />}
-        />
-        <Route path="/ranking_timeAttack" element={<TimeAttackRankingPage />} />
-        <Route path="/play_timeAttack" element={<Navigate to="/501" />} />
-        <Route path="/congratulation_share_sns" element={<SharePage />} />
-        <Route path="/501" element={<Maintenance />} />
-        <Route path="/multi_Entrance" element={<PlayMultiMode />} />
-        <Route path="/play_start" element={<PlayStart />} />
-        <Route path="/multi_waiting" element={<MultiWaitingPage />} />
-        <Route path="/ranking_multiplay" element={<MultiRankingPage />} />
-        <Route path="/ARpage" element={<ARfunction />} />
-      </Routes>
-    </>
-  );
+	return (
+		<>
+			<Routes>
+				<Route path="/" element={<Welcome />} />
+				<Route path="/loading" element={<LoadingPage />} />
+				<Route path="/welcome" element={<Welcome />} />
+				<Route path="/guest_login" element={<GuestLoginPage />} />
+				<Route path="/mode_select" element={<ModeSelectPage />} />
+				<Route
+					path="/ranking_TimeAttack_preview"
+					element={<TimeAttackRankingPreviewPage />}
+				/>
+				<Route path="/ranking_timeAttack" element={<TimeAttackRankingPage />} />
+				<Route path="/play_timeAttack" element={<Navigate to="/501" />} />
+				<Route path="/congratulation_share_sns" element={<SharePage />} />
+				<Route path="/501" element={<Maintenance />} />
+				<Route path="/multi_Entrance" element={<PlayMultiMode />} />
+				<Route path="/play_start" element={<PlayStart />} />
+				<Route path="/multi_waiting" element={<MultiWaitingPage />} />
+				<Route path="/ranking_multiplay" element={<MultiRankingPage />} />
+				<Route path="/ARpage" element={<ARfunction />} />
+			</Routes>
+		</>
+	);
 };
 
 export default AppRoutes;
