@@ -9,6 +9,7 @@ import {
 	PhysicsResponseSchema,
 } from "../proto/game/rpc/game_pb";
 import {
+	Direction,
 	Event,
 	type Hand,
 	Mode,
@@ -17,11 +18,13 @@ import {
 import { create as toProto, toBinary, fromBinary } from "@bufbuild/protobuf";
 
 type EventState = {
+	myId: string;
 	roomId: string;
 	event: Event;
 	mode: Mode;
 	players: Player[];
 	time: number;
+	direction: string;
 };
 
 export type SendEventSchema = {
@@ -56,7 +59,9 @@ type Action = {
 	setMode: (mode: Mode) => void;
 	setPlayers: (players: Player[]) => void;
 	addPlayer: (player: Player) => void;
+	setDirection: (direction: Direction) => void;
 	setTime: (time: number) => void;
+	setMyId: (myId: string) => void;
 	eventSend: (req: SendEventSchema) => void;
 	physicsSend: (req: PhysicsRequest) => void;
 };
@@ -65,6 +70,8 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 	socketEventRef: null,
 	socketPhysicsRef: null,
 	eventState: {
+		myId: "",
+		direction: "front",
 		roomId: "",
 		event: Event.UNKNOWN,
 		mode: Mode.UNKNOWN,
@@ -75,6 +82,10 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 	setRoomId: (roomId) =>
 		set((state) => ({
 			eventState: { ...state.eventState, roomId: roomId },
+		})),
+	setMyId: (myId) =>
+		set((state) => ({
+			eventState: { ...state.eventState, myId: myId },
 		})),
 	setEvent: (event) =>
 		set((state) => ({
@@ -99,35 +110,36 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 		set((state) => ({
 			eventState: { ...state.eventState, time: time },
 		})),
+	setDirection: (direction) => {
+		switch (direction) {
+			case Direction.FRONT:
+				set((state) => ({
+					eventState: { ...state.eventState, direction: "front" },
+				}));
+				break;
+			case Direction.RIGHT:
+				set((state) => ({
+					eventState: { ...state.eventState, direction: "right" },
+				}));
+				break;
+			case Direction.LEFT:
+				set((state) => ({
+					eventState: { ...state.eventState, direction: "left" },
+				}));
+				break;
+			case Direction.BACK:
+				set((state) => ({
+					eventState: { ...state.eventState, direction: "back" },
+				}));
+				break;
+			default:
+				break;
+		}
+	},
+
 	setEventRef: (ref) => {
 		if (ref?.current) {
 			ref.current.onopen = () => {
-				get().eventSend({
-					roomId: "88",
-					event: Event.ENTER_ROOM,
-					mode: Mode.MULTI,
-					player: {
-						playerId: "1",
-						name: "jubhio;hbn",
-						color: "red",
-						score: 0,
-						rank: 1,
-						time: 0,
-					} as Player,
-				});
-				get().eventSend({
-					roomId: "88",
-					event: Event.GAME_START,
-					mode: Mode.MULTI,
-					player: {
-						playerId: "1",
-						name: "jubhio;hbn",
-						color: "red",
-						score: 0,
-						rank: 1,
-						time: 0,
-					} as Player,
-				});
 				console.log("connected");
 			};
 			ref.current.onmessage = (event) => {
@@ -142,6 +154,10 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 						switch (res.event) {
 							case Event.ENTER_ROOM:
 								console.log("waiting");
+								get().setDirection(
+									res.players.find((p) => p.playerId === get().eventState.myId)
+										?.direction ?? Direction.FRONT,
+								);
 								break;
 							case Event.EXIT_ROOM:
 								console.log("playing");
@@ -150,6 +166,7 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 								console.log("finished");
 								break;
 							case Event.RESULT:
+								get().setPlayers(res.players);
 								console.log("finished");
 								break;
 							case Event.STATS:

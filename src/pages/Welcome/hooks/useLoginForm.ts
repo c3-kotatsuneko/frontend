@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { baseUrl } from "../../../utils/baseUrl";
 import { useUserStore } from "../../../store/useUserStore";
+import { useSocketRefStore } from "../../../store/useSocketRefStore";
 
 export const useLoginForm = () => {
 	const navigate = useNavigate();
 	const { setLoginUser } = useUserStore();
+	const setMyId = useSocketRefStore((state) => state.setMyId);
 	const [userName, setUserName] = useState("");
 	const [password, setPassword] = useState("");
 	const [loginError, setLoginError] = useState<string | null>(null);
@@ -32,6 +34,7 @@ export const useLoginForm = () => {
 
 			setLoginError(null);
 			setLoginUser(data.access_token, userName);
+			setMyId(userName);
 
 			navigate("/mode_select");
 		} catch (error) {

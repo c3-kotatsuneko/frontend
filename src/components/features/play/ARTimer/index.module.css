@@ -1,0 +1,20 @@
+.timer-box {
+  display: flex;
+  position: fixed;
+  top: 3rem;
+  left: 3rem;
+  justify-content: center;
+  padding: 1rem 3rem;
+  border: 1px solid var(--blue);
+  border-radius: 2rem;
+  background-color: var(--white);
+  z-index: 10;
+  align-items: center;
+}
+
+.timer-text {
+  padding-left: 3rem;
+  font-size: 9rem;
+  font-weight: bold;
+  color: var(--blue);
+}
