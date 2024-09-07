@@ -19,13 +19,14 @@ import {
 import { handBlockCatch } from "../../components/features/AR/BackendlessSystem";
 import testData from "./testData";
 import { tumikiSystem } from "../../components/features/AR/tumikiSystem";
+import { useARToolkit } from "./hooks/useARTools";
 
 export type Tumiki = {
   overlapedBlockIndex: number[];
   isOverlap: boolean[];
 };
 
-export const ARfunction = () => {
+const Component = () => {
   const handCameraRef = useRef<HTMLVideoElement | null>(null);
   const handLandMarkerRef = useRef<HandLandmarker | null>(null);
   const handResultRef = useRef<HandLandmarkerResult | null>(null);
