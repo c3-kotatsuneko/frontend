@@ -1,10 +1,10 @@
-import { DefaultButton } from "../../components/ui/Button";
+// import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 
 export const Maintenance = () => {
 	return (
 		<main className={styles.root}>
-			<p className={styles.message}>503 こうじちゅう</p>
+			<p className={styles.message}>こうじちゅう</p>
 			<div className={styles["image-wrapper"]}>
 				<img
 					className={styles["cats-image"]}
@@ -14,9 +14,9 @@ export const Maintenance = () => {
 					height={400}
 				/>
 			</div>
-			<DefaultButton color="redorange" size="lg">
+			{/* <DefaultButton color="redorange" size="lg">
 				おうちへ
-			</DefaultButton>
+			</DefaultButton> */}
 		</main>
 	);
 };
