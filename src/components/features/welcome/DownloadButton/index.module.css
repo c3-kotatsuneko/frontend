@@ -1,0 +1,11 @@
+.button-container {
+    display: flex;
+    align-items: center;
+  }
+  
+.icon {
+    width: 14px;
+    aspect-ratio: 1/1;
+    margin-right: 4px;
+  }
+  

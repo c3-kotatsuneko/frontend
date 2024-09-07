@@ -4,14 +4,14 @@ import styles from "./index.module.css";
 export const PlayStart = () => {
 	return (
 		<main className={styles.root}>
-			<p className={styles["start-message"]}>じゅんびはできた？</p>
+			<p className={styles["start-message"]}>みんなあつまったかな？</p>
 			<DefaultButton color="redorange" size="lg">
 				げーむ すたーと！
 			</DefaultButton>
 			<img
 				className={styles["cats-image"]}
 				alt="丸ねこタワー"
-				src="/cats/catsTower-circle.png"
+				src="/cats/catsTower-circle.webp"
 				width={148}
 				height={242}
 			/>

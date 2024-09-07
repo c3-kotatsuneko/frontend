@@ -1,0 +1,23 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 100svh;
+  color: var(--black);
+}
+
+.message {
+  font-size: 24px;
+  padding-bottom: 40px;
+}
+
+.cats-image {
+  width: 100%;
+  padding: 60px 24px 0;
+  aspect-ratio: 2198 / 2185;
+}
+
+.image-wrapper {
+  max-width: 375px;
+}

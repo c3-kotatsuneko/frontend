@@ -4,15 +4,21 @@ import styles from "./index.module.css";
 import { useEffect } from "react";
 import { useUserStore } from "../../store/useUserStore";
 import { useModeStore } from "../../store/useModeStore";
+import { useSocketRefStore } from "../../store/useSocketRefStore";
+import ReconnectingWebSocket from "reconnecting-websocket";
 
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
 	const { setMode } = useModeStore();
+	const { setEventRef } = useSocketRefStore();
 
 	useEffect(() => {
 		document.getElementById("arjs-video")?.remove();
-	}, []);
+		const ws = new ReconnectingWebSocket("ws://localhost:8081/ws/events");
+		ws.binaryType = "arraybuffer";
+		setEventRef({ current: ws });
+	}, [setEventRef]);
 
 	return (
 		<main className={styles.root}>
@@ -24,7 +30,6 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					onClick={() => {
 						setMode("timeAttack");
-						// TODO: marker_scanページに遷移する
 						navigate("/play_timeAttack");
 					}}
 				>
@@ -36,7 +41,7 @@ export const ModeSelectPage = () => {
 					onClick={() => {
 						setMode("multi");
 						// TODO: marker_scanページに遷移する
-						navigate("/play_timeAttack");
+						navigate("/multi_Entrance");
 					}}
 				>
 					いっしょにたいせん
@@ -57,7 +62,7 @@ export const ModeSelectPage = () => {
 				<DefaultButton
 					variant="outlined"
 					size="sm"
-					onClick={() => navigate("/ranking_preview")}
+					onClick={() => navigate("/ranking_TimeAttack_preview")}
 				>
 					<img
 						className={styles["crown-image"]}
