@@ -8,6 +8,8 @@ import { useSocketRefStore } from "../../store/useSocketRefStore";
 import ReconnectingWebSocket from "reconnecting-websocket";
 import { Event, Mode, type Player } from "../../proto/game/resources/game_pb";
 
+const position = "front";
+
 export const ModeSelectPage = () => {
 	const navigate = useNavigate();
 	const { name: userName } = useUserStore();
@@ -54,6 +56,7 @@ export const ModeSelectPage = () => {
 					color="redorange"
 					onClick={() => {
 						setMode("multi");
+						navigate(`/multiMode?position=${position}`);
 						eventSend({
 							roomId: "88",
 							event: Event.ENTER_ROOM,
@@ -67,7 +70,7 @@ export const ModeSelectPage = () => {
 								time: 0,
 							} as Player,
 						});
-						navigate("/play_multi");
+						navigate(`/multiMode?position=${position}`);
 					}}
 				>
 					いっしょにたいせん

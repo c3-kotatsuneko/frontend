@@ -11,7 +11,9 @@ import { Maintenance } from "./pages/501";
 import { MultiRankingPage } from "./pages/MultiRanking";
 import { ARfunction } from "./pages/AR";
 import { MultiWaitingPage } from "./pages/MultiWaiting";
+import { MultiModePage } from "./pages/MultiMode";
 import { PlayMultiMode } from "./pages/PlayMultiMode";
+import { PlayTimeAttack } from "./pages/PlayTimeAttack";
 
 const AppRoutes = () => {
 	return (
@@ -30,8 +32,10 @@ const AppRoutes = () => {
 				<Route path="/play_timeAttack" element={<Navigate to="/501" />} />
 				<Route path="/congratulation_share_sns" element={<SharePage />} />
 				<Route path="/501" element={<Maintenance />} />
+				<Route path="/play_multi" element={<PlayTimeAttack />} />
 				<Route path="/multi_Entrance" element={<PlayMultiMode />} />
 				<Route path="/play_start" element={<PlayStart />} />
+				<Route path="/multiMode" element={<MultiModePage />} />
 				<Route path="/multi_waiting" element={<MultiWaitingPage />} />
 				<Route path="/ranking_multiplay" element={<MultiRankingPage />} />
 				<Route path="/ARpage" element={<ARfunction />} />
