@@ -1,7 +1,6 @@
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
 import ARScanner from "../../components/features/AR/scan";
 import {
-  cameraInit,
   handInit,
   predictWebcam,
 } from "../../components/features/AR/HandTracking";
@@ -43,10 +42,7 @@ export const ARfunction = () => {
       marker = "../../../public/pattern-backMarker.patt";
       break;
   }
-  useEffect(() => {
-    handInit(handLandMarkerRef);
-    cameraInit(handCameraRef);
-  }, []);
+
   useEffect(() => {
     predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
   }, []);
@@ -60,6 +56,13 @@ export const ARfunction = () => {
     markerPatternURL: marker,
     scene: sceneRef.current ?? new THREE.Scene(),
   });
+  useEffect(() => {
+    handInit(handLandMarkerRef);
+  }, []);
+  useEffect(() => {
+    handCameraRef.current = arToolkitSource.domElement;
+    predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
+  }, [arToolkitSource]);
   DataToPosConverter(position, testData, allBlockSet);
   const animate = useCallback(() => {
     if (position !== null) {
@@ -123,9 +126,6 @@ export const ARfunction = () => {
   return (
     <>
       <ARScanner />
-      <video ref={handCameraRef} id="video" autoPlay muted>
-        <track kind="captions" src="" label="No captions available" default />
-      </video>
     </>
   );
 };
