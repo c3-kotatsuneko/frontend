@@ -18,8 +18,8 @@ export const useARToolkit = ({
 }: ARToolkitInitOptions) => {
   const arToolkitSource = new THREEx.ArToolkitSource({
     sourceType: "webcam",
-    sourceWidth: 640,
-    sourceHeight: 480,
+    sourceWidth: window.innerWidth > window.innerHeight ? 640 : 480,
+    sourceHeight: window.innerWidth > window.innerHeight ? 480 : 640,
   });
 
   const arToolkitContext = new THREEx.ArToolkitContext({
@@ -40,21 +40,24 @@ export const useARToolkit = ({
   arToolkitSource.init(
     () => {
       arToolkitSource.onResizeElement();
-      arToolkitSource.copyElementSizeTo(domElement);
-      //bodyの背景を透明にする
-      document.body.style.background = "transparent";
-
+      //bodyの背景色を透明にする
+      document.body.style.backgroundColor = "transparent";
+      const wrapperElement = document.getElementById("wrapper");
       const rootElement = document.getElementById("root");
+      //styleタグを追加
+      const style = document.createElement("style");
+      style.innerHTML = `
+        #root {
+          position: relative;
+        }
+      `;
+      document.body.appendChild(style);
+      if (wrapperElement) {
+        wrapperElement.appendChild(domElement);
+      }
       if (rootElement) {
         rootElement.appendChild(arToolkitSource.domElement);
       }
-      const wrapper = document.getElementById("wrapper");
-      if (wrapper) {
-        wrapper.appendChild(domElement);
-      }
-      arToolkitSource.copyElementSizeTo(domElement);
-      //   console.error(arToolkitSource.domElementHeight(), window.innerHeight);
-      //   console.error(arToolkitSource.domElementWidth(), window.innerWidth);
       arToolkitSource.domElement.addEventListener("canplay", () => {
         initARContext();
       });
@@ -97,13 +100,10 @@ export const useARToolkit = ({
   }
 
   function getSourceOrientation(): string {
-    console.error("hoge", arToolkitSource.domElement.videoWidth);
-    console.error("hoge", arToolkitSource.domElement.videoHeight);
-    // return arToolkitSource.domElement.videoWidth >
-    //   arToolkitSource.domElement.videoHeight
-    //   ? "landscape"
-    //   : "portrait";
-    return "landscape";
+    return arToolkitSource.domElement.videoWidth >
+      arToolkitSource.domElement.videoHeight
+      ? "landscape"
+      : "portrait";
   }
 
   return {
