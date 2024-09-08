@@ -90,6 +90,7 @@ const Component = () => {
   return (
     <>
       <ARScanner />
+      <div id="wrapper" />
       <ObjectSetting position={position} allBlockSet={allBlockSet} />
     </>
   );

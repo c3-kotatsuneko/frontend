@@ -20,10 +20,7 @@ export const PlayTimeAttack = () => {
         </>
       ) : (
         <>
-          <Timer remainingTime={gameDuration - time} />
-          <p className={styles["user-name"]}>{userName}</p>
           <ARfunction />
-          <ExitButton />
         </>
       )}
     </main>

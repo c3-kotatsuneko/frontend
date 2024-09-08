@@ -23,11 +23,6 @@ export const ThreeInit = () => {
   });
   renderer.setClearColor(new THREE.Color("lightgrey"), 0);
   renderer.setSize(window.innerWidth, window.innerHeight);
-  renderer.domElement.style.position = "absolute";
-  renderer.domElement.style.top = "0px";
-  renderer.domElement.style.left = "0px";
-  const reactRoot = document.body.firstChild;
-  document.body.insertBefore(renderer.domElement, reactRoot);
   rendererRef.current = renderer;
 
   const scene = new THREE.Scene();
@@ -104,9 +99,9 @@ export const ThreeInit = () => {
     new THREE.MeshStandardMaterial({ color: 0x444444 })
   );
   handBlock.current = hand;
-  hand.position.set(0, -0.8, 0);
+  hand.position.set(0, 0, 0);
   scene.add(hand);
-  markerBox.position.set(0, 0, 0);
+  markerBox.position.set(0, -0.8, 0);
   scene.add(markerBox);
   //useRefを使ってオブジェクトを保存
   allBlockSet.current = {

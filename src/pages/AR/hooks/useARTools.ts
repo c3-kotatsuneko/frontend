@@ -18,17 +18,13 @@ export const useARToolkit = ({
 }: ARToolkitInitOptions) => {
   const arToolkitSource = new THREEx.ArToolkitSource({
     sourceType: "webcam",
-    sourceWidth: window.innerWidth,
-    sourceHeight: window.innerHeight,
-    displayHeight: window.innerHeight,
-    displayWidth: window.innerWidth,
+    sourceWidth: 640,
+    sourceHeight: 480,
   });
 
   const arToolkitContext = new THREEx.ArToolkitContext({
     cameraParametersUrl: cameraParaDatURL,
     detectionMode: "mono",
-    canvasHeight: window.innerHeight,
-    canvasWidth: window.innerWidth,
   });
 
   const arMarkerControls = new THREEx.ArMarkerControls(
@@ -43,16 +39,29 @@ export const useARToolkit = ({
 
   arToolkitSource.init(
     () => {
-      //   arToolkitSource.copyElementSizeTo(domElement);
+      arToolkitSource.onResizeElement();
+      arToolkitSource.copyElementSizeTo(domElement);
+      //bodyの背景を透明にする
+      document.body.style.background = "transparent";
+
+      const rootElement = document.getElementById("root");
+      if (rootElement) {
+        rootElement.appendChild(arToolkitSource.domElement);
+      }
+      const wrapper = document.getElementById("wrapper");
+      if (wrapper) {
+        wrapper.appendChild(domElement);
+      }
+      arToolkitSource.copyElementSizeTo(domElement);
       //   console.error(arToolkitSource.domElementHeight(), window.innerHeight);
       //   console.error(arToolkitSource.domElementWidth(), window.innerWidth);
       arToolkitSource.domElement.addEventListener("canplay", () => {
         initARContext();
       });
-      //   window.arToolkitSource = arToolkitSource;
-      //   setTimeout(() => {
-      //     onResize();
-      //   }, 2000);
+      window.arToolkitSource = arToolkitSource;
+      setTimeout(() => {
+        onResize();
+      }, 2000);
     },
     () => {}
   );

@@ -18,12 +18,17 @@
     <!-- <script type="module" async src="/src/ar.ts"></script> -->
   </body>
   <style>
-    canvas {
-      z-index: 1;
+    video {
+      z-index: -2;
     }
 
-    video {
-      z-index: 0 !important;
+    html,
+    body {
+      overflow: hidden;
+    }
+
+    #root {
+      overflow: hidden;
     }
   </style>
 </html>
