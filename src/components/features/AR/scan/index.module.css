@@ -15,8 +15,8 @@
 }
 
 .text {
-  margin-bottom: 4rem;
-  font-size: 4rem;
+  /* margin-bottom: 4rem; */
+  font-size: 24px;
 }
 
 .scanner {
@@ -24,6 +24,7 @@
   width: 60%;
   aspect-ratio: 1/1;
   border: 5px solid var(--blue);
+  margin: 20px 0;
 }
 
 video {
@@ -48,6 +49,5 @@ video {
 
 .attention {
   color: #fff;
-  font-size: 3rem;
-  margin-top: 10rem;
+  font-size: 20px;
 }

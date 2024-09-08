@@ -14,12 +14,15 @@ import type {
 import { useLocation } from "react-router-dom";
 import {
   HandPosToDataConverter,
-  DataToPosConverter,
+  // DataToPosConverter,
 } from "../../components/features/AR/Converter";
-import { handBlockCatch } from "../../components/features/AR/BackendlessSystem";
-import testData from "./testData";
-import { tumikiSystem } from "../../components/features/AR/tumikiSystem";
+// import { handBlockCatch } from "../../components/features/AR/BackendlessSystem";
+// import testData from "./testData";
+// import { tumikiSystem } from "../../components/features/AR/tumikiSystem";
 import { useARToolkit } from "./hooks/useARTools";
+import { ObjectSetting } from "./DataToPosConverter";
+
+type Position = "front" | "left" | "right" | "back";
 
 export type Tumiki = {
   overlapedBlockIndex: number[];
@@ -31,41 +34,23 @@ const Component = () => {
   const handLandMarkerRef = useRef<HandLandmarker | null>(null);
   const handResultRef = useRef<HandLandmarkerResult | null>(null);
   const param = new URLSearchParams(useLocation().search);
-  const position = param.get("position") as "front" | "left" | "right" | "back";
-  const tumiki = useRef<Tumiki>({
-    overlapedBlockIndex: [2],
-    isOverlap: [false, false, true, false, false],
-  });
+  const position = (param.get("position") ?? "front") as Position;
   console.log(position);
-  let marker = "../../../public/pattern-frontMarker.patt";
-  switch (position) {
-    case "front":
-      marker = "../../../public/pattern-frontMarker.patt";
-      break;
-    case "left":
-      marker = "../../../public/pattern-leftMarker.patt";
-      break;
-    case "right":
-      marker = "../../../public/pattern-rightMarker.patt";
-      break;
-    case "back":
-      marker = "../../../public/pattern-backMarker.patt";
-      break;
-  }
+  const marker = `/pattern-${position}Marker.patt`;
 
-  useEffect(() => {
-    predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
-  }, []);
   const { rendererRef, sceneRef, cameraRef, handBlock, allBlockSet } =
     ThreeInit(); //lightRef, allBlockSet,をlint回避のため一度削除
+  const tt = document.createElement("canvas");
+  tt.width = window.innerWidth;
+  tt.height = window.innerHeight;
   const { arToolkitSource, arToolkitContext } = useARToolkit({
     camera: cameraRef.current ?? new THREE.Camera(),
     cameraParaDatURL: cameraPara,
-    domElement:
-      rendererRef.current?.domElement ?? document.createElement("canvas"),
+    domElement: rendererRef.current?.domElement ?? tt,
     markerPatternURL: marker,
     scene: sceneRef.current ?? new THREE.Scene(),
   });
+
   useEffect(() => {
     handInit(handLandMarkerRef);
   }, []);
@@ -73,56 +58,23 @@ const Component = () => {
     handCameraRef.current = arToolkitSource.domElement;
     predictWebcam(handLandMarkerRef, handCameraRef, handResultRef);
   }, [arToolkitSource]);
-  DataToPosConverter(position, testData, allBlockSet);
+
   const animate = useCallback(() => {
     if (position !== null) {
       if (handResultRef.current) {
-        if (
-          allBlockSet.current &&
-          handBlock.current &&
-          handResultRef.current.landmarks.length > 0
-        ) {
-          const worldHandInfo = HandPosToDataConverter(
-            position,
-            handResultRef,
-            handBlock
-          );
-          if (worldHandInfo) {
-            handBlockCatch(
-              position,
-              handResultRef,
-              allBlockSet,
-              tumiki,
-              worldHandInfo
-            );
-          }
+        if (handResultRef.current.landmarks.length > 0) {
+          HandPosToDataConverter(position, handResultRef, handBlock);
+          console.log(handBlock);
         }
       }
     } else {
       if (handResultRef.current) {
-        if (
-          allBlockSet.current &&
-          handBlock.current &&
-          handResultRef.current.landmarks.length > 0
-        ) {
-          const worldHandInfo = HandPosToDataConverter(
-            "front",
-            handResultRef,
-            handBlock
-          );
-          if (worldHandInfo) {
-            handBlockCatch(
-              "front",
-              handResultRef,
-              allBlockSet,
-              tumiki,
-              worldHandInfo
-            );
-          }
+        if (handResultRef.current.landmarks.length > 0) {
+          HandPosToDataConverter("front", handResultRef, handBlock);
+          console.log(handBlock);
         }
       }
     }
-
     if (rendererRef.current && sceneRef.current && cameraRef.current) {
       rendererRef.current.render(sceneRef.current, cameraRef.current);
       if (arToolkitSource.ready) {
@@ -130,10 +82,7 @@ const Component = () => {
         sceneRef.current.visible = cameraRef.current.visible;
       }
     }
-
-    if (allBlockSet.current && tumiki.current) {
-      tumikiSystem(position, tumiki, allBlockSet);
-    }
+    console.log(handResultRef.current);
     requestAnimationFrame(animate);
   }, [
     arToolkitContext,
@@ -143,14 +92,17 @@ const Component = () => {
     sceneRef,
     position,
     handBlock,
-    allBlockSet,
   ]);
+
   useEffect(() => {
     animate();
   }, [animate]);
+
   return (
     <>
       <ARScanner />
+      <div id="wrapper" />
+      <ObjectSetting position={position} allBlockSet={allBlockSet} />
     </>
   );
 };

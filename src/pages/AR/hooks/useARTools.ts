@@ -40,6 +40,24 @@ export const useARToolkit = ({
   arToolkitSource.init(
     () => {
       arToolkitSource.onResizeElement();
+      //bodyの背景色を透明にする
+      document.body.style.backgroundColor = "transparent";
+      const wrapperElement = document.getElementById("wrapper");
+      const rootElement = document.getElementById("root");
+      //styleタグを追加
+      const style = document.createElement("style");
+      style.innerHTML = `
+        #root {
+          position: relative;
+        }
+      `;
+      document.body.appendChild(style);
+      if (wrapperElement) {
+        wrapperElement.appendChild(domElement);
+      }
+      if (rootElement) {
+        rootElement.appendChild(arToolkitSource.domElement);
+      }
       arToolkitSource.domElement.addEventListener("canplay", () => {
         initARContext();
       });
@@ -47,9 +65,6 @@ export const useARToolkit = ({
       setTimeout(() => {
         onResize();
       }, 2000);
-      setTimeout(() => {
-        onResize();
-      }, 3000);
     },
     () => {}
   );

@@ -1,16 +1,17 @@
 import { useEffect } from "react";
 import { useTimeAttackStore } from "../../store/useTimeAttackStore";
-import { ARTimer } from "../../components/features/play/ARTimer";
 import { ARfunction } from "../AR";
-import styles from "./index.module.css";
-import ExitButton from "../../components/features/play/ARExitButton";
-import { useUserStore } from "../../store/useUserStore";
-import { useSocketRefStore } from "../../store/useSocketRefStore";
+// import { ARTimer } from "../../components/features/play/ARTimer";
+// import { usePlayTimeAttack } from "./hooks";
+// import styles from "./index.module.css";
+// import ExitButton from "../../components/features/play/ARExitButton";
+// import { useUserStore } from "../../store/useUserStore";
+// import { useSocketRefStore } from "../../store/useSocketRefStore";
 
 export const PlayTimeAttack = () => {
   const setClearTime = useTimeAttackStore((state) => state.setClearTime);
-  const { name: userName } = useUserStore();
-  const time = useSocketRefStore((state) => state.eventState.time);
+  // const { name: userName } = useUserStore();
+  // const time = useSocketRefStore((state) => state.eventState.time);
 
   // timeが0になったらrankingページへ遷移する
   useEffect(() => {
@@ -23,10 +24,7 @@ export const PlayTimeAttack = () => {
 
   return (
     <main>
-      <ARTimer remainingTime={time} />
-      <p className={styles["user-name"]}>{userName}</p>
       <ARfunction />
-      <ExitButton />
     </main>
   );
 };

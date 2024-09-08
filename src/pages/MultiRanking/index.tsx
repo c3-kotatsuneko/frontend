@@ -9,7 +9,7 @@ import styles from "./index.module.css";
 import { useSocketRefStore } from "../../store/useSocketRefStore";
 import { formatTime } from "../../utils/formatTime";
 import { useEffect } from "react";
-import { Event, Mode, Player } from "../../proto/game/resources/game_pb";
+import { Event, Mode, type Player } from "../../proto/game/resources/game_pb";
 
 export const MultiRankingPage = () => {
   const navigate = useNavigate();
@@ -34,7 +34,7 @@ export const MultiRankingPage = () => {
         time: 0,
       } as Player,
     });
-  }, []);
+  }, [eventSend, name, roomId]);
   const result = players.map((player) => ({
     name: player.name,
     time: formatTime(player.time),

@@ -2,10 +2,11 @@ import * as THREE from "three";
 import { useRef } from "react";
 
 type AllObject = {
-  frontBlockSet: THREE.Mesh[];
-  leftBlockSet: THREE.Mesh[];
-  rightBlockSet: THREE.Mesh[];
-  backBlockSet: THREE.Mesh[];
+  BlockSet: THREE.Mesh[];
+  // frontBlockSet: THREE.Mesh[];
+  // leftBlockSet: THREE.Mesh[];
+  // rightBlockSet: THREE.Mesh[];
+  // backBlockSet: THREE.Mesh[];
   stage: THREE.Mesh;
 };
 
@@ -21,20 +22,15 @@ export const ThreeInit = () => {
     alpha: true,
   });
   renderer.setClearColor(new THREE.Color("lightgrey"), 0);
-  renderer.setSize(640, 480);
-  renderer.domElement.style.position = "absolute";
-  renderer.domElement.style.top = "0px";
-  renderer.domElement.style.left = "0px";
-  const reactRoot = document.body.firstChild;
-  document.body.insertBefore(renderer.domElement, reactRoot);
+  renderer.setSize(window.innerWidth, window.innerHeight);
   rendererRef.current = renderer;
 
   const scene = new THREE.Scene();
   sceneRef.current = scene;
 
-  const camera = new THREE.PerspectiveCamera(50, 640 / 480, 0.1, 2000);
-  camera.position.set(1, 1.5, 1.5);
-  camera.lookAt(new THREE.Vector3(0, 0.5, 0));
+  const camera = new THREE.PerspectiveCamera(50, 1, 100, 2000);
+  camera.position.set(100, 100, 100);
+  camera.lookAt(new THREE.Vector3(100, 150, 100));
   scene.add(camera);
   cameraRef.current = camera;
 
@@ -45,74 +41,43 @@ export const ThreeInit = () => {
 
   //frontは色は赤系統の色でpositionは0 -0.8 0、scaleは0.1 0.1 0.1で初期化
   //テストで色を変えて積み木っぽい色にする
-  const frontBlockSet: THREE.Mesh[] = [];
-  let frontBlock = new THREE.Mesh(
-    new THREE.BoxGeometry(0.6, 0.6, 0.6),
-    new THREE.MeshStandardMaterial({ color: 0x3a86ff })
-  );
-  frontBlock.position.set(0, -0.8, 0);
-  scene.add(frontBlock);
-  frontBlockSet.push(frontBlock);
-  frontBlock = new THREE.Mesh(
-    new THREE.BoxGeometry(0.6, 0.6, 0.6),
-    new THREE.MeshStandardMaterial({ color: 0xfb5607 })
-  );
-  frontBlock.position.set(0, -0.8, 0);
-  scene.add(frontBlock);
-  frontBlockSet.push(frontBlock);
-  frontBlock = new THREE.Mesh(
-    new THREE.BoxGeometry(0.6, 0.6, 0.6),
-    new THREE.MeshStandardMaterial({ color: 0xff006e })
-  );
-  frontBlock.position.set(0, -0.8, 0);
-  scene.add(frontBlock);
-  frontBlockSet.push(frontBlock);
-  frontBlock = new THREE.Mesh(
-    new THREE.BoxGeometry(0.6, 0.6, 0.6),
-    new THREE.MeshStandardMaterial({ color: 0x8338ec })
-  );
-  frontBlock.position.set(0, -0.8, 0);
-  scene.add(frontBlock);
-  frontBlockSet.push(frontBlock);
-  frontBlock = new THREE.Mesh(
-    new THREE.BoxGeometry(0.6, 0.6, 0.6),
-    new THREE.MeshStandardMaterial({ color: 0xffbe0b })
-  );
-  frontBlock.position.set(0, -0.8, 0);
-  scene.add(frontBlock);
-  frontBlockSet.push(frontBlock);
-  //leftは色は青系統の色でpositionは-1 -0.8 0、scaleは0.1 0.1 0.1で初期化
-  const leftBlockSet: THREE.Mesh[] = [];
-  for (let i = 0; i < 5; i++) {
-    const leftBlock = new THREE.Mesh(
-      new THREE.BoxGeometry(0.1, 0.1, 0.1),
-      new THREE.MeshStandardMaterial({ color: 0x0000ff })
+  const blockSet: THREE.Mesh[] = [];
+  for (let i = 0; i < 4; i++) {
+    let blockObject = new THREE.Mesh(
+      new THREE.BoxGeometry(0.6, 0.6, 0.6),
+      new THREE.MeshStandardMaterial({ color: 0x3a86ff })
     );
-    leftBlock.position.set(0, -0.8, 0);
-    scene.add(leftBlock);
-    leftBlockSet.push(leftBlock);
-  }
-  //rightは色は緑系統の色でpositionは1 -0.8 0、scaleは0.1 0.1 0.1で初期化
-  const rightBlockSet: THREE.Mesh[] = [];
-  for (let i = 0; i < 5; i++) {
-    const rightBlock = new THREE.Mesh(
-      new THREE.BoxGeometry(0.1, 0.1, 0.1),
-      new THREE.MeshStandardMaterial({ color: 0x00ff00 })
+    blockObject.position.set(0, -0.8, 0);
+    scene.add(blockObject);
+    blockSet.push(blockObject);
+    blockObject = new THREE.Mesh(
+      new THREE.BoxGeometry(0.6, 0.6, 0.6),
+      new THREE.MeshStandardMaterial({ color: 0xfb5607 })
     );
-    rightBlock.position.set(0, -0.8, 0);
-    scene.add(rightBlock);
-    rightBlockSet.push(rightBlock);
-  }
-  //backは色は黄色系統の色でpositionは0 -0.8 1、scaleは0.1 0.1 0.1で初期化
-  const backBlockSet: THREE.Mesh[] = [];
-  for (let i = 0; i < 5; i++) {
-    const backBlock = new THREE.Mesh(
-      new THREE.BoxGeometry(0.1, 0.1, 0.1),
-      new THREE.MeshStandardMaterial({ color: 0xffff00 })
+    blockObject.position.set(0, -0.8, 0);
+    scene.add(blockObject);
+    blockSet.push(blockObject);
+    blockObject = new THREE.Mesh(
+      new THREE.BoxGeometry(0.6, 0.6, 0.6),
+      new THREE.MeshStandardMaterial({ color: 0xff006e })
     );
-    backBlock.position.set(0, -0.8, 0);
-    scene.add(backBlock);
-    backBlockSet.push(backBlock);
+    blockObject.position.set(0, -0.8, 0);
+    scene.add(blockObject);
+    blockSet.push(blockObject);
+    blockObject = new THREE.Mesh(
+      new THREE.BoxGeometry(0.6, 0.6, 0.6),
+      new THREE.MeshStandardMaterial({ color: 0x8338ec })
+    );
+    blockObject.position.set(0, -0.8, 0);
+    scene.add(blockObject);
+    blockSet.push(blockObject);
+    blockObject = new THREE.Mesh(
+      new THREE.BoxGeometry(0.6, 0.6, 0.6),
+      new THREE.MeshStandardMaterial({ color: 0xffbe0b })
+    );
+    blockObject.position.set(0, -0.8, 0);
+    scene.add(blockObject);
+    blockSet.push(blockObject);
   }
   //マーカーと被せるキューブ
   const markerBox = new THREE.Mesh(
@@ -125,16 +90,17 @@ export const ThreeInit = () => {
     new THREE.MeshStandardMaterial({ color: 0x444444 })
   );
   handBlock.current = hand;
-  hand.position.set(0, -0.8, 0);
+  hand.position.set(0, 0, 0);
   scene.add(hand);
   markerBox.position.set(0, -0.8, 0);
   scene.add(markerBox);
   //useRefを使ってオブジェクトを保存
   allBlockSet.current = {
-    frontBlockSet,
-    leftBlockSet,
-    rightBlockSet,
-    backBlockSet,
+    BlockSet: blockSet,
+    // frontBlockSet,
+    // leftBlockSet,
+    // rightBlockSet,
+    // backBlockSet,
     stage: markerBox,
   };
 

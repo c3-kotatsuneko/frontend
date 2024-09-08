@@ -13,11 +13,12 @@ import type {
 } from "./arTransform";
 import { HandStatusDetect } from "../HandStatusDetect";
 
-export type AllObject = {
-  frontBlockSet: THREE.Mesh[];
-  leftBlockSet: THREE.Mesh[];
-  rightBlockSet: THREE.Mesh[];
-  backBlockSet: THREE.Mesh[];
+type AllObject = {
+  BlockSet: THREE.Mesh[];
+  //   frontBlockSet: THREE.Mesh[];
+  //   leftBlockSet: THREE.Mesh[];
+  //   rightBlockSet: THREE.Mesh[];
+  //   backBlockSet: THREE.Mesh[];
   stage: THREE.Mesh;
 };
 
@@ -161,274 +162,82 @@ export const DataToPosConverter = (
   if (originalBlockRef.current) {
     switch (status) {
       case "front":
-        for (let i = 0; i < 5; i++) {
-          const worldBlockFrontBrock = worldObjectToFront(worldBlockData[i]);
-          originalBlockRef.current.frontBlockSet[i].position.set(
-            worldBlockFrontBrock.object.position.x,
-            worldBlockFrontBrock.object.position.y,
-            worldBlockFrontBrock.object.position.z
+        for (let i = 0; i < worldBlockData.length; i++) {
+          const worldBlock = worldObjectToFront(worldBlockData[i]);
+          originalBlockRef.current.BlockSet[i].position.set(
+            worldBlock.object.position.x,
+            worldBlock.object.position.y,
+            worldBlock.object.position.z
           );
-          originalBlockRef.current.frontBlockSet[i].rotation.set(
-            worldBlockFrontBrock.object.angle.x,
-            worldBlockFrontBrock.object.angle.y,
-            worldBlockFrontBrock.object.angle.z
+          originalBlockRef.current.BlockSet[i].rotation.set(
+            worldBlock.object.angle.x,
+            worldBlock.object.angle.y,
+            worldBlock.object.angle.z
           );
-          originalBlockRef.current.frontBlockSet[i].scale.set(
-            worldBlockFrontBrock.object.scale.x,
-            worldBlockFrontBrock.object.scale.y,
-            worldBlockFrontBrock.object.scale.z
-          );
-          const worldBlockLeftSet = worldObjectToFront(worldBlockData[i + 5]);
-          originalBlockRef.current.leftBlockSet[i].position.set(
-            worldBlockLeftSet.object.position.x,
-            worldBlockLeftSet.object.position.y,
-            worldBlockLeftSet.object.position.z
-          );
-          originalBlockRef.current.leftBlockSet[i].rotation.set(
-            worldBlockLeftSet.object.angle.x,
-            worldBlockLeftSet.object.angle.y,
-            worldBlockLeftSet.object.angle.z
-          );
-          originalBlockRef.current.leftBlockSet[i].scale.set(
-            worldBlockLeftSet.object.scale.x,
-            worldBlockLeftSet.object.scale.y,
-            worldBlockLeftSet.object.scale.z
-          );
-          const worldBlockRightSet = worldObjectToFront(worldBlockData[i + 10]);
-          originalBlockRef.current.rightBlockSet[i].position.set(
-            worldBlockRightSet.object.position.x,
-            worldBlockRightSet.object.position.y,
-            worldBlockRightSet.object.position.z
-          );
-          originalBlockRef.current.rightBlockSet[i].rotation.set(
-            worldBlockRightSet.object.angle.x,
-            worldBlockRightSet.object.angle.y,
-            worldBlockRightSet.object.angle.z
-          );
-          originalBlockRef.current.rightBlockSet[i].scale.set(
-            worldBlockRightSet.object.scale.x,
-            worldBlockRightSet.object.scale.y,
-            worldBlockRightSet.object.scale.z
-          );
-          const worldBlockBackSet = worldObjectToFront(worldBlockData[i + 15]);
-          originalBlockRef.current.backBlockSet[i].position.set(
-            worldBlockBackSet.object.position.x,
-            worldBlockBackSet.object.position.y,
-            worldBlockBackSet.object.position.z
-          );
-          originalBlockRef.current.backBlockSet[i].rotation.set(
-            worldBlockBackSet.object.angle.x,
-            worldBlockBackSet.object.angle.y,
-            worldBlockBackSet.object.angle.z
-          );
-          originalBlockRef.current.backBlockSet[i].scale.set(
-            worldBlockBackSet.object.scale.x,
-            worldBlockBackSet.object.scale.y,
-            worldBlockBackSet.object.scale.z
+          originalBlockRef.current.BlockSet[i].scale.set(
+            worldBlock.object.scale.x,
+            worldBlock.object.scale.y,
+            worldBlock.object.scale.z
           );
         }
         break;
       case "left":
-        for (let i = 0; i < 5; i++) {
-          const worldBlockFrontBrock = worldObjectToLeft(worldBlockData[i]);
-          originalBlockRef.current.frontBlockSet[i].position.set(
-            worldBlockFrontBrock.object.position.x,
-            worldBlockFrontBrock.object.position.y,
-            worldBlockFrontBrock.object.position.z
+        for (let i = 0; i < worldBlockData.length; i++) {
+          const worldBlock = worldObjectToLeft(worldBlockData[i]);
+          originalBlockRef.current.BlockSet[i].position.set(
+            worldBlock.object.position.x,
+            worldBlock.object.position.y,
+            worldBlock.object.position.z
           );
-          originalBlockRef.current.frontBlockSet[i].rotation.set(
-            worldBlockFrontBrock.object.angle.x,
-            worldBlockFrontBrock.object.angle.y,
-            worldBlockFrontBrock.object.angle.z
+          originalBlockRef.current.BlockSet[i].rotation.set(
+            worldBlock.object.angle.x,
+            worldBlock.object.angle.y,
+            worldBlock.object.angle.z
           );
-          originalBlockRef.current.frontBlockSet[i].scale.set(
-            worldBlockFrontBrock.object.scale.x,
-            worldBlockFrontBrock.object.scale.y,
-            worldBlockFrontBrock.object.scale.z
-          );
-          const worldBlockLeftSet = worldObjectToLeft(worldBlockData[i + 5]);
-          originalBlockRef.current.leftBlockSet[i].position.set(
-            worldBlockLeftSet.object.position.x,
-            worldBlockLeftSet.object.position.y,
-            worldBlockLeftSet.object.position.z
-          );
-          originalBlockRef.current.leftBlockSet[i].rotation.set(
-            worldBlockLeftSet.object.angle.x,
-            worldBlockLeftSet.object.angle.y,
-            worldBlockLeftSet.object.angle.z
-          );
-          originalBlockRef.current.leftBlockSet[i].scale.set(
-            worldBlockLeftSet.object.scale.x,
-            worldBlockLeftSet.object.scale.y,
-            worldBlockLeftSet.object.scale.z
-          );
-          const worldBlockRightSet = worldObjectToLeft(worldBlockData[i + 10]);
-          originalBlockRef.current.rightBlockSet[i].position.set(
-            worldBlockRightSet.object.position.x,
-            worldBlockRightSet.object.position.y,
-            worldBlockRightSet.object.position.z
-          );
-          originalBlockRef.current.rightBlockSet[i].rotation.set(
-            worldBlockRightSet.object.angle.x,
-            worldBlockRightSet.object.angle.y,
-            worldBlockRightSet.object.angle.z
-          );
-          originalBlockRef.current.rightBlockSet[i].scale.set(
-            worldBlockRightSet.object.scale.x,
-            worldBlockRightSet.object.scale.y,
-            worldBlockRightSet.object.scale.z
-          );
-          const worldBlockBackSet = worldObjectToLeft(worldBlockData[i + 15]);
-          originalBlockRef.current.backBlockSet[i].position.set(
-            worldBlockBackSet.object.position.x,
-            worldBlockBackSet.object.position.y,
-            worldBlockBackSet.object.position.z
-          );
-          originalBlockRef.current.backBlockSet[i].rotation.set(
-            worldBlockBackSet.object.angle.x,
-            worldBlockBackSet.object.angle.y,
-            worldBlockBackSet.object.angle.z
-          );
-          originalBlockRef.current.backBlockSet[i].scale.set(
-            worldBlockBackSet.object.scale.x,
-            worldBlockBackSet.object.scale.y,
-            worldBlockBackSet.object.scale.z
+          originalBlockRef.current.BlockSet[i].scale.set(
+            worldBlock.object.scale.x,
+            worldBlock.object.scale.y,
+            worldBlock.object.scale.z
           );
         }
         break;
       case "right":
-        for (let i = 0; i < 5; i++) {
-          const worldBlockFrontBrock = worldObjectToRight(worldBlockData[i]);
-          originalBlockRef.current.frontBlockSet[i].position.set(
-            worldBlockFrontBrock.object.position.x,
-            worldBlockFrontBrock.object.position.y,
-            worldBlockFrontBrock.object.position.z
+        for (let i = 0; i < worldBlockData.length; i++) {
+          const worldBlock = worldObjectToRight(worldBlockData[i]);
+          originalBlockRef.current.BlockSet[i].position.set(
+            worldBlock.object.position.x,
+            worldBlock.object.position.y,
+            worldBlock.object.position.z
           );
-          originalBlockRef.current.frontBlockSet[i].rotation.set(
-            worldBlockFrontBrock.object.angle.x,
-            worldBlockFrontBrock.object.angle.y,
-            worldBlockFrontBrock.object.angle.z
+          originalBlockRef.current.BlockSet[i].rotation.set(
+            worldBlock.object.angle.x,
+            worldBlock.object.angle.y,
+            worldBlock.object.angle.z
           );
-          originalBlockRef.current.frontBlockSet[i].scale.set(
-            worldBlockFrontBrock.object.scale.x,
-            worldBlockFrontBrock.object.scale.y,
-            worldBlockFrontBrock.object.scale.z
-          );
-          const worldBlockLeftSet = worldObjectToRight(worldBlockData[i + 5]);
-          originalBlockRef.current.leftBlockSet[i].position.set(
-            worldBlockLeftSet.object.position.x,
-            worldBlockLeftSet.object.position.y,
-            worldBlockLeftSet.object.position.z
-          );
-          originalBlockRef.current.leftBlockSet[i].rotation.set(
-            worldBlockLeftSet.object.angle.x,
-            worldBlockLeftSet.object.angle.y,
-            worldBlockLeftSet.object.angle.z
-          );
-          originalBlockRef.current.leftBlockSet[i].scale.set(
-            worldBlockLeftSet.object.scale.x,
-            worldBlockLeftSet.object.scale.y,
-            worldBlockLeftSet.object.scale.z
-          );
-          const worldBlockRightSet = worldObjectToRight(worldBlockData[i + 10]);
-          originalBlockRef.current.rightBlockSet[i].position.set(
-            worldBlockRightSet.object.position.x,
-            worldBlockRightSet.object.position.y,
-            worldBlockRightSet.object.position.z
-          );
-          originalBlockRef.current.rightBlockSet[i].rotation.set(
-            worldBlockRightSet.object.angle.x,
-            worldBlockRightSet.object.angle.y,
-            worldBlockRightSet.object.angle.z
-          );
-          originalBlockRef.current.rightBlockSet[i].scale.set(
-            worldBlockRightSet.object.scale.x,
-            worldBlockRightSet.object.scale.y,
-            worldBlockRightSet.object.scale.z
-          );
-          const worldBlockBackSet = worldObjectToRight(worldBlockData[i + 15]);
-          originalBlockRef.current.backBlockSet[i].position.set(
-            worldBlockBackSet.object.position.x,
-            worldBlockBackSet.object.position.y,
-            worldBlockBackSet.object.position.z
-          );
-          originalBlockRef.current.backBlockSet[i].rotation.set(
-            worldBlockBackSet.object.angle.x,
-            worldBlockBackSet.object.angle.y,
-            worldBlockBackSet.object.angle.z
-          );
-          originalBlockRef.current.backBlockSet[i].scale.set(
-            worldBlockBackSet.object.scale.x,
-            worldBlockBackSet.object.scale.y,
-            worldBlockBackSet.object.scale.z
+          originalBlockRef.current.BlockSet[i].scale.set(
+            worldBlock.object.scale.x,
+            worldBlock.object.scale.y,
+            worldBlock.object.scale.z
           );
         }
         break;
       case "back":
-        for (let i = 0; i < 5; i++) {
-          const worldBlockFrontBrock = worldObjectToBack(worldBlockData[i]);
-          originalBlockRef.current.frontBlockSet[i].position.set(
-            worldBlockFrontBrock.object.position.x,
-            worldBlockFrontBrock.object.position.y,
-            worldBlockFrontBrock.object.position.z
+        for (let i = 0; i < worldBlockData.length; i++) {
+          const worldBlock = worldObjectToBack(worldBlockData[i]);
+          originalBlockRef.current.BlockSet[i].position.set(
+            worldBlock.object.position.x,
+            worldBlock.object.position.y,
+            worldBlock.object.position.z
           );
-          originalBlockRef.current.frontBlockSet[i].rotation.set(
-            worldBlockFrontBrock.object.angle.x,
-            worldBlockFrontBrock.object.angle.y,
-            worldBlockFrontBrock.object.angle.z
+          originalBlockRef.current.BlockSet[i].rotation.set(
+            worldBlock.object.angle.x,
+            worldBlock.object.angle.y,
+            worldBlock.object.angle.z
           );
-          originalBlockRef.current.frontBlockSet[i].scale.set(
-            worldBlockFrontBrock.object.scale.x,
-            worldBlockFrontBrock.object.scale.y,
-            worldBlockFrontBrock.object.scale.z
-          );
-          const worldBlockLeftSet = worldObjectToBack(worldBlockData[i + 5]);
-          originalBlockRef.current.leftBlockSet[i].position.set(
-            worldBlockLeftSet.object.position.x,
-            worldBlockLeftSet.object.position.y,
-            worldBlockLeftSet.object.position.z
-          );
-          originalBlockRef.current.leftBlockSet[i].rotation.set(
-            worldBlockLeftSet.object.angle.x,
-            worldBlockLeftSet.object.angle.y,
-            worldBlockLeftSet.object.angle.z
-          );
-          originalBlockRef.current.leftBlockSet[i].scale.set(
-            worldBlockLeftSet.object.scale.x,
-            worldBlockLeftSet.object.scale.y,
-            worldBlockLeftSet.object.scale.z
-          );
-          const worldBlockRightSet = worldObjectToBack(worldBlockData[i + 10]);
-          originalBlockRef.current.rightBlockSet[i].position.set(
-            worldBlockRightSet.object.position.x,
-            worldBlockRightSet.object.position.y,
-            worldBlockRightSet.object.position.z
-          );
-          originalBlockRef.current.rightBlockSet[i].rotation.set(
-            worldBlockRightSet.object.angle.x,
-            worldBlockRightSet.object.angle.y,
-            worldBlockRightSet.object.angle.z
-          );
-          originalBlockRef.current.rightBlockSet[i].scale.set(
-            worldBlockRightSet.object.scale.x,
-            worldBlockRightSet.object.scale.y,
-            worldBlockRightSet.object.scale.z
-          );
-          const worldBlockBackSet = worldObjectToBack(worldBlockData[i + 15]);
-          originalBlockRef.current.backBlockSet[i].position.set(
-            worldBlockBackSet.object.position.x,
-            worldBlockBackSet.object.position.y,
-            worldBlockBackSet.object.position.z
-          );
-          originalBlockRef.current.backBlockSet[i].rotation.set(
-            worldBlockBackSet.object.angle.x,
-            worldBlockBackSet.object.angle.y,
-            worldBlockBackSet.object.angle.z
-          );
-          originalBlockRef.current.backBlockSet[i].scale.set(
-            worldBlockBackSet.object.scale.x,
-            worldBlockBackSet.object.scale.y,
-            worldBlockBackSet.object.scale.z
+          originalBlockRef.current.BlockSet[i].scale.set(
+            worldBlock.object.scale.x,
+            worldBlock.object.scale.y,
+            worldBlock.object.scale.z
           );
         }
         break;
