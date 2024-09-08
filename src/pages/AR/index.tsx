@@ -1,5 +1,4 @@
 import { memo, useCallback, useEffect, useRef } from "react";
-import ARScanner from "../../components/features/AR/scan";
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
 import {
   handInit,
@@ -100,7 +99,6 @@ const Component = () => {
 
   return (
     <>
-      <ARScanner />
       <div id="wrapper" />
       <ObjectSetting position={position} allBlockSet={allBlockSet} />
     </>

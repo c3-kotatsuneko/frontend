@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { useTimeAttackStore } from "../../store/useTimeAttackStore";
 import { ARfunction } from "../AR";
+import ARScanner from "../../components/features/AR/scan";
 // import { ARTimer } from "../../components/features/play/ARTimer";
 // import { usePlayTimeAttack } from "./hooks";
 // import styles from "./index.module.css";
@@ -24,6 +25,7 @@ export const PlayTimeAttack = () => {
 
   return (
     <main>
+      <ARScanner />
       <ARfunction />
     </main>
   );
