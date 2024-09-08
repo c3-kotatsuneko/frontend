@@ -42,7 +42,7 @@ export const ThreeInit = () => {
   //frontは色は赤系統の色でpositionは0 -0.8 0、scaleは0.1 0.1 0.1で初期化
   //テストで色を変えて積み木っぽい色にする
   const blockSet: THREE.Mesh[] = [];
-  for (i = 0; i < 4; i++) {
+  for (let i = 0; i < 4; i++) {
     let blockObject = new THREE.Mesh(
       new THREE.BoxGeometry(0.6, 0.6, 0.6),
       new THREE.MeshStandardMaterial({ color: 0x3a86ff })
