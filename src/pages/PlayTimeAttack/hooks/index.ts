@@ -7,10 +7,8 @@ import {
   Mode,
   type Player,
 } from "../../../proto/game/resources/game_pb";
-import ReconnectingWebSocket from "reconnecting-websocket";
+// import ReconnectingWebSocket from "reconnecting-websocket";
 // import { useNavigate } from "react-router-dom";
-
-// const gameDuration = 11;
 
 export const usePlayTimeAttack = () => {
   //   const navigate = useNavigate();
@@ -18,17 +16,18 @@ export const usePlayTimeAttack = () => {
   const { name: userName } = useUserStore();
   const eventSend = useSocketRefStore((state) => state.eventSend);
   const time = useSocketRefStore((state) => state.eventState.time);
-  const setPhysicsRef = useSocketRefStore((state) => state.setPhysicsRef);
+  const roomId = useSocketRefStore((state) => state.eventState.roomId);
+  const name = useUserStore((state) => state.name);
 
   //   timeが0になったらrankingページへ遷移する
   useEffect(() => {
     eventSend({
-      roomId: "88",
+      roomId: roomId,
       event: Event.GAME_START,
       mode: Mode.MULTI,
       player: {
-        playerId: "1",
-        name: "jubhio;hbn",
+        playerId: name,
+        name: name,
         color: "red",
         score: 0,
         rank: 1,
@@ -39,12 +38,7 @@ export const usePlayTimeAttack = () => {
     //   navigate("/ranking_timeAttack");
     setClearTime(18);
     // }
-  }, [eventSend, setClearTime]);
-  useEffect(() => {
-    const ws = new ReconnectingWebSocket("ws://localhost:8080/ws/physics");
-    ws.binaryType = "arraybuffer";
-    setPhysicsRef({ current: ws });
-  }, [setPhysicsRef]);
+  }, [eventSend, setClearTime, name, roomId]);
 
   return { time, userName };
 };

@@ -22,32 +22,34 @@ type AllObject = {
   stage: THREE.Mesh;
 };
 
-type handInfo = {
+export type HandInfo = {
   handStatus: boolean; //手の状態
   handPos: position; //手の位置
   handAngle: angle; //手の角度
 };
 
 export const HandPosToDataConverter = (
+  //入力 状態、手の情報、手のthreejsの情報
+  //出力 世界座標に変換した手の情報(状態、位置、角度)
   status: "front" | "left" | "right" | "back",
   handResultRef: React.RefObject<HandLandmarkerResult>,
   handBlockRef: React.RefObject<THREE.Mesh>
 ) => {
   if (handResultRef.current) {
-    const handMidPos = {
-      x:
-        handResultRef.current.landmarks[0][9].x -
-        handResultRef.current.landmarks[0][0].x -
-        0.5,
-      y:
-        handResultRef.current.landmarks[0][9].y -
-        handResultRef.current.landmarks[0][0].y -
-        0.5,
-      z:
-        handResultRef.current.landmarks[0][9].z -
-        handResultRef.current.landmarks[0][0].z -
-        0.5,
-    };
+    // const handMidPos = {
+    //   x:
+    //     handResultRef.current.landmarks[0][9].x -
+    //     handResultRef.current.landmarks[0][0].x -
+    //     0.5,
+    //   y:
+    //     handResultRef.current.landmarks[0][9].y -
+    //     handResultRef.current.landmarks[0][0].y -
+    //     0.5,
+    //   z:
+    //     handResultRef.current.landmarks[0][9].z -
+    //     handResultRef.current.landmarks[0][0].z -
+    //     0.5,
+    // };
     const handTopPos = {
       x:
         handResultRef.current.landmarks[0][12].x -
@@ -64,14 +66,17 @@ export const HandPosToDataConverter = (
     };
     const handPos = {
       x: (handResultRef.current.landmarks[0][0].x - 0.5) * 7,
-      y: (handResultRef.current.landmarks[0][0].y - 0.5) * 10,
-      z: handResultRef.current.landmarks[0][0].z - 0.5,
+      y: (handResultRef.current.landmarks[0][0].z + 0.4) * 10 - 3,
+      z: (handResultRef.current.landmarks[0][0].y - 0.5) * 10 - 2,
     };
     //handMidPosを利用して手の角度を計算
     const handAngle = {
-      x: Math.atan2(handMidPos.y, handMidPos.z),
-      y: Math.atan2(handMidPos.z, handMidPos.x),
-      z: Math.atan2(handMidPos.x, handMidPos.y),
+      //   x: Math.atan2(handMidPos.y, handMidPos.z),
+      //   y: Math.atan2(handMidPos.z, handMidPos.x),
+      //   z: Math.atan2(handMidPos.x, handMidPos.y),
+      x: 0,
+      y: 0,
+      z: 0,
     };
     const handStatus = HandStatusDetect(handTopPos);
     if (handBlockRef.current) {
@@ -92,7 +97,7 @@ export const HandPosToDataConverter = (
         });
       }
     }
-    let worldHandPos: handInfo;
+    let worldHandInfo: HandInfo;
     switch (status) {
       case "front": {
         const worldBlockFrontBrock = worldObjectToFront({
@@ -100,12 +105,12 @@ export const HandPosToDataConverter = (
           angle: handAngle,
           scale: { x: 0.1, y: 0.1, z: 0.1 },
         });
-        worldHandPos = {
+        worldHandInfo = {
           handStatus: handStatus,
           handPos: worldBlockFrontBrock.object.position,
           handAngle: worldBlockFrontBrock.object.angle,
         };
-        return worldHandPos;
+        return worldHandInfo;
       }
       case "left": {
         const worldBlockLeftBrock = worldObjectToLeft({
@@ -113,12 +118,12 @@ export const HandPosToDataConverter = (
           angle: handAngle,
           scale: { x: 0.1, y: 0.1, z: 0.1 },
         });
-        worldHandPos = {
+        worldHandInfo = {
           handStatus: handStatus,
           handPos: worldBlockLeftBrock.object.position,
           handAngle: worldBlockLeftBrock.object.angle,
         };
-        return worldHandPos;
+        return worldHandInfo;
       }
       case "right": {
         const worldBlockRightBrock = worldObjectToRight({
@@ -126,12 +131,12 @@ export const HandPosToDataConverter = (
           angle: handAngle,
           scale: { x: 0.1, y: 0.1, z: 0.1 },
         });
-        worldHandPos = {
+        worldHandInfo = {
           handStatus: handStatus,
           handPos: worldBlockRightBrock.object.position,
           handAngle: worldBlockRightBrock.object.angle,
         };
-        return worldHandPos;
+        return worldHandInfo;
       }
       case "back": {
         const worldBlockBackBrock = worldObjectToBack({
@@ -139,12 +144,12 @@ export const HandPosToDataConverter = (
           angle: handAngle,
           scale: { x: 0.1, y: 0.1, z: 0.1 },
         });
-        worldHandPos = {
+        worldHandInfo = {
           handStatus: handStatus,
           handPos: worldBlockBackBrock.object.position,
           handAngle: worldBlockBackBrock.object.angle,
         };
-        return worldHandPos;
+        return worldHandInfo;
       }
     }
   }

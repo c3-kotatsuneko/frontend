@@ -12,11 +12,22 @@ import type {
   HandLandmarkerResult,
 } from "@mediapipe/tasks-vision";
 import { useLocation } from "react-router-dom";
-import { HandPosToDataConverter } from "../../components/features/AR/Converter";
+import {
+  HandPosToDataConverter,
+  // DataToPosConverter,
+} from "../../components/features/AR/Converter";
+// import { handBlockCatch } from "../../components/features/AR/BackendlessSystem";
+// import testData from "./testData";
+// import { tumikiSystem } from "../../components/features/AR/tumikiSystem";
 import { useARToolkit } from "./hooks/useARTools";
 import { ObjectSetting } from "./DataToPosConverter";
 
 type Position = "front" | "left" | "right" | "back";
+
+export type Tumiki = {
+  overlapedBlockIndex: number[];
+  isOverlap: boolean[];
+};
 
 const Component = () => {
   const handCameraRef = useRef<HTMLVideoElement | null>(null);
