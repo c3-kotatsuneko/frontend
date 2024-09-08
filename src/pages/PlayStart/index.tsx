@@ -3,7 +3,7 @@ import { DefaultButton } from "../../components/ui/Button";
 import styles from "./index.module.css";
 import { useNavigate } from "react-router-dom";
 import { useSocketRefStore } from "../../store/useSocketRefStore";
-import { Event, Mode, Player } from "../../proto/game/resources/game_pb";
+import { Event, Mode, type Player } from "../../proto/game/resources/game_pb";
 import { useUserStore } from "../../store/useUserStore";
 
 export const PlayStart = () => {
