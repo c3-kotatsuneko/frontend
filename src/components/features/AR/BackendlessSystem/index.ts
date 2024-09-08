@@ -58,6 +58,15 @@ export const handBlockCatch = (
           }
         }
       }
+
+      if (blockIndex !== null) {
+        console.log("handBlockCatch");
+        allBlockSet.current.BlockSet[blockIndex].position.set(
+          handPos.x,
+          handPos.y,
+          handPos.z
+        );
+      }
     }
   }
 };

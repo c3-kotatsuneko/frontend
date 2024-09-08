@@ -51,7 +51,8 @@ export const tumikiSystem = (
             (lastBlockTop.y - blockBottom.y) ** 2 +
             (lastBlockTop.z - blockBottom.z) ** 2
         );
-        if (blockDistance <= 0.3) {
+        if (blockDistance <= 0.5) {
+          console.log("handBlockCatch");
           tumikiRef.current.isOverlap[i] = true;
           allBlockSet.current.BlockSet[i + detectBlockIndex].position.set(
             lastBlockTop.x,

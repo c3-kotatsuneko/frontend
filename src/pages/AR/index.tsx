@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import { ThreeInit } from "../../components/features/AR/ThreeInit";
 import {
   handInit,
@@ -29,6 +30,7 @@ export type Tumiki = {
 };
 
 const Component = () => {
+  const navigate = useNavigate();
   const handCameraRef = useRef<HTMLVideoElement | null>(null);
   const handLandMarkerRef = useRef<HandLandmarker | null>(null);
   const handResultRef = useRef<HandLandmarkerResult | null>(null);
@@ -116,6 +118,29 @@ const Component = () => {
       if (arToolkitSource.ready) {
         arToolkitContext.update(arToolkitSource.domElement);
         sceneRef.current.visible = cameraRef.current.visible;
+      }
+    }
+    //tumikiRefが5つtrueなら/congratulation_share_snsに遷移
+    if (tumikiRef.current) {
+      if (tumikiRef.current.isOverlap.every((value) => value)) {
+        //type="module"のscriptタグ以外全て削除する
+        const scripts = document.querySelectorAll("script");
+        for (const script of scripts) {
+          if (script.type !== "module") {
+            script.remove();
+          }
+        }
+        //videoタグを削除
+        const video = document.querySelectorAll("video");
+        for (const canvas of video) {
+          canvas.remove();
+        }
+        //canvasを全て削除する
+        const canvases = document.querySelectorAll("canvas");
+        for (const canvas of canvases) {
+          canvas.remove();
+        }
+        navigate("/congratulation_share_sns");
       }
     }
     requestAnimationFrame(animate);
