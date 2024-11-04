@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 import {
   HandPosToDataConverter,
   // DataToPosConverter,
-} from "../../components/features/AR/Converter";
+} from "../../components/features/AR/converter";
 // import { handBlockCatch } from "../../components/features/AR/BackendlessSystem";
 // import testData from "./testData";
 // import { tumikiSystem } from "../../components/features/AR/tumikiSystem";

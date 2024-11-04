@@ -16,7 +16,7 @@ import {
   type Player,
 } from "../proto/game/resources/game_pb";
 import { create as toProto, toBinary, fromBinary } from "@bufbuild/protobuf";
-import type { objectInfo } from "../components/features/AR/Converter/arTransform";
+import type { objectInfo } from "../components/features/AR/converter/arTransform";
 
 type EventState = {
   myId: string;

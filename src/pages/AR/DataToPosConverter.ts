@@ -1,5 +1,5 @@
 import type * as THREE from "three";
-import { DataToPosConverter } from "../../components/features/AR/Converter";
+import { DataToPosConverter } from "../../components/features/AR/converter";
 import { type FC, memo } from "react";
 import { useSocketRefStore } from "../../store/useSocketRefStore";
 
