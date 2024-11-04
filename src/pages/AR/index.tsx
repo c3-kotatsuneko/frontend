@@ -4,7 +4,7 @@ import { ThreeInit } from "../../components/features/AR/ThreeInit";
 import {
   handInit,
   predictWebcam,
-} from "../../components/features/AR/HandTracking";
+} from "../../components/features/AR/handTracking";
 import cameraPara from "../../assets/camera_para.dat?url";
 import * as THREE from "three";
 import type {
@@ -15,12 +15,12 @@ import { useLocation } from "react-router-dom";
 import {
   HandPosToDataConverter,
   DataToPosConverter,
-} from "../../components/features/AR/Converter";
-import { handBlockCatch } from "../../components/features/AR/BackendlessSystem";
+} from "../../components/features/AR/converter";
+import { handBlockCatch } from "../../components/features/AR/backendlessSystem";
 import testData from "./testData";
 import { tumikiSystem } from "../../components/features/AR/tumikiSystem";
 import { useARToolkit } from "./hooks/useARTools";
-import { ObjectSetting } from "./DataToPosConverter";
+import { ObjectSetting } from "./dataToPosConverter";
 
 type Position = "front" | "left" | "right" | "back";
 

@@ -11,7 +11,7 @@ import type {
   position, // オブジェクトの位置 x y z
   objectInfo, // オブジェクトの情報 position angle scale
 } from "./arTransform";
-import { HandStatusDetect } from "../HandStatusDetect";
+import { HandStatusDetect } from "../handStatusDetect";
 
 export type AllObject = {
   BlockSet: THREE.Mesh[];

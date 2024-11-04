@@ -1,5 +1,5 @@
 import type { HandLandmarkerResult } from "@mediapipe/tasks-vision";
-import type { HandInfo, AllObject } from "../Converter";
+import type { HandInfo, AllObject } from "../converter";
 import type { Tumiki } from "../../../../pages/AR";
 
 export const handBlockCatch = (

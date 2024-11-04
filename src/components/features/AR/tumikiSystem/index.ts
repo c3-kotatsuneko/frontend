@@ -1,4 +1,4 @@
-import type { AllObject } from "../Converter";
+import type { AllObject } from "../converter";
 import type { Tumiki } from "../../../../pages/AR";
 
 export const tumikiSystem = (
