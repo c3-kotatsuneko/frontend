@@ -6,14 +6,28 @@
   gap: 30px;
 }
 
-.main-logo {
+.boss-cat {
   position: absolute;
   background-color: transparent;
-  top: 72%;
-  right: 4%;
+  bottom: 4%;
+  left: 4%;
 }
 
-.download-button{
+.maru-cat {
+  position: absolute;
+  background-color: transparent;
+  bottom: 4%;
+  left: 24%;
+}
+
+.sikaku-cat {
+  position: absolute;
+  background-color: transparent;
+  bottom: 4%;
+  left: 48%;
+}
+
+.download-button {
   position: absolute;
   top: 16px;
   right: 16px;
