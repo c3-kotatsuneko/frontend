@@ -33,21 +33,21 @@ const Welcome = () => {
       <img
         src="/cats/boss.webp"
         className={styles["boss-cat"]}
-        alt="logo"
+        alt="ボスねこ"
         width="98"
         height="130"
       />
       <img
         src="/cats/maru.webp"
         className={styles["maru-cat"]}
-        alt="logo"
+        alt="丸ねこ"
         width="110"
         height="50"
       />
       <img
         src="/cats/sikaku.webp"
         className={styles["sikaku-cat"]}
-        alt="logo"
+        alt="四角ねこ"
         width="95"
         height="50"
       />

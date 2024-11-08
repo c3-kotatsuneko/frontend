@@ -4,7 +4,7 @@ export const LoadingPage = () => {
   return (
     <main className={styles.root}>
       <p className={styles["loading-message"]}>ちょっと待ってね</p>
-      <img alt="丸ねこタワー" src="/cats/boss.webp" width={182} height={242} />
+      <img alt="ボスねこ" src="/cats/boss.webp" width={182} height={242} />
     </main>
   );
 };

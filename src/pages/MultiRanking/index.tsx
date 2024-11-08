@@ -50,9 +50,9 @@ export const MultiRankingPage = () => {
         <RankList rankList={result} />
         <img
           className={styles.image}
-          alt="猫たわー"
-          src="cats/catsTower-circle.webp"
-          width={44}
+          alt="ボスねこ"
+          src="cats/boss.webp"
+          width={55}
           height={73}
         />
       </div>

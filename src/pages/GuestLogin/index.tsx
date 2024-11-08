@@ -21,7 +21,7 @@ export const GuestLoginPage = () => {
       </form>
       <img
         className={styles["cats-image"]}
-        alt="丸ねこタワー"
+        alt="ボスねこ笑"
         src="cats/boss_smile.webp"
         width={149}
         height={200}

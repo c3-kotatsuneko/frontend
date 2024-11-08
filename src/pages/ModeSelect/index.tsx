@@ -122,7 +122,7 @@ export const ModeSelectPage = () => {
 
       <img
         className={styles["cats-image"]}
-        alt="のびねこ"
+        alt="走るねこ"
         src="/cats/running.webp"
         width={216}
         height={85}
