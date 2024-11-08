@@ -39,6 +39,7 @@
 
 .tab-content {
   width: 280px;
+
   /* 多分ほんとはheight: 260px; */
   height: 300px;
   padding: 20px;
