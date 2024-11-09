@@ -13,13 +13,13 @@ import type {
 } from "./arTransform";
 import { HandStatusDetect } from "../HandStatusDetect";
 
-type AllObject = {
-	BlockSet: THREE.Mesh[];
-	//   frontBlockSet: THREE.Mesh[];
-	//   leftBlockSet: THREE.Mesh[];
-	//   rightBlockSet: THREE.Mesh[];
-	//   backBlockSet: THREE.Mesh[];
-	stage: THREE.Mesh;
+export type AllObject = {
+  BlockSet: THREE.Mesh[];
+  //   frontBlockSet: THREE.Mesh[];
+  //   leftBlockSet: THREE.Mesh[];
+  //   rightBlockSet: THREE.Mesh[];
+  //   backBlockSet: THREE.Mesh[];
+  stage: THREE.Mesh;
 };
 
 export type HandInfo = {
