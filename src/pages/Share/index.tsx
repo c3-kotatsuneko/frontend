@@ -29,9 +29,10 @@ export const SharePage = () => {
 			<div className={styles["share-container"]}>
 				<div className={styles["share-text"]}>
 					<img
-						alt="おすわりねこ"
-						src="cats/sitDown.webp"
-						width={64}
+						className={styles.image}
+						alt="ボスねこ笑"
+						src="cats/boss_smile.webp"
+						width={48}
 						height={65}
 					/>
 					<div>おつかれさまにゃ！ 結果を共有してにゃ〜</div>

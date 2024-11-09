@@ -12,66 +12,66 @@ import { useEffect } from "react";
 import { Event, Mode, type Player } from "../../proto/game/resources/game_pb";
 
 export const MultiRankingPage = () => {
-  const navigate = useNavigate();
-  const { name: userName } = useUserStore();
-  const players = useSocketRefStore((state) => state.eventState.players);
+	const navigate = useNavigate();
+	const { name: userName } = useUserStore();
+	const players = useSocketRefStore((state) => state.eventState.players);
 
-  const eventSend = useSocketRefStore((state) => state.eventSend);
-  const roomId = useSocketRefStore((state) => state.eventState.roomId);
-  const name = useUserStore((state) => state.name);
+	const eventSend = useSocketRefStore((state) => state.eventSend);
+	const roomId = useSocketRefStore((state) => state.eventState.roomId);
+	const name = useUserStore((state) => state.name);
 
-  useEffect(() => {
-    eventSend({
-      roomId: roomId,
-      event: Event.RESULT,
-      mode: Mode.MULTI,
-      player: {
-        playerId: name,
-        name: name,
-        color: "red",
-        score: 0,
-        rank: 1,
-        time: 0,
-      } as Player,
-    });
-  }, [eventSend, name, roomId]);
-  const result = players.map((player) => ({
-    name: player.name,
-    time: formatTime(player.time),
-  }));
+	useEffect(() => {
+		eventSend({
+			roomId: roomId,
+			event: Event.RESULT,
+			mode: Mode.MULTI,
+			player: {
+				playerId: name,
+				name: name,
+				color: "red",
+				score: 0,
+				rank: 1,
+				time: 0,
+			} as Player,
+		});
+	}, [eventSend, name, roomId]);
+	const result = players.map((player) => ({
+		name: player.name,
+		time: formatTime(player.time),
+	}));
 
-  return (
-    <main className={styles.root}>
-      <p className={styles["user-name"]}>{userName}</p>
+	return (
+		<main className={styles.root}>
+			<p className={styles["user-name"]}>{userName}</p>
 
-      <p className={styles.title}>けっかはっぴょう</p>
+			<p className={styles.title}>けっかはっぴょう</p>
 
-      <div>
-        <RankList rankList={result} />
-        <img
-          className={styles.image}
-          alt="猫たわー"
-          src="cats/catsTower-circle.webp"
-          width={44}
-          height={73}
-        />
-      </div>
+			<div>
+				<RankList rankList={result} />
+				<img
+					className={styles.image}
+					alt="ボスねこ"
+					src="cats/boss.webp"
+					width={55}
+					height={73}
+				/>
+			</div>
 
-      <DefaultButton color="redorange" onClick={() => navigate("/guest_login")}>
-        もういちどあそぶ
-      </DefaultButton>
-      <DefaultButton
-        variant="outlined"
-        size="sm"
-        className={clsx(buttonStyles["button-style"], styles["return-home"])}
-        onClick={() => navigate("/mode_select")}
-      >
-        <HomeIcon
-          variant={{ color: "blue" }}
-          style={{ width: "24px", height: "24px" }}
-        />
-        おうちへ
-      </DefaultButton>
-    </main>
-  );
+			<DefaultButton color="redorange" onClick={() => navigate("/guest_login")}>
+				もういちどあそぶ
+			</DefaultButton>
+			<DefaultButton
+				variant="outlined"
+				size="sm"
+				className={clsx(buttonStyles["button-style"], styles["return-home"])}
+				onClick={() => navigate("/mode_select")}
+			>
+				<HomeIcon
+					variant={{ color: "blue" }}
+					style={{ width: "24px", height: "24px" }}
+				/>
+				おうちへ
+			</DefaultButton>
+		</main>
+	);
 };

@@ -122,10 +122,10 @@ export const ModeSelectPage = () => {
 
 			<img
 				className={styles["cats-image"]}
-				alt="のびねこ"
-				src="/cats/extendedMike.webp"
+				alt="走るねこ"
+				src="/cats/running.webp"
 				width={216}
-				height={106}
+				height={85}
 			/>
 		</main>
 	);

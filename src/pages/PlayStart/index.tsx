@@ -45,9 +45,9 @@ export const PlayStart = () => {
 			</DefaultButton>
 			<img
 				className={styles["cats-image"]}
-				alt="丸ねこタワー"
-				src="/cats/catsTower-circle.webp"
-				width={148}
+				alt="ボスねこ笑"
+				src="/cats/boss_smile.webp"
+				width={180}
 				height={242}
 			/>
 		</main>

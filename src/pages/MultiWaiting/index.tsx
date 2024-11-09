@@ -21,10 +21,10 @@ export const MultiWaitingPage = () => {
 			</p>
 			<img
 				className={styles["cats-image"]}
-				alt="丸ねこタワー"
-				src="/cats/catsTower-circle.webp"
-				width={132}
-				height={222}
+				alt="走るねこ"
+				src="/cats/running.webp"
+				width={180}
+				height={71}
 			/>
 		</main>
 	);

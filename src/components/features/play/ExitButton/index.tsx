@@ -47,12 +47,7 @@ const ModalContent: React.FC<ModalContentProps> = ({
 		<div className={styles["modal-wrapper"]}>
 			<div className={styles["modal-row"]}>
 				<p className={styles["modal-description"]}>あれ？かえっちゃうの？</p>
-				<img
-					alt="猫たわー"
-					src="cats/catsTower-circle.webp"
-					width={40}
-					height={70}
-				/>
+				<img alt="ボスねこ" src="cats/boss.webp" width={53} height={70} />
 			</div>
 			<div className={styles["modal-selection-wrapper"]}>
 				<DefaultButton

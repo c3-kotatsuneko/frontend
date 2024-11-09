@@ -5,17 +5,17 @@ import { useSocketRefStore } from "../../store/useSocketRefStore";
 
 type Position = "front" | "left" | "right" | "back";
 type AllObject = {
-  BlockSet: THREE.Mesh[];
+	BlockSet: THREE.Mesh[];
 
-  stage: THREE.Mesh;
+	stage: THREE.Mesh;
 };
 type Props = {
-  position: Position;
-  allBlockSet: React.MutableRefObject<AllObject | null>;
+	position: Position;
+	allBlockSet: React.MutableRefObject<AllObject | null>;
 };
 export const ObjectSetting: FC<Props> = memo(({ position, allBlockSet }) => {
-  const objects = useSocketRefStore((state) => state.eventState.objetcts);
+	const objects = useSocketRefStore((state) => state.eventState.objetcts);
 
-  DataToPosConverter(position, objects, allBlockSet);
-  return null;
+	DataToPosConverter(position, objects, allBlockSet);
+	return null;
 });
