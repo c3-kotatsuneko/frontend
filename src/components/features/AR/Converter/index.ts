@@ -14,12 +14,12 @@ import type {
 import { HandStatusDetect } from "../HandStatusDetect";
 
 export type AllObject = {
-  BlockSet: THREE.Mesh[];
-  //   frontBlockSet: THREE.Mesh[];
-  //   leftBlockSet: THREE.Mesh[];
-  //   rightBlockSet: THREE.Mesh[];
-  //   backBlockSet: THREE.Mesh[];
-  stage: THREE.Mesh;
+	BlockSet: THREE.Mesh[];
+	//   frontBlockSet: THREE.Mesh[];
+	//   leftBlockSet: THREE.Mesh[];
+	//   rightBlockSet: THREE.Mesh[];
+	//   backBlockSet: THREE.Mesh[];
+	stage: THREE.Mesh;
 };
 
 export type HandInfo = {
