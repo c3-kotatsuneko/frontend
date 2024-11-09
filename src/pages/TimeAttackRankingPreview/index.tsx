@@ -60,10 +60,10 @@ export const TimeAttackRankingPreviewPage = () => {
 
 			<img
 				className={styles.image}
-				alt="猫たわー"
-				src="cats/catsTower-circle.webp"
-				width={70}
-				height={115}
+				alt="走るねこ"
+				src="cats/running.webp"
+				width={150}
+				height={60}
 			/>
 		</main>
 	);

@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <link rel="icon" type="image/webp" href="/cube.webp" />
@@ -18,12 +18,17 @@
     <!-- <script type="module" async src="/src/ar.ts"></script> -->
   </body>
   <style>
-    canvas {
-      z-index: 1;
+    video {
+      z-index: -2;
     }
 
-    video {
-      z-index: 0 !important;
+    html,
+    body {
+      overflow: hidden;
+    }
+
+    #root {
+      overflow: hidden;
     }
   </style>
 </html>

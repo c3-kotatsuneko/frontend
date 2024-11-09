@@ -7,6 +7,7 @@ import {
 	Mode,
 	type Player,
 } from "../../../proto/game/resources/game_pb";
+// import ReconnectingWebSocket from "reconnecting-websocket";
 // import { useNavigate } from "react-router-dom";
 
 export const usePlayTimeAttack = () => {
@@ -37,7 +38,7 @@ export const usePlayTimeAttack = () => {
 		//   navigate("/ranking_timeAttack");
 		setClearTime(18);
 		// }
-	}, [eventSend, setClearTime]);
+	}, [eventSend, setClearTime, name, roomId]);
 
 	return { time, userName };
 };

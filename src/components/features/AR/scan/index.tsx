@@ -29,12 +29,12 @@ const ARScanner = () => {
 			<p className={styles.text}>すきゃん</p>
 			<div className={styles.scanner}>
 				<div className={styles["marker-frame"]} />
-				<p className={styles.attention}>
-					あそんでるあいだも
-					<br />
-					マーカーは画面内に写してね
-				</p>
 			</div>
+			<p className={styles.attention}>
+				あそんでるあいだも
+				<br />
+				マーカーは画面内に写してね
+			</p>
 		</div>
 	);
 };

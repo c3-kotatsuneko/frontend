@@ -21,10 +21,10 @@ export const GuestLoginPage = () => {
 			</form>
 			<img
 				className={styles["cats-image"]}
-				alt="丸ねこタワー"
-				src="cats/catsTower-circle.webp"
-				width={148}
-				height={242}
+				alt="ボスねこ笑"
+				src="cats/boss_smile.webp"
+				width={149}
+				height={200}
 			/>
 		</main>
 	);

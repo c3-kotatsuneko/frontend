@@ -31,18 +31,18 @@ export const ResultModalContent: React.FC<ModalContentProps> = ({
 				<img
 					className={styles["cats-image-square"]}
 					data-type={isGuest ? "up" : !resultStatus.isNew ? "up" : "down"}
-					alt="四角ねこタワー"
-					src="cats/catsTower-square.webp"
+					alt="四角ねこ"
+					src="cats/sikaku.webp"
 					width="48"
-					height="64"
+					height="25"
 				/>
 				<img
 					className={styles["cats-image-circle"]}
 					data-type={isGuest ? "up" : !resultStatus.isNew ? "up" : "down"}
-					alt="丸ねこタワー"
-					src="cats/catsTower-circle.webp"
-					width="32"
-					height="64"
+					alt="丸ねこ"
+					src="cats/maru.webp"
+					width="55"
+					height="25"
 				/>
 			</div>
 

@@ -16,6 +16,7 @@ import {
 	type Player,
 } from "../proto/game/resources/game_pb";
 import { create as toProto, toBinary, fromBinary } from "@bufbuild/protobuf";
+import type { objectInfo } from "../components/features/AR/Converter/arTransform";
 
 type EventState = {
 	myId: string;
@@ -25,6 +26,7 @@ type EventState = {
 	players: Player[];
 	time: number;
 	direction: string;
+	objetcts: objectInfo[];
 };
 
 export type SendEventSchema = {
@@ -62,6 +64,7 @@ type Action = {
 	setDirection: (direction: Direction) => void;
 	setTime: (time: number) => void;
 	setMyId: (myId: string) => void;
+	setObjects: (objects: objectInfo[]) => void;
 	eventSend: (req: SendEventSchema) => void;
 	physicsSend: (req: PhysicsRequest) => void;
 };
@@ -77,15 +80,16 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 		mode: Mode.UNKNOWN,
 		players: [],
 		time: 0,
+		objetcts: [],
 	},
 	setEventState: (state) => set(() => ({ eventState: state })),
-	setRoomId: (roomId) =>
-		set((state) => ({
-			eventState: { ...state.eventState, roomId: roomId },
-		})),
 	setMyId: (myId) =>
 		set((state) => ({
 			eventState: { ...state.eventState, myId: myId },
+		})),
+	setRoomId: (roomId) =>
+		set((state) => ({
+			eventState: { ...state.eventState, roomId: roomId },
 		})),
 	setEvent: (event) =>
 		set((state) => ({
@@ -109,6 +113,10 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 	setTime: (time) =>
 		set((state) => ({
 			eventState: { ...state.eventState, time: time },
+		})),
+	setObjects: (objects) =>
+		set((state) => ({
+			eventState: { ...state.eventState, objetcts: objects },
 		})),
 	setDirection: (direction) => {
 		switch (direction) {
@@ -153,11 +161,11 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 						console.log("multi");
 						switch (res.event) {
 							case Event.ENTER_ROOM:
-								console.log("waiting");
 								get().setDirection(
 									res.players.find((p) => p.playerId === get().eventState.myId)
 										?.direction ?? Direction.FRONT,
 								);
+								console.log("waiting");
 								break;
 							case Event.EXIT_ROOM:
 								console.log("playing");
@@ -166,7 +174,6 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 								console.log("finished");
 								break;
 							case Event.RESULT:
-								get().setPlayers(res.players);
 								console.log("finished");
 								break;
 							case Event.STATS:
@@ -194,6 +201,7 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 								console.log("finished");
 								break;
 							case Event.RESULT:
+								get().setPlayers(res.players);
 								console.log("finished");
 								break;
 							case Event.STATS:
@@ -250,7 +258,32 @@ export const useSocketRefStore = create<State & Action>()((set, get) => ({
 				console.log("connected");
 			};
 			ref.current.onmessage = (event) => {
-				const res = fromBinary(PhysicsResponseSchema, event.data);
+				const res = fromBinary(
+					PhysicsResponseSchema,
+					new Uint8Array(event.data),
+				);
+
+				const obj = res.objects.map((o) => {
+					const t: objectInfo = {
+						position: {
+							x: o.position?.x ?? 0,
+							y: o.position?.y ?? 0,
+							z: o.position?.z ?? 0,
+						},
+						angle: {
+							x: 0,
+							y: 0,
+							z: 0,
+						},
+						scale: {
+							x: o.size?.x ?? 1,
+							y: o.size?.y ?? 1,
+							z: o.size?.z ?? 1,
+						},
+					};
+					return t;
+				});
+				get().setObjects(obj);
 				console.log(res);
 			};
 			ref.current.onclose = () => {
