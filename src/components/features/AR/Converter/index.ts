@@ -13,7 +13,7 @@ import type {
 } from "./arTransform";
 import { HandStatusDetect } from "../HandStatusDetect";
 
-type AllObject = {
+export type AllObject = {
   BlockSet: THREE.Mesh[];
   //   frontBlockSet: THREE.Mesh[];
   //   leftBlockSet: THREE.Mesh[];
